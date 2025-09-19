@@ -1,6 +1,6 @@
 <!--
 
-    Copyright (C) 2022-2025 Philip Helger
+    Copyright (C) 2025 Philip Helger
     philip[at]helger[dot]com
 
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,7 @@
     <xjc:javaType name="com.helger.datetime.xml.XMLOffsetTime"     xmlType="xsd:time"     adapter="com.helger.jaxb.adapter.AdapterXMLOffsetTime" />
   </globalBindings>
   
-  <bindings schemaLocation="../resources/schemas/peppol-uae-tdd-1.0.xsd">
+  <bindings schemaLocation="../resources/external/schemas/peppol-uae-tdd-1.0.xsd">
     <schemaBindings>
       <package name="com.helger.peppol.uae.tdd.v10" />
     </schemaBindings>

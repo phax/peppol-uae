@@ -114,7 +114,7 @@
           </execution>
         </executions>
         <configuration>
-          <schemaDirectory>${basedir}/src/main/resources/schemas</schemaDirectory>
+          <schemaDirectory>${basedir}/src/main/resources/external/schemas</schemaDirectory>
           <bindingDirectory>${basedir}/src/main/jaxb</bindingDirectory>
           <catalog>${basedir}/src/main/jaxb/catalog-tdd.txt</catalog>
           <extension>true</extension>

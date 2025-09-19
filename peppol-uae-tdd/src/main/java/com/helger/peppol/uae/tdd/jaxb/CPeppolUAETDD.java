@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2025 Philip Helger (www.helger.com)
+ * Copyright (C) 2025 Philip Helger
  * philip[at]helger[dot]com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +39,7 @@ public final class CPeppolUAETDD
   /**
    * XML Schema resources for Peppol UAE TDD XSD 1.0
    */
-  public static final String TDD_XSD_1_0_PATH = "/schemas/peppol-uae-tdd-1.0.xsd";
+  public static final String TDD_XSD_1_0_PATH = "/external/schemas/peppol-uae-tdd-1.0.xsd";
 
   /**
    * XML Schema resources for Peppol UAE TDD XSD 1.0
