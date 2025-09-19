@@ -89,6 +89,11 @@
       
       <dependency>
         <groupId>com.helger.peppol</groupId>
+        <artifactId>peppol-uae-testfiles</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.helger.peppol</groupId>
         <artifactId>peppol-uae-tdd</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -96,6 +101,7 @@
   </dependencyManagement>
   
   <modules>
+    <module>peppol-uae-testfiles</module>
     <module>peppol-uae-tdd</module>
   </modules>
 </project>
