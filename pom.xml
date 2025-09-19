@@ -62,6 +62,14 @@
     </developer>
   </developers>
 
+  <properties>
+    <jaxb-plugin.group>org.jvnet.jaxb</jaxb-plugin.group>
+    <jaxb-plugin.artifact>jaxb-maven-plugin</jaxb-plugin.artifact>
+    <jaxb-plugin.version>4.0.11</jaxb-plugin.version>
+    <ph-jaxb-plugin.version>5.0.1</ph-jaxb-plugin.version>
+    <ph-ubl.version>10.0.0</ph-ubl.version>
+  </properties>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
