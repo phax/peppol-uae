@@ -24,11 +24,11 @@
     <artifactId>peppol-uae-parent-pom</artifactId>
     <version>0.8.0-SNAPSHOT</version>
   </parent>
-  <artifactId>peppol-uae-tdd</artifactId>
+  <artifactId>peppol-uae-tdd-datatypes</artifactId>
   <packaging>bundle</packaging>
-  <name>peppol-uae-tdd</name>
+  <name>peppol-uae-tdd-datatypes</name>
   <description>Peppol UAE TDD data model</description>
-  <url>https://github.com/phax/peppol-uae/peppol-uae-tdd</url>
+  <url>https://github.com/phax/peppol-uae/peppol-uae-tdd-datatypes</url>
   <inceptionYear>2025</inceptionYear>
 
   <licenses>
