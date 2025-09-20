@@ -24,11 +24,11 @@
     <artifactId>peppol-uae-parent-pom</artifactId>
     <version>0.8.0-SNAPSHOT</version>
   </parent>
-  <artifactId>peppol-uae-tdd-datatypes</artifactId>
+  <artifactId>peppol-uae-tdd</artifactId>
   <packaging>bundle</packaging>
-  <name>peppol-uae-tdd-datatypes</name>
-  <description>Peppol UAE TDD data model</description>
-  <url>https://github.com/phax/peppol-uae/peppol-uae-tdd-datatypes</url>
+  <name>peppol-uae-tdd</name>
+  <description>Peppol UAE TDD creation and extraction methods</description>
+  <url>https://github.com/phax/peppol-uae/peppol-uae-tdd</url>
   <inceptionYear>2025</inceptionYear>
 
   <licenses>
@@ -97,86 +97,14 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Automatic-Module-Name>com.helger.peppol.uae.tdd.datatypes</Automatic-Module-Name>
+            <Automatic-Module-Name>com.helger.peppol.uae.tdd</Automatic-Module-Name>
             <Export-Package>
-              com.helger.peppol.uae.tdd.jaxb,
-              com.helger.peppol.uae.tdd.v10
+              com.helger.peppol.uae.tdd
             </Export-Package>
             <Import-Package>!jakarta.annotation.*,*</Import-Package>
           </instructions>
         </configuration>
       </plugin>
-      
-      <plugin>
-        <groupId>${jaxb-plugin.group}</groupId>
-        <artifactId>${jaxb-plugin.artifact}</artifactId>
-        <version>${jaxb-plugin.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <schemaDirectory>${basedir}/src/main/resources/external/schemas</schemaDirectory>
-          <bindingDirectory>${basedir}/src/main/jaxb</bindingDirectory>
-          <catalog>${basedir}/src/main/jaxb/catalog-tdd.txt</catalog>
-          <extension>true</extension>
-          <strict>false</strict>
-          <useDependenciesAsEpisodes>true</useDependenciesAsEpisodes>
-          <args>
-            <arg>-no-header</arg>
-            <arg>-Xph-default-locale</arg>
-            <arg>en_US</arg>
-            <arg>-Xph-annotate</arg>
-            <arg>-Xph-fields-private</arg>
-            <arg>-Xph-code-quality</arg>
-            <arg>-Xph-equalshashcode</arg>
-            <arg>-Xph-tostring</arg>
-            <arg>-Xph-list-extension</arg>
-            <arg>-Xph-csu</arg>
-            <arg>-Xph-cloneable2</arg>
-            <arg>-Xph-value-extender</arg>
-          </args>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>com.helger</groupId>
-            <artifactId>ph-jaxb-plugin</artifactId>
-            <version>${ph-jaxb-plugin.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <!-- Delete the directory with only ObjectFactory 
-           Source: http://stackoverflow.com/questions/32635137
-       -->
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>process-sources</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <delete dir="${basedir}/target/generated-sources/xjc/oasis" />
-              </target>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <source>17</source>
-          <sourcepath>
-            ${project.build.sourceDirectory}:${project.build.directory}/generated-sources/xjc
-          </sourcepath>
-        </configuration>
-      </plugin> 
     </plugins>
   </build>
 </project>
