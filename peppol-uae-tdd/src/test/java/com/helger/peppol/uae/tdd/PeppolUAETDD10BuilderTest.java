@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Month;
+import java.time.ZoneOffset;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -59,7 +60,7 @@ public final class PeppolUAETDD10BuilderTest
   private static final Logger LOGGER = LoggerFactory.getLogger (PeppolUAETDD10BuilderTest.class);
 
   @Test
-  public void testBasicManual () throws Exception
+  public void testBasicMinimal () throws Exception
   {
     final IIdentifierFactory aIF = PeppolIdentifierFactory.INSTANCE;
     final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_100 ();
@@ -87,6 +88,61 @@ public final class PeppolUAETDD10BuilderTest
                                                                                        .buyerTaxID ("987654321")
                                                                                        .taxTotalAmountDocumentCurrency (BigHelper.toBigDecimal ("123.45"))
                                                                                        .taxExclusiveTotalAmount (BigHelper.toBigDecimal ("1200"))
+                                                                                       .sourceDocument (DOMReader.readXMLDOM ("<Invoice xmlns='urn:oasis:names:specification:ubl:schema:xsd:Invoice-2'>" +
+                                                                                                                              "\n... omitted for brevity ...\n" +
+                                                                                                                              "</Invoice>")))
+                                                         .build ();
+    assertNotNull (aTDD);
+
+    // Serialize
+    final String sXML = new PeppolUAETDD10Marshaller ().setFormattedOutput (true).getAsString (aTDD);
+    assertNotNull (sXML);
+    if (false)
+      LOGGER.info (sXML);
+
+    // Schematron validation
+    final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (new ReadableResourceString (sXML,
+                                                                                                            StandardCharsets.UTF_8));
+    assertNotNull (aSVRL);
+    assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
+  }
+
+  @Test
+  public void testBasicMaximal () throws Exception
+  {
+    final IIdentifierFactory aIF = PeppolIdentifierFactory.INSTANCE;
+    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_100 ();
+
+    final TaxDataType aTDD = new PeppolUAETDD10Builder ().documentTypeCode (EUAETDDDocumentTypeCode.SUBMIT)
+                                                         .documentScope (EUAETDDDocumentScope.DOMESTIC)
+                                                         .reporterRole (EUAETDDReporterRole.SENDER)
+                                                         .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
+                                                         .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c5id"))
+                                                         .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
+                                                         .reportedTransaction (rt -> rt.transportHeaderID ("my-sbdh-uuid-12345678")
+                                                                                       .customizationID ("urn:peppol:pint:billing-1@ae-1")
+                                                                                       .profileID ("urn:peppol:bis:billing")
+                                                                                       .id ("invoice-1")
+                                                                                       .uuid ("19e2c9a3-b000-4fb0-9bd5-a9c4ebda2358")
+                                                                                       .issueDate (PDTFactory.createLocalDate (2025,
+                                                                                                                               Month.SEPTEMBER,
+                                                                                                                               20))
+                                                                                       .issueTime (PDTFactory.createOffsetTime (20,
+                                                                                                                                8,
+                                                                                                                                0,
+                                                                                                                                ZoneOffset.UTC))
+                                                                                       .documentTypeCode ("380")
+                                                                                       .documentCurrencyCode ("AED")
+                                                                                       .taxCurrencyCode ("EUR")
+                                                                                       .sellerTaxID ("123456789")
+                                                                                       .sellerTaxSchemeID ("VAT")
+                                                                                       .buyerID ("11223344")
+                                                                                       .buyerIDSchemeID ("AE:TIN")
+                                                                                       .buyerTaxID ("987654321")
+                                                                                       .taxTotalAmountDocumentCurrency (BigHelper.toBigDecimal ("123.45"))
+                                                                                       .taxTotalAmountTaxCurrency (BigHelper.toBigDecimal ("500"))
+                                                                                       .taxExclusiveTotalAmount (BigHelper.toBigDecimal ("1200"))
+                                                                                       .taxInclusiveTotalAmount (BigHelper.toBigDecimal ("1323.45"))
                                                                                        .sourceDocument (DOMReader.readXMLDOM ("<Invoice xmlns='urn:oasis:names:specification:ubl:schema:xsd:Invoice-2'>" +
                                                                                                                               "\n... omitted for brevity ...\n" +
                                                                                                                               "</Invoice>")))

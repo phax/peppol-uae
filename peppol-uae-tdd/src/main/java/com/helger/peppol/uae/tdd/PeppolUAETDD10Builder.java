@@ -46,7 +46,6 @@ import jakarta.annotation.Nullable;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyIdentificationType;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.CustomizationIDType;
-import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.IDType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.IssueDateType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.IssueTimeType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.ProfileIDType;
@@ -65,7 +64,6 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
 
   private String m_sCustomizationID;
   private String m_sProfileID;
-  private String m_sID;
   private LocalDate m_aIssueDate;
   private OffsetTime m_aIssueTime;
   private EUAETDDDocumentTypeCode m_eDocumentTypeCode;
@@ -106,19 +104,6 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
   public PeppolUAETDD10Builder profileID (@Nullable final String s)
   {
     m_sProfileID = s;
-    return this;
-  }
-
-  @Nullable
-  public String id ()
-  {
-    return m_sID;
-  }
-
-  @Nonnull
-  public PeppolUAETDD10Builder id (@Nullable final String s)
-  {
-    m_sID = s;
     return this;
   }
 
@@ -306,7 +291,6 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
       aCondLog.error (sErrorPrefix + "ProfileID is missing");
       nErrs++;
     }
-    // ID is optional
     if (m_aIssueDate == null)
     {
       aCondLog.error (sErrorPrefix + "IssueDate is missing");
@@ -445,8 +429,6 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
     final TaxDataType ret = new TaxDataType ();
     ret.setCustomizationID (new CustomizationIDType (m_sCustomizationID));
     ret.setProfileID (new ProfileIDType (m_sProfileID));
-    if (StringHelper.isNotEmpty (m_sID))
-      ret.setID (new IDType (m_sID));
     ret.setIssueDate (new IssueDateType (m_aIssueDate));
     ret.setIssueTime (new IssueTimeType (XMLOffsetTime.of (m_aIssueTime)));
     {
