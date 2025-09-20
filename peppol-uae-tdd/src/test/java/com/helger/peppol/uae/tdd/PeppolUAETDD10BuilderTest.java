@@ -21,7 +21,12 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 import com.helger.peppol.uae.tdd.codelist.EUAETDDDocumentScope;
+import com.helger.peppol.uae.tdd.codelist.EUAETDDDocumentTypeCode;
+import com.helger.peppol.uae.tdd.codelist.EUAETDDReporterRole;
+import com.helger.peppol.uae.tdd.jaxb.PeppolUAETDD10Marshaller;
 import com.helger.peppol.uae.tdd.v10.TaxDataType;
+import com.helger.peppolid.factory.IIdentifierFactory;
+import com.helger.peppolid.factory.PeppolIdentifierFactory;
 
 /**
  * Test class for class {@link PeppolUAETDD10Builder}.
@@ -33,7 +38,17 @@ public final class PeppolUAETDD10BuilderTest
   @Test
   public void testBasic ()
   {
-    TaxDataType aTDD = new PeppolUAETDD10Builder ().documentScope (EUAETDDDocumentScope.DOMESTIC).build ();
+    final IIdentifierFactory aIF = PeppolIdentifierFactory.INSTANCE;
+    final TaxDataType aTDD = new PeppolUAETDD10Builder ().documentTypeCode (EUAETDDDocumentTypeCode.SUBMIT)
+                                                         .documentScope (EUAETDDDocumentScope.DOMESTIC)
+                                                         .reporterRole (EUAETDDReporterRole.SENDER)
+                                                         .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
+                                                         .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c5id"))
+                                                         .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
+                                                         .build ();
     assertNotNull (aTDD);
+
+    // Serialize
+    assertNotNull (new PeppolUAETDD10Marshaller ().getAsBytes (aTDD));
   }
 }

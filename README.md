@@ -20,6 +20,19 @@ This project consists of the following submodules (in alphabetic order)
 * `peppol-uae-tdd-datatypes` - contains the JAXB generated UAE TDD data model
 * `peppol-uae-testfiles` - contains Peppol UAE specific test files as a reusable component
 
+
+# Maven usage
+
+Add the following to your `pom.xml` to use this artifact:, replacing `x.y.z` with the real version number.
+
+```xml
+<dependency>
+  <groupId>com.helger.peppol</groupId>
+  <artifactId>peppol-uae-tdd</artifactId>
+  <version>x.y.z</version>
+</dependency>
+```
+
 # Building
 
 This project requires Apache Maven 3.x and Java 17 for building.
