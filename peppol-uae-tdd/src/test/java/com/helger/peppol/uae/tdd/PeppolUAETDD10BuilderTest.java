@@ -32,6 +32,7 @@ import com.helger.collection.commons.CommonsArrayList;
 import com.helger.datetime.helper.PDTFactory;
 import com.helger.io.resource.ClassPathResource;
 import com.helger.io.resource.inmemory.ReadableResourceString;
+import com.helger.peppol.uae.tdd.PeppolUAETDD10ReportedTransactionBuilder.CustomContent;
 import com.helger.peppol.uae.tdd.codelist.EUAETDDDocumentScope;
 import com.helger.peppol.uae.tdd.codelist.EUAETDDDocumentTypeCode;
 import com.helger.peppol.uae.tdd.codelist.EUAETDDReporterRole;
@@ -143,6 +144,8 @@ public final class PeppolUAETDD10BuilderTest
                                                                                        .taxTotalAmountTaxCurrency (BigHelper.toBigDecimal ("500"))
                                                                                        .taxExclusiveTotalAmount (BigHelper.toBigDecimal ("1200"))
                                                                                        .taxInclusiveTotalAmount (BigHelper.toBigDecimal ("1323.45"))
+                                                                                       .addCustomContent (new CustomContent ("ID1",
+                                                                                                                             "val1"))
                                                                                        .sourceDocument (DOMReader.readXMLDOM ("<Invoice xmlns='urn:oasis:names:specification:ubl:schema:xsd:Invoice-2'>" +
                                                                                                                               "\n... omitted for brevity ...\n" +
                                                                                                                               "</Invoice>")))
@@ -152,7 +155,7 @@ public final class PeppolUAETDD10BuilderTest
     // Serialize
     final String sXML = new PeppolUAETDD10Marshaller ().setFormattedOutput (true).getAsString (aTDD);
     assertNotNull (sXML);
-    if (false)
+    if (true)
       LOGGER.info (sXML);
 
     // Schematron validation

@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.util.Locale;
 
 import javax.xml.namespace.QName;
 
@@ -28,12 +29,16 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.helger.annotation.Nonempty;
 import com.helger.base.builder.IBuilder;
 import com.helger.base.enforce.ValueEnforcer;
 import com.helger.base.log.ConditionalLogger;
 import com.helger.base.string.StringHelper;
+import com.helger.collection.commons.CommonsArrayList;
+import com.helger.collection.commons.ICommonsList;
 import com.helger.datetime.helper.PDTFactory;
 import com.helger.datetime.xml.XMLOffsetTime;
+import com.helger.peppol.uae.tdd.v10.CustomContentType;
 import com.helger.peppol.uae.tdd.v10.MonetaryTotalType;
 import com.helger.peppol.uae.tdd.v10.ReferencedDocumentTypeCodeType;
 import com.helger.peppol.uae.tdd.v10.ReportedDocumentType;
@@ -62,6 +67,7 @@ import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.TaxCurr
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.TaxExclusiveAmountType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.TaxInclusiveAmountType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.UUIDType;
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.ValueType;
 import oasis.names.specification.ubl.schema.xsd.commonextensioncomponents_21.ExtensionContentType;
 import oasis.names.specification.ubl.schema.xsd.commonextensioncomponents_21.UBLExtensionType;
 import oasis.names.specification.ubl.schema.xsd.creditnote_21.CreditNoteType;
@@ -74,6 +80,21 @@ import oasis.names.specification.ubl.schema.xsd.invoice_21.InvoiceType;
  */
 public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <ReportedTransactionType>
 {
+  public static final class CustomContent
+  {
+    private final String m_sID;
+    private final String m_sValue;
+
+    public CustomContent (@Nonnull @Nonempty String sID, @Nonnull @Nonempty String sValue)
+    {
+      ValueEnforcer.notEmpty (sID, "ID");
+      ValueEnforcer.isTrue ( () -> sID.equals (sID.toUpperCase (Locale.ROOT)), "ID must be all uppercase");
+      ValueEnforcer.notEmpty (sValue, "Value");
+      m_sID = sID;
+      m_sValue = sValue;
+    }
+  }
+
   private static final Logger LOGGER = LoggerFactory.getLogger (PeppolUAETDD10ReportedTransactionBuilder.class);
 
   private String m_sTransportHeaderID;
@@ -95,6 +116,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
   private BigDecimal m_aTaxTotalAmountTaxCurrency;
   private BigDecimal m_aTaxExclusiveTotalAmount;
   private BigDecimal m_aTaxInclusiveTotalAmount;
+  private ICommonsList <CustomContent> m_aCustomContents = new CommonsArrayList <> ();
   private Element m_aSourceDocument;
 
   public PeppolUAETDD10ReportedTransactionBuilder ()
@@ -540,6 +562,20 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
   }
 
   @Nullable
+  public ICommonsList <CustomContent> customContents ()
+  {
+    return m_aCustomContents;
+  }
+
+  @Nonnull
+  public PeppolUAETDD10ReportedTransactionBuilder addCustomContent (@Nullable final CustomContent a)
+  {
+    if (a != null)
+      m_aCustomContents.add (a);
+    return this;
+  }
+
+  @Nullable
   public Element sourceDocument ()
   {
     return m_aSourceDocument;
@@ -792,9 +828,17 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
       ret.setReportedDocument (a);
     }
 
+    for (final CustomContent aCC : m_aCustomContents)
     {
-      UBLExtensionType aUBLExt = new UBLExtensionType ();
-      ExtensionContentType aExtContent = new ExtensionContentType ();
+      final CustomContentType a = new CustomContentType ();
+      a.setID (new IDType (aCC.m_sID));
+      a.setValue (new ValueType (aCC.m_sValue));
+      ret.addCustomContent (a);
+    }
+
+    {
+      final UBLExtensionType aUBLExt = new UBLExtensionType ();
+      final ExtensionContentType aExtContent = new ExtensionContentType ();
       aExtContent.setAny (m_aSourceDocument);
       aUBLExt.setExtensionContent (aExtContent);
       ret.setSourceDocument (aUBLExt);
