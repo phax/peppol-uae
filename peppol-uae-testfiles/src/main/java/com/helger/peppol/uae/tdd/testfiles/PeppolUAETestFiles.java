@@ -54,6 +54,38 @@ public final class PeppolUAETestFiles
   @Nonnull
   @Nonempty
   @ReturnsMutableCopy
+  public static ICommonsList <ClassPathResource> getAllGoodBillingCreditNoteFiles ()
+  {
+    return _getAll ("billing/cn/", "Disclosed agent billing tax credit note.xml", "Standard tax credit Note.xml");
+  }
+
+  @Nonnull
+  @Nonempty
+  @ReturnsMutableCopy
+  public static ICommonsList <ClassPathResource> getAllGoodBillingInvoiceFiles ()
+  {
+    return _getAll ("billing/inv/",
+                    "Commercial invoice.xml",
+                    "Continuous supplies.xml",
+                    "Deemed supply - predefined endpoint.xml",
+                    "Disclosed agent billing.xml",
+                    "Exports.xml",
+                    "Exports - predefined endpoint.xml",
+                    "Margin scheme.xml",
+                    "Standard invoice - Extensive.xml",
+                    "Standard invoice Mandatory fields.xml",
+                    "Standard tax invoice.xml",
+                    "Standard tax invoice - predefined endpoint.xml",
+                    "Summary tax invoice.xml",
+                    "Supply involving free trade zone.xml",
+                    "Supply through e-commerce.xml",
+                    "Supply under Reverse charge mechanism.xml",
+                    "Zero rated supplies.xml");
+  }
+
+  @Nonnull
+  @Nonempty
+  @ReturnsMutableCopy
   public static ICommonsList <ClassPathResource> getAllGoodTDD10Files ()
   {
     return _getAll ("tdd/10/good/", "simple.xml", "tax-currency.xml");
