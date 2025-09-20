@@ -16,6 +16,7 @@
  */
 package com.helger.peppol.uae.tdd.jaxb;
 
+import com.helger.annotation.Nonempty;
 import com.helger.annotation.concurrent.NotThreadSafe;
 import com.helger.annotation.style.ReturnsMutableCopy;
 import com.helger.collection.commons.ICommonsList;
@@ -24,6 +25,8 @@ import com.helger.jaxb.GenericJAXBMarshaller;
 import com.helger.peppol.uae.tdd.v10.ObjectFactory;
 import com.helger.peppol.uae.tdd.v10.TaxDataType;
 import com.helger.ubl21.UBL21Marshaller;
+import com.helger.ubl21.UBL21NamespaceContext;
+import com.helger.xml.namespace.MapBasedNamespaceContext;
 
 import jakarta.annotation.Nonnull;
 
@@ -45,11 +48,22 @@ public class PeppolUAETDD10Marshaller extends GenericJAXBMarshaller <TaxDataType
     return ret;
   }
 
+  @Nonnull
+  @Nonempty
+  @ReturnsMutableCopy
+  public static MapBasedNamespaceContext createNamespaceContext ()
+  {
+    final MapBasedNamespaceContext ret = UBL21NamespaceContext.getInstance ().getClone ();
+    ret.addMapping ("pxs", CPeppolUAETDD.TDD_XSD_1_0_NS);
+    return ret;
+  }
+
   /**
    * Constructor
    */
   public PeppolUAETDD10Marshaller ()
   {
     super (TaxDataType.class, _getAllXSDs (CPeppolUAETDD.TDD_XSD_1_0), new ObjectFactory ()::createTaxData);
+    setNamespaceContext (createNamespaceContext ());
   }
 }

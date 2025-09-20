@@ -18,7 +18,11 @@ package com.helger.peppol.uae.tdd;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.UUID;
+
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.helger.peppol.uae.tdd.codelist.EUAETDDDocumentScope;
 import com.helger.peppol.uae.tdd.codelist.EUAETDDDocumentTypeCode;
@@ -35,6 +39,8 @@ import com.helger.peppolid.factory.PeppolIdentifierFactory;
  */
 public final class PeppolUAETDD10BuilderTest
 {
+  private static final Logger LOGGER = LoggerFactory.getLogger (PeppolUAETDD10BuilderTest.class);
+
   @Test
   public void testBasic ()
   {
@@ -45,10 +51,18 @@ public final class PeppolUAETDD10BuilderTest
                                                          .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
                                                          .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c5id"))
                                                          .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
+                                                         .reportedTransaction (rt -> rt.transportHeaderID (UUID.randomUUID ()
+                                                                                                               .toString ())
+                                                                                       .id ("invoice-1")
+                                                                                       .sellerTaxID ("123456789")
+                                                                                       .sellerTaxSchemeID ("VAT"))
                                                          .build ();
     assertNotNull (aTDD);
 
     // Serialize
-    assertNotNull (new PeppolUAETDD10Marshaller ().getAsBytes (aTDD));
+    final String sXML = new PeppolUAETDD10Marshaller ().setFormattedOutput (true).getAsString (aTDD);
+    assertNotNull (sXML);
+    if (true)
+      LOGGER.info (sXML);
   }
 }

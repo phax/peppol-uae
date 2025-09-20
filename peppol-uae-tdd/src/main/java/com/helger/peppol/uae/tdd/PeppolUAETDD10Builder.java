@@ -19,6 +19,7 @@ package com.helger.peppol.uae.tdd;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ import com.helger.datetime.xml.XMLOffsetTime;
 import com.helger.peppol.uae.tdd.codelist.EUAETDDDocumentScope;
 import com.helger.peppol.uae.tdd.codelist.EUAETDDDocumentTypeCode;
 import com.helger.peppol.uae.tdd.codelist.EUAETDDReporterRole;
+import com.helger.peppol.uae.tdd.v10.ReportedTransactionType;
 import com.helger.peppol.uae.tdd.v10.TaxDataDocumentReporterRoleType;
 import com.helger.peppol.uae.tdd.v10.TaxDataDocumentScopeType;
 import com.helger.peppol.uae.tdd.v10.TaxDataDocumentTypeCodeType;
@@ -72,6 +74,7 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
   private IParticipantIdentifier m_aReportingParty;
   private IParticipantIdentifier m_aReceivingParty;
   private IParticipantIdentifier m_aReportersRepresentative;
+  private ReportedTransactionType m_aReportedTransaction;
 
   public PeppolUAETDD10Builder ()
   {
@@ -265,6 +268,27 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
     return this;
   }
 
+  @Nullable
+  public ReportedTransactionType reportedTransaction ()
+  {
+    return m_aReportedTransaction;
+  }
+
+  @Nonnull
+  public PeppolUAETDD10Builder reportedTransaction (@Nonnull final Consumer <PeppolUAETDD10ReportedTransactionBuilder> aBuilderConsumer)
+  {
+    final PeppolUAETDD10ReportedTransactionBuilder aBuilder = new PeppolUAETDD10ReportedTransactionBuilder ();
+    aBuilderConsumer.accept (aBuilder);
+    return reportedTransaction (aBuilder.build ());
+  }
+
+  @Nonnull
+  public PeppolUAETDD10Builder reportedTransaction (@Nullable final ReportedTransactionType a)
+  {
+    m_aReportedTransaction = a;
+    return this;
+  }
+
   public boolean isEveryRequiredFieldSet (final boolean bDoLogOnError)
   {
     int nErrs = 0;
@@ -399,7 +423,13 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
           }
         }
 
-    // TODO
+    // UAE must have exactly one reported transaction
+    if (m_aReportedTransaction == null)
+    {
+      aCondLog.error (sErrorPrefix + "ReportedTransaction is missing");
+      nErrs++;
+    }
+
     return nErrs == 0;
   }
 
@@ -454,8 +484,7 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
       aParty.addPartyIdentification (aPID);
       ret.setReportersRepresentative (aParty);
     }
-
-    // TODO
+    ret.addReportedTransaction (m_aReportedTransaction);
     return ret;
   }
 }
