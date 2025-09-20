@@ -16,13 +16,20 @@
  */
 package com.helger.peppol.uae.tdd.validate;
 
+import com.helger.annotation.concurrent.Immutable;
 import com.helger.base.exception.InitializationException;
 import com.helger.schematron.ISchematronResource;
 import com.helger.schematron.sch.SchematronResourceSCH;
 
 import jakarta.annotation.Nonnull;
 
-public class PeppolUAETDD10Validator
+/**
+ * This class contains the Schematron resources for validating Peppol UAE TDD documents.
+ *
+ * @author Philip Helger
+ */
+@Immutable
+public final class PeppolUAETDDValidator
 {
   public static final String SCH_UAE_TDD_100_PATH = "external/schematron/peppol-tdd-1.0.0-draft.sch";
 
@@ -35,7 +42,7 @@ public class PeppolUAETDD10Validator
         throw new InitializationException ("Schematron in " + aSch.getResource ().getPath () + " is invalid");
   }
 
-  private PeppolUAETDD10Validator ()
+  private PeppolUAETDDValidator ()
   {}
 
   /**
@@ -46,5 +53,4 @@ public class PeppolUAETDD10Validator
   {
     return UAE_TDD_MLS_100;
   }
-
 }

@@ -39,19 +39,19 @@ import com.helger.schematron.svrl.SVRLMarshaller;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 
 /**
- * Test class for class {@link PeppolUAETDD10Validator}.
+ * Test class for class {@link PeppolUAETDDValidator}.
  *
  * @author Philip Helger
  */
-public final class PeppolUAETDD10ValidatorTest
+public final class PeppolUAETDDValidatorTest
 {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger (PeppolUAETDD10ValidatorTest.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger (PeppolUAETDDValidatorTest.class);
 
   @Test
-  public void testReadTDDGood () throws Exception
+  public void testReadTDD10Good () throws Exception
   {
-    final ISchematronResource aSCHRes = PeppolUAETDD10Validator.getSchematronUAE_TDD_100 ();
+    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_100 ();
     assertNotNull (aSCHRes);
 
     final PeppolUAETDD10Marshaller aMarshaller = new PeppolUAETDD10Marshaller ();
@@ -73,9 +73,9 @@ public final class PeppolUAETDD10ValidatorTest
   }
 
   @Test
-  public void testReadTDDBad () throws Exception
+  public void testReadTDD10Bad () throws Exception
   {
-    final ISchematronResource aSCHRes = PeppolUAETDD10Validator.getSchematronUAE_TDD_100 ();
+    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_100 ();
     assertNotNull (aSCHRes);
 
     final PeppolUAETDD10Marshaller aMarshaller = new PeppolUAETDD10Marshaller ();
