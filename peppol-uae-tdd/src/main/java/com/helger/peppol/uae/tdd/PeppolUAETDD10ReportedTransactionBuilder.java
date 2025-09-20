@@ -21,6 +21,8 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 
+import javax.xml.namespace.QName;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -38,6 +40,7 @@ import com.helger.peppol.uae.tdd.v10.ReportedDocumentType;
 import com.helger.peppol.uae.tdd.v10.ReportedTransactionType;
 import com.helger.peppol.uae.tdd.v10.TransportHeaderIDType;
 import com.helger.ubl21.UBL21Marshaller;
+import com.helger.xml.XMLHelper;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -560,11 +563,39 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     int nErrs = 0;
     final ConditionalLogger aCondLog = new ConditionalLogger (LOGGER, bDoLogOnError);
     final String sErrorPrefix = "Error in Peppol UAE TDD 1.0 ReportedTransaction builder: ";
+    final String sWarnPrefix = "Warning in Peppol UAE TDD 1.0 ReportedTransaction builder: ";
 
-    // All optional except:
+    // TransportHeaderID is optional
+
+    if (StringHelper.isEmpty (m_sCustomizationID))
+    {
+      aCondLog.error (sErrorPrefix + "CustomizationID is missing");
+      nErrs++;
+    }
+    if (StringHelper.isEmpty (m_sProfileID))
+    {
+      aCondLog.error (sErrorPrefix + "ProfileID is missing");
+      nErrs++;
+    }
     if (StringHelper.isEmpty (m_sID))
     {
       aCondLog.error (sErrorPrefix + "ID is missing");
+      nErrs++;
+    }
+    if (StringHelper.isEmpty (m_sUUID))
+    {
+      aCondLog.error (sErrorPrefix + "UUID is missing");
+      nErrs++;
+    }
+    if (m_aIssueDate == null)
+    {
+      aCondLog.error (sErrorPrefix + "IssueDate is missing");
+      nErrs++;
+    }
+    // IssueTime is optional
+    if (StringHelper.isEmpty (m_sDocumentTypeCode))
+    {
+      aCondLog.error (sErrorPrefix + "DocumentTypeCode is missing");
       nErrs++;
     }
     if (StringHelper.isEmpty (m_sDocumentCurrencyCode))
@@ -587,7 +618,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
       if (StringHelper.isEmpty (m_sBuyerID))
       {
         // Warning only
-        aCondLog.warn (sErrorPrefix + "BuyerIDSchemeID can only be used if BuyerID is also present");
+        aCondLog.warn (sWarnPrefix + "BuyerIDSchemeID can only be used if BuyerID is also present");
       }
     }
     if (m_aTaxTotalAmountDocumentCurrency == null)
@@ -623,6 +654,16 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     {
       aCondLog.error (sErrorPrefix + "SourceDocument is missing");
       nErrs++;
+    }
+    else
+    {
+      final QName aQName = XMLHelper.getQName (m_aSourceDocument);
+      if (!aQName.equals (UBL21Marshaller.invoice ().getRootElementQName ()) &&
+          !aQName.equals (UBL21Marshaller.creditNote ().getRootElementQName ()))
+      {
+        aCondLog.error (sErrorPrefix + "SourceDocument must be a UBL 2.1 Invoice or CreditNote");
+        nErrs++;
+      }
     }
 
     return nErrs == 0;
