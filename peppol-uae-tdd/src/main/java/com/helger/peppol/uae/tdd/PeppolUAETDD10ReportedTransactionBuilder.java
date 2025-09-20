@@ -16,38 +16,53 @@
  */
 package com.helger.peppol.uae.tdd;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import com.helger.base.builder.IBuilder;
+import com.helger.base.enforce.ValueEnforcer;
 import com.helger.base.log.ConditionalLogger;
 import com.helger.base.string.StringHelper;
 import com.helger.datetime.helper.PDTFactory;
 import com.helger.datetime.xml.XMLOffsetTime;
+import com.helger.peppol.uae.tdd.v10.MonetaryTotalType;
 import com.helger.peppol.uae.tdd.v10.ReferencedDocumentTypeCodeType;
 import com.helger.peppol.uae.tdd.v10.ReportedDocumentType;
 import com.helger.peppol.uae.tdd.v10.ReportedTransactionType;
 import com.helger.peppol.uae.tdd.v10.TransportHeaderIDType;
+import com.helger.ubl21.UBL21Marshaller;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.CustomerPartyType;
+import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyIdentificationType;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyTaxSchemeType;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyType;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.SupplierPartyType;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.TaxSchemeType;
+import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.TaxTotalType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.CustomizationIDType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.DocumentCurrencyCodeType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.IDType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.IssueDateType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.IssueTimeType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.ProfileIDType;
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.TaxAmountType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.TaxCurrencyCodeType;
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.TaxExclusiveAmountType;
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.TaxInclusiveAmountType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.UUIDType;
+import oasis.names.specification.ubl.schema.xsd.commonextensioncomponents_21.ExtensionContentType;
+import oasis.names.specification.ubl.schema.xsd.commonextensioncomponents_21.UBLExtensionType;
+import oasis.names.specification.ubl.schema.xsd.creditnote_21.CreditNoteType;
+import oasis.names.specification.ubl.schema.xsd.invoice_21.InvoiceType;
 
 /**
  * Builder for Peppol UAE TDD 1.0 sub element called "ReportedTransaction".
@@ -73,9 +88,191 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
   private String m_sBuyerID;
   private String m_sBuyerIDSchemeID;
   private String m_sBuyerTaxID;
+  private BigDecimal m_aTaxTotalAmountDocumentCurrency;
+  private BigDecimal m_aTaxTotalAmountTaxCurrency;
+  private BigDecimal m_aTaxExclusiveTotalAmount;
+  private BigDecimal m_aTaxInclusiveTotalAmount;
+  private Element m_aSourceDocument;
 
   public PeppolUAETDD10ReportedTransactionBuilder ()
   {}
+
+  /**
+   * Set all fields except the TransportHeaderID from the provided UBL 2.1 Invoice
+   *
+   * @param aInv
+   *        The Invoice to read from. May not be <code>null</code>.
+   * @return this for chaining
+   */
+  @Nonnull
+  public PeppolUAETDD10ReportedTransactionBuilder initFromInvoice (@Nonnull InvoiceType aInv)
+  {
+    ValueEnforcer.notNull (aInv, "Invoice");
+
+    customizationID (aInv.getCustomizationIDValue ());
+    profileID (aInv.getProfileIDValue ());
+    id (aInv.getIDValue ());
+    uuid (aInv.getUUIDValue ());
+    issueDate (aInv.getIssueDateValueLocal ());
+    issueTime (aInv.getIssueTimeValue ());
+    documentTypeCode (aInv.getInvoiceTypeCodeValue ());
+    documentCurrencyCode (aInv.getDocumentCurrencyCodeValue ());
+    taxCurrencyCode (aInv.getTaxCurrencyCodeValue ());
+
+    SupplierPartyType aSupplier = aInv.getAccountingSupplierParty ();
+    if (aSupplier != null)
+    {
+      PartyType aParty = aSupplier.getParty ();
+      if (aParty != null && aParty.hasPartyTaxSchemeEntries ())
+      {
+        PartyTaxSchemeType aPTS = aParty.getPartyTaxSchemeAtIndex (0);
+        sellerTaxID (aPTS.getCompanyIDValue ());
+        TaxSchemeType aTS = aPTS.getTaxScheme ();
+        if (aTS != null)
+          sellerTaxSchemeID (aTS.getIDValue ());
+      }
+    }
+
+    CustomerPartyType aCustomer = aInv.getAccountingCustomerParty ();
+    if (aCustomer != null)
+    {
+      PartyType aParty = aSupplier.getParty ();
+      if (aParty != null)
+      {
+        if (aParty.hasPartyIdentificationEntries ())
+        {
+          PartyIdentificationType aPID = aParty.getPartyIdentificationAtIndex (0);
+          IDType aID = aPID.getID ();
+          if (aID != null)
+          {
+            buyerID (aID.getValue ());
+            buyerIDSchemeID (aID.getSchemeID ());
+          }
+        }
+
+        if (aParty.hasPartyTaxSchemeEntries ())
+        {
+          PartyTaxSchemeType aPTS = aParty.getPartyTaxSchemeAtIndex (0);
+          buyerTaxID (aPTS.getCompanyIDValue ());
+        }
+      }
+    }
+
+    if (m_sDocumentCurrencyCode != null)
+      taxTotalAmountDocumentCurrency (aInv.getTaxTotal ()
+                                          .stream ()
+                                          .filter (x -> m_sDocumentCurrencyCode.equals (x.getTaxAmount ()
+                                                                                         .getCurrencyID ()))
+                                          .map (TaxTotalType::getTaxAmountValue)
+                                          .findFirst ()
+                                          .orElse (null));
+    if (m_sTaxCurrencyCode != null)
+      taxTotalAmountTaxCurrency (aInv.getTaxTotal ()
+                                     .stream ()
+                                     .filter (x -> m_sTaxCurrencyCode.equals (x.getTaxAmount ().getCurrencyID ()))
+                                     .map (TaxTotalType::getTaxAmountValue)
+                                     .findFirst ()
+                                     .orElse (null));
+
+    oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.MonetaryTotalType aLegalMonetaryTotal = aInv.getLegalMonetaryTotal ();
+    if (aLegalMonetaryTotal != null)
+    {
+      taxExclusiveTotalAmount (aLegalMonetaryTotal.getTaxExclusiveAmountValue ());
+      taxInclusiveTotalAmount (aLegalMonetaryTotal.getTaxInclusiveAmountValue ());
+    }
+
+    sourceDocument (UBL21Marshaller.invoice ().getAsElement (aInv));
+
+    return this;
+  }
+
+  /**
+   * Set all fields except the TransportHeaderID from the provided UBL 2.1 CreditNote
+   *
+   * @param aCN
+   *        The CreditNote to read from. May not be <code>null</code>.
+   * @return this for chaining
+   */
+  @Nonnull
+  public PeppolUAETDD10ReportedTransactionBuilder initFromCreditNote (@Nonnull CreditNoteType aCN)
+  {
+    ValueEnforcer.notNull (aCN, "Invoice");
+
+    customizationID (aCN.getCustomizationIDValue ());
+    profileID (aCN.getProfileIDValue ());
+    id (aCN.getIDValue ());
+    uuid (aCN.getUUIDValue ());
+    issueDate (aCN.getIssueDateValueLocal ());
+    issueTime (aCN.getIssueTimeValue ());
+    documentTypeCode (aCN.getCreditNoteTypeCodeValue ());
+    documentCurrencyCode (aCN.getDocumentCurrencyCodeValue ());
+    taxCurrencyCode (aCN.getTaxCurrencyCodeValue ());
+
+    SupplierPartyType aSupplier = aCN.getAccountingSupplierParty ();
+    if (aSupplier != null)
+    {
+      PartyType aParty = aSupplier.getParty ();
+      if (aParty != null && aParty.hasPartyTaxSchemeEntries ())
+      {
+        PartyTaxSchemeType aPTS = aParty.getPartyTaxSchemeAtIndex (0);
+        sellerTaxID (aPTS.getCompanyIDValue ());
+        TaxSchemeType aTS = aPTS.getTaxScheme ();
+        if (aTS != null)
+          sellerTaxSchemeID (aTS.getIDValue ());
+      }
+    }
+
+    CustomerPartyType aCustomer = aCN.getAccountingCustomerParty ();
+    if (aCustomer != null)
+    {
+      PartyType aParty = aSupplier.getParty ();
+      if (aParty != null)
+      {
+        if (aParty.hasPartyIdentificationEntries ())
+        {
+          PartyIdentificationType aPID = aParty.getPartyIdentificationAtIndex (0);
+          IDType aID = aPID.getID ();
+          if (aID != null)
+          {
+            buyerID (aID.getValue ());
+            buyerIDSchemeID (aID.getSchemeID ());
+          }
+        }
+
+        if (aParty.hasPartyTaxSchemeEntries ())
+        {
+          PartyTaxSchemeType aPTS = aParty.getPartyTaxSchemeAtIndex (0);
+          buyerTaxID (aPTS.getCompanyIDValue ());
+        }
+      }
+    }
+
+    if (m_sDocumentCurrencyCode != null)
+      taxTotalAmountDocumentCurrency (aCN.getTaxTotal ()
+                                         .stream ()
+                                         .filter (x -> m_sDocumentCurrencyCode.equals (x.getTaxAmount ()
+                                                                                        .getCurrencyID ()))
+                                         .map (TaxTotalType::getTaxAmountValue)
+                                         .findFirst ()
+                                         .orElse (null));
+    if (m_sTaxCurrencyCode != null)
+      taxTotalAmountTaxCurrency (aCN.getTaxTotal ()
+                                    .stream ()
+                                    .filter (x -> m_sTaxCurrencyCode.equals (x.getTaxAmount ().getCurrencyID ()))
+                                    .map (TaxTotalType::getTaxAmountValue)
+                                    .findFirst ()
+                                    .orElse (null));
+
+    oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.MonetaryTotalType aLegalMonetaryTotal = aCN.getLegalMonetaryTotal ();
+    if (aLegalMonetaryTotal != null)
+    {
+      taxExclusiveTotalAmount (aLegalMonetaryTotal.getTaxExclusiveAmountValue ());
+      taxInclusiveTotalAmount (aLegalMonetaryTotal.getTaxInclusiveAmountValue ());
+    }
+
+    sourceDocument (UBL21Marshaller.creditNote ().getAsElement (aCN));
+    return this;
+  }
 
   @Nullable
   public String transportHeaderID ()
@@ -162,6 +359,12 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
   }
 
   @Nonnull
+  public PeppolUAETDD10ReportedTransactionBuilder issueTime (@Nullable final XMLOffsetTime a)
+  {
+    return issueTime (a == null ? null : a.toOffsetTime ());
+  }
+
+  @Nonnull
   public PeppolUAETDD10ReportedTransactionBuilder issueTime (@Nullable final OffsetTime a)
   {
     // XSD can only handle milliseconds
@@ -173,7 +376,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
   public PeppolUAETDD10ReportedTransactionBuilder issueDateTime (@Nullable final OffsetDateTime a)
   {
     if (a == null)
-      return issueDate (null).issueTime (null);
+      return issueDate (null).issueTime ((OffsetTime) null);
     return issueDate (a.toLocalDate ()).issueTime (a.toOffsetTime ());
   }
 
@@ -281,6 +484,77 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return this;
   }
 
+  @Nullable
+  public BigDecimal taxTotalAmountDocumentCurrency ()
+  {
+    return m_aTaxTotalAmountDocumentCurrency;
+  }
+
+  @Nonnull
+  public PeppolUAETDD10ReportedTransactionBuilder taxTotalAmountDocumentCurrency (@Nullable final BigDecimal a)
+  {
+    m_aTaxTotalAmountDocumentCurrency = a;
+    return this;
+  }
+
+  @Nullable
+  public BigDecimal taxTotalAmountTaxCurrency ()
+  {
+    return m_aTaxTotalAmountTaxCurrency;
+  }
+
+  @Nonnull
+  public PeppolUAETDD10ReportedTransactionBuilder taxTotalAmountTaxCurrency (@Nullable final BigDecimal a)
+  {
+    m_aTaxTotalAmountTaxCurrency = a;
+    return this;
+  }
+
+  @Nullable
+  public BigDecimal taxExclusiveTotalAmount ()
+  {
+    return m_aTaxExclusiveTotalAmount;
+  }
+
+  @Nonnull
+  public PeppolUAETDD10ReportedTransactionBuilder taxExclusiveTotalAmount (@Nullable final BigDecimal a)
+  {
+    m_aTaxExclusiveTotalAmount = a;
+    return this;
+  }
+
+  @Nullable
+  public BigDecimal taxInclusiveTotalAmount ()
+  {
+    return m_aTaxInclusiveTotalAmount;
+  }
+
+  @Nonnull
+  public PeppolUAETDD10ReportedTransactionBuilder taxInclusiveTotalAmount (@Nullable final BigDecimal a)
+  {
+    m_aTaxInclusiveTotalAmount = a;
+    return this;
+  }
+
+  @Nullable
+  public Element sourceDocument ()
+  {
+    return m_aSourceDocument;
+  }
+
+  @Nonnull
+  public PeppolUAETDD10ReportedTransactionBuilder sourceDocument (@Nullable final Document a)
+  {
+    return sourceDocument (a == null ? null : a.getDocumentElement ());
+  }
+
+  @Nonnull
+  public PeppolUAETDD10ReportedTransactionBuilder sourceDocument (@Nullable final Element a)
+  {
+    m_aSourceDocument = a;
+    return this;
+  }
+
   public boolean isEveryRequiredFieldSet (final boolean bDoLogOnError)
   {
     int nErrs = 0;
@@ -293,6 +567,11 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
       aCondLog.error (sErrorPrefix + "ID is missing");
       nErrs++;
     }
+    if (StringHelper.isEmpty (m_sDocumentCurrencyCode))
+    {
+      aCondLog.error (sErrorPrefix + "DocumentCurrencyCode is missing");
+      nErrs++;
+    }
     if (StringHelper.isEmpty (m_sSellerTaxID))
     {
       aCondLog.error (sErrorPrefix + "SellerTaxID is missing");
@@ -303,8 +582,49 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
       aCondLog.error (sErrorPrefix + "SellerTaxSchemeID is missing");
       nErrs++;
     }
+    if (StringHelper.isNotEmpty (m_sBuyerIDSchemeID))
+    {
+      if (StringHelper.isEmpty (m_sBuyerID))
+      {
+        // Warning only
+        aCondLog.warn (sErrorPrefix + "BuyerIDSchemeID can only be used if BuyerID is also present");
+      }
+    }
+    if (m_aTaxTotalAmountDocumentCurrency == null)
+    {
+      aCondLog.error (sErrorPrefix + "TaxTotalAmountDocumentCurrency is missing");
+      nErrs++;
+    }
+    if (m_aTaxTotalAmountTaxCurrency != null)
+    {
+      if (StringHelper.isEmpty (m_sTaxCurrencyCode))
+      {
+        aCondLog.error (sErrorPrefix +
+                        "If TaxTotalAmountTaxCurrency is provided, TaxCurrencyCode must also be provided");
+        nErrs++;
+      }
+    }
+    else
+    {
+      if (StringHelper.isNotEmpty (m_sTaxCurrencyCode))
+      {
+        aCondLog.error (sErrorPrefix +
+                        "If TaxCurrencyCode is provided, TaxTotalAmountTaxCurrency must also be provided");
+        nErrs++;
+      }
+    }
+    if (m_aTaxExclusiveTotalAmount == null)
+    {
+      aCondLog.error (sErrorPrefix + "TaxExclusiveTotalAmount is missing");
+      nErrs++;
+    }
 
-    // TODO
+    if (m_aSourceDocument == null)
+    {
+      aCondLog.error (sErrorPrefix + "SourceDocument is missing");
+      nErrs++;
+    }
+
     return nErrs == 0;
   }
 
@@ -318,6 +638,8 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     }
 
     final ReportedTransactionType ret = new ReportedTransactionType ();
+
+    // TransportHeaderID
     if (StringHelper.isNotEmpty (m_sTransportHeaderID))
     {
       final TransportHeaderIDType a = new TransportHeaderIDType ();
@@ -325,7 +647,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
       ret.setTransportHeaderID (a);
     }
 
-    if (StringHelper.isNotEmpty (m_sTransportHeaderID))
+    // ReportedDocument
     {
       final ReportedDocumentType a = new ReportedDocumentType ();
       if (StringHelper.isNotEmpty (m_sCustomizationID))
@@ -368,17 +690,75 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
         a.setAccountingSupplierParty (a2);
       }
       {
-        final CustomerPartyType a2 = new CustomerPartyType ();
+        final CustomerPartyType aAccountingCustomer = new CustomerPartyType ();
         {
           final PartyType aParty = new PartyType ();
-          a2.setParty (aParty);
+          if (StringHelper.isNotEmpty (m_sBuyerID))
+          {
+            final PartyIdentificationType aPI = new PartyIdentificationType ();
+            final IDType aID = new IDType (m_sBuyerID);
+            if (StringHelper.isNotEmpty (m_sBuyerIDSchemeID))
+              aID.setSchemeID (m_sBuyerIDSchemeID);
+            aPI.setID (aID);
+            aParty.addPartyIdentification (aPI);
+          }
+          if (StringHelper.isNotEmpty (m_sBuyerTaxID))
+          {
+            final PartyTaxSchemeType aPTS = new PartyTaxSchemeType ();
+            {
+              aPTS.setCompanyID (m_sBuyerTaxID);
+              // TaxScheme is mandatory
+              aPTS.setTaxScheme (new TaxSchemeType ());
+            }
+            aParty.addPartyTaxScheme (aPTS);
+          }
+          aAccountingCustomer.setParty (aParty);
         }
-        a.setAccountingCustomerParty (a2);
+        a.setAccountingCustomerParty (aAccountingCustomer);
+      }
+      {
+        final TaxTotalType aTaxTotal = new TaxTotalType ();
+        final TaxAmountType aTaxAmount = new TaxAmountType ();
+        aTaxAmount.setValue (m_aTaxTotalAmountDocumentCurrency);
+        aTaxAmount.setCurrencyID (m_sDocumentCurrencyCode);
+        aTaxTotal.setTaxAmount (aTaxAmount);
+        a.addTaxTotal (aTaxTotal);
+      }
+      if (m_aTaxTotalAmountTaxCurrency != null)
+      {
+        final TaxTotalType aTaxTotal = new TaxTotalType ();
+        final TaxAmountType aTaxAmount = new TaxAmountType ();
+        aTaxAmount.setValue (m_aTaxTotalAmountTaxCurrency);
+        aTaxAmount.setCurrencyID (m_sTaxCurrencyCode);
+        aTaxTotal.setTaxAmount (aTaxAmount);
+        a.addTaxTotal (aTaxTotal);
+      }
+      {
+        final MonetaryTotalType aMonetaryTotal = new MonetaryTotalType ();
+        {
+          final TaxExclusiveAmountType aTaxEx = new TaxExclusiveAmountType (m_aTaxExclusiveTotalAmount);
+          aTaxEx.setCurrencyID (m_sDocumentCurrencyCode);
+          aMonetaryTotal.setTaxExclusiveAmount (aTaxEx);
+        }
+        if (m_aTaxInclusiveTotalAmount != null)
+        {
+          final TaxInclusiveAmountType aTaxIn = new TaxInclusiveAmountType (m_aTaxInclusiveTotalAmount);
+          aTaxIn.setCurrencyID (m_sDocumentCurrencyCode);
+          aMonetaryTotal.setTaxInclusiveAmount (aTaxIn);
+        }
+        a.addMonetaryTotal (aMonetaryTotal);
       }
       ret.setReportedDocument (a);
     }
 
-    // TODO
+    {
+      UBLExtensionType aUBLExt = new UBLExtensionType ();
+      ExtensionContentType aExtContent = new ExtensionContentType ();
+      aExtContent.setAny (m_aSourceDocument);
+      aUBLExt.setExtensionContent (aExtContent);
+      ret.setSourceDocument (aUBLExt);
+    }
+
     return ret;
   }
 }
