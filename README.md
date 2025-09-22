@@ -47,7 +47,7 @@ to build the solution.
 
 # News and noteworthy
 
-v0.8.0 - work in progress
+v0.8.0 - 2025-09-22
 * Initial version 
 
 ---
