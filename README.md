@@ -17,9 +17,12 @@ The minimum requirement is Java 17.
 This project consists of the following submodules (in alphabetic order)
 
 * `peppol-uae-tdd` - contains the main logic to create UAE TDD documents based on PINT AE documents as well as documentation
+    * Main class to build a complete TDD from scratch is `PeppolUAETDD10Builder`
+    * To run the Schematron validation, use class `PeppolUAETDDValidator`
 * `peppol-uae-tdd-datatypes` - contains the JAXB generated UAE TDD data model
+    * Main class to read and write TDD XML is `PeppolUAETDD10Marshaller`
 * `peppol-uae-testfiles` - contains Peppol UAE specific test files as a reusable component
-
+    * Main class is `PeppolUAETestFiles`
 
 # Maven usage
 
