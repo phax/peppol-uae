@@ -65,7 +65,6 @@ import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.Profile
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.TaxAmountType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.TaxCurrencyCodeType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.TaxExclusiveAmountType;
-import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.TaxInclusiveAmountType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.UUIDType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.ValueType;
 import oasis.names.specification.ubl.schema.xsd.commonextensioncomponents_21.ExtensionContentType;
@@ -115,7 +114,6 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
   private BigDecimal m_aTaxTotalAmountDocumentCurrency;
   private BigDecimal m_aTaxTotalAmountTaxCurrency;
   private BigDecimal m_aTaxExclusiveTotalAmount;
-  private BigDecimal m_aTaxInclusiveTotalAmount;
   private ICommonsList <CustomContent> m_aCustomContents = new CommonsArrayList <> ();
   private Element m_aSourceDocument;
 
@@ -203,7 +201,6 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     if (aLegalMonetaryTotal != null)
     {
       taxExclusiveTotalAmount (aLegalMonetaryTotal.getTaxExclusiveAmountValue ());
-      taxInclusiveTotalAmount (aLegalMonetaryTotal.getTaxInclusiveAmountValue ());
     }
 
     sourceDocument (UBL21Marshaller.invoice ().getAsElement (aInv));
@@ -292,7 +289,6 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     if (aLegalMonetaryTotal != null)
     {
       taxExclusiveTotalAmount (aLegalMonetaryTotal.getTaxExclusiveAmountValue ());
-      taxInclusiveTotalAmount (aLegalMonetaryTotal.getTaxInclusiveAmountValue ());
     }
 
     sourceDocument (UBL21Marshaller.creditNote ().getAsElement (aCN));
@@ -545,19 +541,6 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
   public PeppolUAETDD10ReportedTransactionBuilder taxExclusiveTotalAmount (@Nullable final BigDecimal a)
   {
     m_aTaxExclusiveTotalAmount = a;
-    return this;
-  }
-
-  @Nullable
-  public BigDecimal taxInclusiveTotalAmount ()
-  {
-    return m_aTaxInclusiveTotalAmount;
-  }
-
-  @Nonnull
-  public PeppolUAETDD10ReportedTransactionBuilder taxInclusiveTotalAmount (@Nullable final BigDecimal a)
-  {
-    m_aTaxInclusiveTotalAmount = a;
     return this;
   }
 
@@ -816,12 +799,6 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
           final TaxExclusiveAmountType aTaxEx = new TaxExclusiveAmountType (m_aTaxExclusiveTotalAmount);
           aTaxEx.setCurrencyID (m_sDocumentCurrencyCode);
           aMonetaryTotal.setTaxExclusiveAmount (aTaxEx);
-        }
-        if (m_aTaxInclusiveTotalAmount != null)
-        {
-          final TaxInclusiveAmountType aTaxIn = new TaxInclusiveAmountType (m_aTaxInclusiveTotalAmount);
-          aTaxIn.setCurrencyID (m_sDocumentCurrencyCode);
-          aMonetaryTotal.setTaxInclusiveAmount (aTaxIn);
         }
         a.addMonetaryTotal (aMonetaryTotal);
       }

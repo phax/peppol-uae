@@ -376,7 +376,9 @@
       <assert id="XXX-49" flag="fatal" test="exists(cbc:TaxExclusiveAmount)"
       >[XXX-49] The <value-of select="$currentPath"/>/cbc:TaxExclusiveAmount element must be present</assert>
       
-      <!-- TODO TaxInclusiveAmount is tbd -->
+      <!-- TaxInclusiveAmount is forbidden in UAE -->
+      <assert id="XXX-50" flag="fatal" test="not(exists(cbc:TaxInclusiveAmount))"
+      >[XXX-50] The <value-of select="$currentPath"/>/cbc:TaxInclusiveAmount element must not be present</assert>
     </rule>
     
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:CustomContent">
@@ -385,25 +387,24 @@
       <!-- cbc:ID is mandatory in XSD -->
 
       <!-- No need to normalize here -->
-      <assert id="XXX-50" flag="fatal" test="cbc:ID = upper-case(cbc:ID)"
-      >[XXX-50] The <value-of select="$currentPath"/>/pxs:ID element MUST be all uppercase</assert>
+      <assert id="XXX-51" flag="fatal" test="cbc:ID = upper-case(cbc:ID)"
+      >[XXX-51] The <value-of select="$currentPath"/>/pxs:ID element MUST be all uppercase</assert>
       
       <!-- UAE only allows the simple cbc:Value element
            As the XSD uses "choice" the existance of Value implicitly forbids ExtensionContent element existance
       -->
-      <assert id="XXX-51" flag="fatal" test="exists(cbc:Value)"
-      >[XXX-51] The <value-of select="$currentPath"/> MUST use the simple cbc:Value element</assert>
-      
+      <assert id="XXX-52" flag="fatal" test="exists(cbc:Value)"
+      >[XXX-52] The <value-of select="$currentPath"/> MUST use the simple cbc:Value element</assert>
     </rule>
     
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:SourceDocument">
       <let name="currentPath" value="pxc:genPath(.)" />
 
       <!-- elements not allowed in UAE -->
-      <assert id="XXX-52" flag="fatal" test="every $child in ('ID', 'Name', 'ExtensionAgencyID', 'ExtensionAgencyName', 'ExtensionVersionID', 'ExtensionAgencyURI',
+      <assert id="XXX-53" flag="fatal" test="every $child in ('ID', 'Name', 'ExtensionAgencyID', 'ExtensionAgencyName', 'ExtensionVersionID', 'ExtensionAgencyURI',
                                                               'ExtensionURI', 'ExtensionReasonCode', 'ExtensionReason') 
                                                satisfies count (*[local-name(.) = $child]) = 0"
-      >[XXX-52] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
+      >[XXX-53] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
       
       <!-- The element ExtensionContent is mandatory in XSD -->
     </rule>
@@ -412,8 +413,8 @@
       <let name="currentPath" value="pxc:genPath(.)" />
 
       <!-- In UAE it must be UBL Invoice or UBL CreditNote -->
-      <assert id="XXX-53" flag="fatal" test="exists(inv:Invoice) or exists(cn:CreditNote)"
-      >[XXX-53] The <value-of select="$currentPath"/> element MUST contain either a UBL Invoice or a UBL Credit Note</assert>
+      <assert id="XXX-54" flag="fatal" test="exists(inv:Invoice) or exists(cn:CreditNote)"
+      >[XXX-54] The <value-of select="$currentPath"/> element MUST contain either a UBL Invoice or a UBL Credit Note</assert>
     </rule>
   </pattern>
 </schema>

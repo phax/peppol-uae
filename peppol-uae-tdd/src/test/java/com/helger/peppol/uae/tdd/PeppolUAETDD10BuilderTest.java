@@ -143,7 +143,6 @@ public final class PeppolUAETDD10BuilderTest
                                                                                        .taxTotalAmountDocumentCurrency (BigHelper.toBigDecimal ("123.45"))
                                                                                        .taxTotalAmountTaxCurrency (BigHelper.toBigDecimal ("500"))
                                                                                        .taxExclusiveTotalAmount (BigHelper.toBigDecimal ("1200"))
-                                                                                       .taxInclusiveTotalAmount (BigHelper.toBigDecimal ("1323.45"))
                                                                                        .addCustomContent (new CustomContent ("ID1",
                                                                                                                              "val1"))
                                                                                        .sourceDocument (DOMReader.readXMLDOM ("<Invoice xmlns='urn:oasis:names:specification:ubl:schema:xsd:Invoice-2'>" +
