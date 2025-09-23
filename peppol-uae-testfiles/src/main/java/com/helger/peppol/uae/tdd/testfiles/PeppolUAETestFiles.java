@@ -96,6 +96,6 @@ public final class PeppolUAETestFiles
   @ReturnsMutableCopy
   public static ICommonsList <ClassPathResource> getAllSchematronBadTDD10Files ()
   {
-    return _getAll ("tdd/10/bad-sch/", "bad-xxx-09.xml");
+    return _getAll ("tdd/10/bad-sch/", "bad-ibr-tdd-09.xml");
   }
 }
