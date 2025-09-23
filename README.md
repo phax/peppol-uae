@@ -47,6 +47,9 @@ to build the solution.
 
 # News and noteworthy
 
+v0.8.1 - 2025-09-23
+* Updated Schematrons - now with real assertion ID prefixes
+
 v0.8.0 - 2025-09-22
 * Initial version 
 
