@@ -31,7 +31,7 @@ import jakarta.annotation.Nonnull;
 @Immutable
 public final class PeppolUAETDDValidator
 {
-  public static final String SCH_UAE_TDD_100_PATH = "external/schematron/peppol-tdd-1.0.0-draft.sch";
+  public static final String SCH_UAE_TDD_100_PATH = "external/schematron/peppol-ae-tdd.sch";
 
   private static final ISchematronResource UAE_TDD_MLS_100 = SchematronResourceSCH.fromClassPath (SCH_UAE_TDD_100_PATH);
 

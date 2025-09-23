@@ -38,12 +38,12 @@ import com.helger.collection.commons.CommonsArrayList;
 import com.helger.collection.commons.ICommonsList;
 import com.helger.datetime.helper.PDTFactory;
 import com.helger.datetime.xml.XMLOffsetTime;
-import com.helger.peppol.uae.tdd.v10.CustomContentType;
-import com.helger.peppol.uae.tdd.v10.MonetaryTotalType;
-import com.helger.peppol.uae.tdd.v10.ReferencedDocumentTypeCodeType;
-import com.helger.peppol.uae.tdd.v10.ReportedDocumentType;
-import com.helger.peppol.uae.tdd.v10.ReportedTransactionType;
-import com.helger.peppol.uae.tdd.v10.TransportHeaderIDType;
+import com.helger.peppol.uae.tdd.v100.CustomContentType;
+import com.helger.peppol.uae.tdd.v100.MonetaryTotalType;
+import com.helger.peppol.uae.tdd.v100.ReferencedDocumentTypeCodeType;
+import com.helger.peppol.uae.tdd.v100.ReportedDocumentType;
+import com.helger.peppol.uae.tdd.v100.ReportedTransactionType;
+import com.helger.peppol.uae.tdd.v100.TransportHeaderIDType;
 import com.helger.ubl21.UBL21Marshaller;
 import com.helger.xml.XMLHelper;
 

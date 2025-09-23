@@ -28,9 +28,9 @@
     <xjc:javaType name="com.helger.datetime.xml.XMLOffsetTime"     xmlType="xsd:time"     adapter="com.helger.jaxb.adapter.AdapterXMLOffsetTime" />
   </globalBindings>
   
-  <bindings schemaLocation="../resources/external/schemas/peppol-uae-tdd-1.0.xsd">
+  <bindings schemaLocation="../resources/external/schemas/peppol-tdd-1.0.0-rc.xsd">
     <schemaBindings>
-      <package name="com.helger.peppol.uae.tdd.v10" />
+      <package name="com.helger.peppol.uae.tdd.v100" />
     </schemaBindings>
   </bindings>
 </bindings>

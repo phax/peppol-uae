@@ -12,10 +12,10 @@
     OpenPeppol TDD schema
     
     History:
-      v1.0.0 Draft
+      v1.0.0-RC
         2025-08-10 - initial version; Philip Helger
   -->
-
+  
   <!-- All imports refer to OASIS UBL 2.1 imports -->
   <xs:import namespace="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" />
   <xs:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" />

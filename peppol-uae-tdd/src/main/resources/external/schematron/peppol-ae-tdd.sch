@@ -4,21 +4,20 @@
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
         xmlns:pxc="urn:peppol:xslt:custom-function"
         queryBinding='xslt2'>
-  <title>OpenPeppol UAE TDD Schematron</title>
+  <title>OpenPeppol AE TDD Schematron</title>
 
   <p id="about">
-    These are the Schematron rules for the OpenPeppol UAE TDD.
+    These are the Schematron rules for the OpenPeppol AE TDD.
 
     Author:
       Philip Helger
 
     History
-      v1.0.0 Draft
+      v1.0.0-RC
         2025-09-23, Philip Helger - disallow MonetaryTotal/TaxInclusiveAmount
                                     requiring MonetaryTotal/TaxExclusiveAmount to use document currency
                                     removed CustomContent limit of 0..1
                                     removed CustomContent ID uppercase requirement
-        2025-08-10, Philip Helger - initial version
   </p>
 
   <xsl:function name="pxc:genPath" as="xs:string">

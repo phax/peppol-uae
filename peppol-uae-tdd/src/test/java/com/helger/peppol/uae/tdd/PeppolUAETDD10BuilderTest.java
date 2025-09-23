@@ -38,7 +38,7 @@ import com.helger.peppol.uae.tdd.codelist.EUAETDDDocumentTypeCode;
 import com.helger.peppol.uae.tdd.codelist.EUAETDDReporterRole;
 import com.helger.peppol.uae.tdd.jaxb.PeppolUAETDD10Marshaller;
 import com.helger.peppol.uae.tdd.testfiles.PeppolUAETestFiles;
-import com.helger.peppol.uae.tdd.v10.TaxDataType;
+import com.helger.peppol.uae.tdd.v100.TaxDataType;
 import com.helger.peppol.uae.tdd.validate.PeppolUAETDDValidator;
 import com.helger.peppolid.factory.IIdentifierFactory;
 import com.helger.peppolid.factory.PeppolIdentifierFactory;
