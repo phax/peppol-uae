@@ -47,6 +47,9 @@ to build the solution.
 
 # News and noteworthy
 
+v0.8.2 - 2025-10-01
+* The source documents attached to a TDD are now excluding all `EmbeddedDocumentBinaryObject` elements
+
 v0.8.1 - 2025-09-23
 * Updated Schematrons - now with real assertion ID prefixes
 

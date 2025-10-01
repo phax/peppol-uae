@@ -58,6 +58,7 @@ import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.Tax
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.TaxTotalType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.CustomizationIDType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.DocumentCurrencyCodeType;
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.EmbeddedDocumentBinaryObjectType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.IDType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.IssueDateType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.IssueTimeType;
@@ -119,6 +120,26 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
 
   public PeppolUAETDD10ReportedTransactionBuilder ()
   {}
+
+  @Nonnull
+  public static InvoiceType getWithoutEmbeddedDocumentBinaryObject (@Nonnull InvoiceType aInv)
+  {
+    InvoiceType ret = aInv.clone ();
+    for (var aAddDocRef : ret.getAdditionalDocumentReference ())
+      if (aAddDocRef.getAttachment () != null)
+        aAddDocRef.getAttachment ().setEmbeddedDocumentBinaryObject ((EmbeddedDocumentBinaryObjectType) null);
+    return ret;
+  }
+
+  @Nonnull
+  public static CreditNoteType getWithoutEmbeddedDocumentBinaryObject (@Nonnull CreditNoteType aCN)
+  {
+    CreditNoteType ret = aCN.clone ();
+    for (var aAddDocRef : ret.getAdditionalDocumentReference ())
+      if (aAddDocRef.getAttachment () != null)
+        aAddDocRef.getAttachment ().setEmbeddedDocumentBinaryObject ((EmbeddedDocumentBinaryObjectType) null);
+    return ret;
+  }
 
   /**
    * Set all fields except the TransportHeaderID from the provided UBL 2.1 Invoice
@@ -203,7 +224,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
       taxExclusiveTotalAmount (aLegalMonetaryTotal.getTaxExclusiveAmountValue ());
     }
 
-    sourceDocument (UBL21Marshaller.invoice ().getAsElement (aInv));
+    sourceDocument (UBL21Marshaller.invoice ().getAsElement (getWithoutEmbeddedDocumentBinaryObject (aInv)));
 
     return this;
   }
@@ -291,7 +312,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
       taxExclusiveTotalAmount (aLegalMonetaryTotal.getTaxExclusiveAmountValue ());
     }
 
-    sourceDocument (UBL21Marshaller.creditNote ().getAsElement (aCN));
+    sourceDocument (UBL21Marshaller.creditNote ().getAsElement (getWithoutEmbeddedDocumentBinaryObject (aCN)));
     return this;
   }
 
