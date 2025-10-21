@@ -180,7 +180,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     CustomerPartyType aCustomer = aInv.getAccountingCustomerParty ();
     if (aCustomer != null)
     {
-      PartyType aParty = aSupplier.getParty ();
+      PartyType aParty = aCustomer.getParty ();
       if (aParty != null)
       {
         if (aParty.hasPartyIdentificationEntries ())
@@ -268,7 +268,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     CustomerPartyType aCustomer = aCN.getAccountingCustomerParty ();
     if (aCustomer != null)
     {
-      PartyType aParty = aSupplier.getParty ();
+      PartyType aParty = aCustomer.getParty ();
       if (aParty != null)
       {
         if (aParty.hasPartyIdentificationEntries ())
