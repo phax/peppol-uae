@@ -48,7 +48,7 @@ to build the solution.
 # News and noteworthy
 
 v0.8.3 - 2025-10-21
-* Fixed an error in the `PeppolUAETDD10ReportedTransactionBuilder.initFrom(INvoice|CreditNote)` using the wrong party as buyer
+* Fixed an error in the `PeppolUAETDD10ReportedTransactionBuilder.initFrom(Invoice|CreditNote)` using the wrong party as buyer
 
 v0.8.2 - 2025-10-01
 * The source documents attached to a TDD are now excluding all `EmbeddedDocumentBinaryObject` elements
