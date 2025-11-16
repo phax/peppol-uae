@@ -16,12 +16,12 @@
  */
 package com.helger.peppol.uae.tdd.validate;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.annotation.concurrent.Immutable;
 import com.helger.base.exception.InitializationException;
 import com.helger.schematron.ISchematronResource;
 import com.helger.schematron.sch.SchematronResourceSCH;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * This class contains the Schematron resources for validating Peppol UAE TDD documents.
@@ -48,7 +48,7 @@ public final class PeppolUAETDDValidator
   /**
    * @return Schematron UAE TDD v1.0.0
    */
-  @Nonnull
+  @NonNull
   public static ISchematronResource getSchematronUAE_TDD_100 ()
   {
     return UAE_TDD_MLS_100;

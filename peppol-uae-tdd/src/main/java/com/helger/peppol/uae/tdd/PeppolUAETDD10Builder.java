@@ -21,6 +21,8 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.util.function.Consumer;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,8 +43,6 @@ import com.helger.peppolid.IParticipantIdentifier;
 import com.helger.peppolid.factory.IIdentifierFactory;
 import com.helger.peppolid.factory.PeppolIdentifierFactory;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyIdentificationType;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.CustomizationIDType;
@@ -87,7 +87,7 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
     return m_sCustomizationID;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder customizationID (@Nullable final String s)
   {
     m_sCustomizationID = s;
@@ -100,7 +100,7 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
     return m_sProfileID;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder profileID (@Nullable final String s)
   {
     m_sProfileID = s;
@@ -113,13 +113,13 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
     return m_aIssueDate;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder issueDateNow ()
   {
     return issueDate (PDTFactory.getCurrentLocalDate ());
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder issueDate (@Nullable final LocalDate a)
   {
     m_aIssueDate = a;
@@ -132,13 +132,13 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
     return m_aIssueTime;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder issueTimeNow ()
   {
     return issueTime (PDTFactory.getCurrentOffsetTime ());
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder issueTime (@Nullable final OffsetTime a)
   {
     // XSD can only handle milliseconds
@@ -146,7 +146,7 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
     return this;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder issueDateTime (@Nullable final OffsetDateTime a)
   {
     if (a == null)
@@ -154,7 +154,7 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
     return issueDate (a.toLocalDate ()).issueTime (a.toOffsetTime ());
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder issueDateTimeNow ()
   {
     return issueDateTime (PDTFactory.getCurrentOffsetDateTime ());
@@ -166,7 +166,7 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
     return m_eDocumentTypeCode;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder documentTypeCode (@Nullable final EUAETDDDocumentTypeCode e)
   {
     m_eDocumentTypeCode = e;
@@ -179,7 +179,7 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
     return m_eDocumentScope;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder documentScope (@Nullable final EUAETDDDocumentScope e)
   {
     m_eDocumentScope = e;
@@ -192,7 +192,7 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
     return m_eReporterRole;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder reporterRole (@Nullable final EUAETDDReporterRole e)
   {
     m_eReporterRole = e;
@@ -210,7 +210,7 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
    *        Peppol Participant ID of C1/C4 of the business document.
    * @return this for chaining
    */
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder reportingParty (@Nullable final IParticipantIdentifier a)
   {
     m_aReportingParty = a;
@@ -228,7 +228,7 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
    *        Peppol Participant ID of C5 of the TDD.
    * @return this for chaining
    */
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder receivingParty (@Nullable final IParticipantIdentifier a)
   {
     m_aReceivingParty = a;
@@ -246,7 +246,7 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
    *        Peppol Participant ID of C2/C3 of the business document. Must use the SPIS scheme.
    * @return this for chaining
    */
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder reportersRepresentative (@Nullable final IParticipantIdentifier a)
   {
     m_aReportersRepresentative = a;
@@ -259,15 +259,15 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
     return m_aReportedTransaction;
   }
 
-  @Nonnull
-  public PeppolUAETDD10Builder reportedTransaction (@Nonnull final Consumer <PeppolUAETDD10ReportedTransactionBuilder> aBuilderConsumer)
+  @NonNull
+  public PeppolUAETDD10Builder reportedTransaction (@NonNull final Consumer <PeppolUAETDD10ReportedTransactionBuilder> aBuilderConsumer)
   {
     final PeppolUAETDD10ReportedTransactionBuilder aBuilder = new PeppolUAETDD10ReportedTransactionBuilder ();
     aBuilderConsumer.accept (aBuilder);
     return reportedTransaction (aBuilder.build ());
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10Builder reportedTransaction (@Nullable final ReportedTransactionType a)
   {
     m_aReportedTransaction = a;

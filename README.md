@@ -47,6 +47,10 @@ to build the solution.
 
 # News and noteworthy
 
+v0.8.4 - 2025-11-16
+* Updated to ph-commons 12.1.0
+* Using JSpecify annotations
+
 v0.8.3 - 2025-10-21
 * Fixed an error in the `PeppolUAETDD10ReportedTransactionBuilder.initFrom(Invoice|CreditNote)` using the wrong party as buyer
 

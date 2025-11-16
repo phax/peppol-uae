@@ -24,6 +24,8 @@ import java.util.Locale;
 
 import javax.xml.namespace.QName;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -47,8 +49,6 @@ import com.helger.peppol.uae.tdd.v100.TransportHeaderIDType;
 import com.helger.ubl21.UBL21Marshaller;
 import com.helger.xml.XMLHelper;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.CustomerPartyType;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyIdentificationType;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyTaxSchemeType;
@@ -85,7 +85,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     private final String m_sID;
     private final String m_sValue;
 
-    public CustomContent (@Nonnull @Nonempty String sID, @Nonnull @Nonempty String sValue)
+    public CustomContent (@NonNull @Nonempty String sID, @NonNull @Nonempty String sValue)
     {
       ValueEnforcer.notEmpty (sID, "ID");
       ValueEnforcer.isTrue ( () -> sID.equals (sID.toUpperCase (Locale.ROOT)), "ID must be all uppercase");
@@ -121,8 +121,8 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
   public PeppolUAETDD10ReportedTransactionBuilder ()
   {}
 
-  @Nonnull
-  public static InvoiceType getWithoutEmbeddedDocumentBinaryObject (@Nonnull InvoiceType aInv)
+  @NonNull
+  public static InvoiceType getWithoutEmbeddedDocumentBinaryObject (@NonNull InvoiceType aInv)
   {
     InvoiceType ret = aInv.clone ();
     for (var aAddDocRef : ret.getAdditionalDocumentReference ())
@@ -131,8 +131,8 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return ret;
   }
 
-  @Nonnull
-  public static CreditNoteType getWithoutEmbeddedDocumentBinaryObject (@Nonnull CreditNoteType aCN)
+  @NonNull
+  public static CreditNoteType getWithoutEmbeddedDocumentBinaryObject (@NonNull CreditNoteType aCN)
   {
     CreditNoteType ret = aCN.clone ();
     for (var aAddDocRef : ret.getAdditionalDocumentReference ())
@@ -148,8 +148,8 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
    *        The Invoice to read from. May not be <code>null</code>.
    * @return this for chaining
    */
-  @Nonnull
-  public PeppolUAETDD10ReportedTransactionBuilder initFromInvoice (@Nonnull InvoiceType aInv)
+  @NonNull
+  public PeppolUAETDD10ReportedTransactionBuilder initFromInvoice (@NonNull InvoiceType aInv)
   {
     ValueEnforcer.notNull (aInv, "Invoice");
 
@@ -236,8 +236,8 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
    *        The CreditNote to read from. May not be <code>null</code>.
    * @return this for chaining
    */
-  @Nonnull
-  public PeppolUAETDD10ReportedTransactionBuilder initFromCreditNote (@Nonnull CreditNoteType aCN)
+  @NonNull
+  public PeppolUAETDD10ReportedTransactionBuilder initFromCreditNote (@NonNull CreditNoteType aCN)
   {
     ValueEnforcer.notNull (aCN, "Invoice");
 
@@ -322,7 +322,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_sTransportHeaderID;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder transportHeaderID (@Nullable final String s)
   {
     m_sTransportHeaderID = s;
@@ -335,7 +335,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_sCustomizationID;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder customizationID (@Nullable final String s)
   {
     m_sCustomizationID = s;
@@ -348,7 +348,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_sProfileID;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder profileID (@Nullable final String s)
   {
     m_sProfileID = s;
@@ -361,7 +361,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_sID;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder id (@Nullable final String s)
   {
     m_sID = s;
@@ -374,7 +374,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_sUUID;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder uuid (@Nullable final String s)
   {
     m_sUUID = s;
@@ -387,7 +387,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_aIssueDate;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder issueDate (@Nullable final LocalDate a)
   {
     m_aIssueDate = a;
@@ -400,13 +400,13 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_aIssueTime;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder issueTime (@Nullable final XMLOffsetTime a)
   {
     return issueTime (a == null ? null : a.toOffsetTime ());
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder issueTime (@Nullable final OffsetTime a)
   {
     // XSD can only handle milliseconds
@@ -414,7 +414,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return this;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder issueDateTime (@Nullable final OffsetDateTime a)
   {
     if (a == null)
@@ -428,7 +428,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_sDocumentTypeCode;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder documentTypeCode (@Nullable final String s)
   {
     m_sDocumentTypeCode = s;
@@ -441,7 +441,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_sDocumentCurrencyCode;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder documentCurrencyCode (@Nullable final String s)
   {
     m_sDocumentCurrencyCode = s;
@@ -454,7 +454,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_sTaxCurrencyCode;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder taxCurrencyCode (@Nullable final String s)
   {
     m_sTaxCurrencyCode = s;
@@ -467,7 +467,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_sSellerTaxID;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder sellerTaxID (@Nullable final String s)
   {
     m_sSellerTaxID = s;
@@ -480,7 +480,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_sSellerTaxSchemeID;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder sellerTaxSchemeID (@Nullable final String s)
   {
     m_sSellerTaxSchemeID = s;
@@ -493,7 +493,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_sBuyerID;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder buyerID (@Nullable final String s)
   {
     m_sBuyerID = s;
@@ -506,7 +506,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_sBuyerIDSchemeID;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder buyerIDSchemeID (@Nullable final String s)
   {
     m_sBuyerIDSchemeID = s;
@@ -519,7 +519,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_sBuyerTaxID;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder buyerTaxID (@Nullable final String s)
   {
     m_sBuyerTaxID = s;
@@ -532,7 +532,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_aTaxTotalAmountDocumentCurrency;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder taxTotalAmountDocumentCurrency (@Nullable final BigDecimal a)
   {
     m_aTaxTotalAmountDocumentCurrency = a;
@@ -545,7 +545,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_aTaxTotalAmountTaxCurrency;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder taxTotalAmountTaxCurrency (@Nullable final BigDecimal a)
   {
     m_aTaxTotalAmountTaxCurrency = a;
@@ -558,7 +558,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_aTaxExclusiveTotalAmount;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder taxExclusiveTotalAmount (@Nullable final BigDecimal a)
   {
     m_aTaxExclusiveTotalAmount = a;
@@ -571,7 +571,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_aCustomContents;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder addCustomContent (@Nullable final CustomContent a)
   {
     if (a != null)
@@ -585,13 +585,13 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return m_aSourceDocument;
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder sourceDocument (@Nullable final Document a)
   {
     return sourceDocument (a == null ? null : a.getDocumentElement ());
   }
 
-  @Nonnull
+  @NonNull
   public PeppolUAETDD10ReportedTransactionBuilder sourceDocument (@Nullable final Element a)
   {
     m_aSourceDocument = a;

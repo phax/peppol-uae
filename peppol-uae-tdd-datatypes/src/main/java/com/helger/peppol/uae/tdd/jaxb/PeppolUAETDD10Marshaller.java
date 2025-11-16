@@ -16,6 +16,8 @@
  */
 package com.helger.peppol.uae.tdd.jaxb;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.annotation.Nonempty;
 import com.helger.annotation.concurrent.NotThreadSafe;
 import com.helger.annotation.style.ReturnsMutableCopy;
@@ -28,8 +30,6 @@ import com.helger.ubl21.UBL21Marshaller;
 import com.helger.ubl21.UBL21NamespaceContext;
 import com.helger.xml.namespace.MapBasedNamespaceContext;
 
-import jakarta.annotation.Nonnull;
-
 /**
  * This is the reader and writer for Peppol UAE TDD 1.0 documents. This class may be derived to
  * override protected methods from {@link GenericJAXBMarshaller}.
@@ -39,16 +39,16 @@ import jakarta.annotation.Nonnull;
 @NotThreadSafe
 public class PeppolUAETDD10Marshaller extends GenericJAXBMarshaller <TaxDataType>
 {
-  @Nonnull
+  @NonNull
   @ReturnsMutableCopy
-  private static ICommonsList <ClassPathResource> _getAllXSDs (@Nonnull final ClassPathResource aXSD)
+  private static ICommonsList <ClassPathResource> _getAllXSDs (@NonNull final ClassPathResource aXSD)
   {
     final ICommonsList <ClassPathResource> ret = UBL21Marshaller.getAllBaseXSDs ();
     ret.add (aXSD);
     return ret;
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   @ReturnsMutableCopy
   public static MapBasedNamespaceContext createNamespaceContext ()

@@ -16,13 +16,13 @@
  */
 package com.helger.peppol.uae.tdd.testfiles;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.annotation.Nonempty;
 import com.helger.annotation.style.ReturnsMutableCopy;
 import com.helger.collection.commons.CommonsArrayList;
 import com.helger.collection.commons.ICommonsList;
 import com.helger.io.resource.ClassPathResource;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * Sanity methods to get all Peppol UAE test files
@@ -34,16 +34,16 @@ public final class PeppolUAETestFiles
   private PeppolUAETestFiles ()
   {}
 
-  @Nonnull
+  @NonNull
   private static ClassLoader _getCL ()
   {
     return PeppolUAETestFiles.class.getClassLoader ();
   }
 
-  @Nonnull
+  @NonNull
   @ReturnsMutableCopy
-  private static ICommonsList <ClassPathResource> _getAll (@Nonnull final String sPrefix,
-                                                           @Nonnull final String... aFilenames)
+  private static ICommonsList <ClassPathResource> _getAll (@NonNull final String sPrefix,
+                                                           @NonNull final String... aFilenames)
   {
     final ICommonsList <ClassPathResource> ret = new CommonsArrayList <> (aFilenames.length);
     for (final String s : aFilenames)
@@ -51,7 +51,7 @@ public final class PeppolUAETestFiles
     return ret;
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   @ReturnsMutableCopy
   public static ICommonsList <ClassPathResource> getAllGoodBillingCreditNoteFiles ()
@@ -59,7 +59,7 @@ public final class PeppolUAETestFiles
     return _getAll ("billing/cn/", "Disclosed agent billing tax credit note.xml", "Standard tax credit Note.xml");
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   @ReturnsMutableCopy
   public static ICommonsList <ClassPathResource> getAllGoodBillingInvoiceFiles ()
@@ -83,7 +83,7 @@ public final class PeppolUAETestFiles
                     "Zero rated supplies.xml");
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   @ReturnsMutableCopy
   public static ICommonsList <ClassPathResource> getAllGoodTDD10Files ()
@@ -91,7 +91,7 @@ public final class PeppolUAETestFiles
     return _getAll ("tdd/10/good/", "simple.xml", "tax-currency.xml");
   }
 
-  @Nonnull
+  @NonNull
   @Nonempty
   @ReturnsMutableCopy
   public static ICommonsList <ClassPathResource> getAllSchematronBadTDD10Files ()

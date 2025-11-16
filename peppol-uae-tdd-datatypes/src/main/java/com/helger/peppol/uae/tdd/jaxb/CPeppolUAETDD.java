@@ -16,11 +16,11 @@
  */
 package com.helger.peppol.uae.tdd.jaxb;
 
+import org.jspecify.annotations.NonNull;
+
 import com.helger.annotation.concurrent.Immutable;
 import com.helger.annotation.style.PresentForCodeCoverage;
 import com.helger.io.resource.ClassPathResource;
-
-import jakarta.annotation.Nonnull;
 
 /**
  * Contains all the constants for Peppol UAE TDD handling.
@@ -30,7 +30,7 @@ import jakarta.annotation.Nonnull;
 @Immutable
 public final class CPeppolUAETDD
 {
-  @Nonnull
+  @NonNull
   private static ClassLoader _getCL ()
   {
     return CPeppolUAETDD.class.getClassLoader ();
