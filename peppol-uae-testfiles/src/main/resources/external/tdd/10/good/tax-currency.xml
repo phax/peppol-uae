@@ -3,8 +3,8 @@
              xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
              xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
              xmlns:cec="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2">
-  <cbc:CustomizationID>urn:peppol:pint:taxdata-1@ae-1</cbc:CustomizationID>
-  <cbc:ProfileID>urn:peppol:bis:taxreporting</cbc:ProfileID>
+  <cbc:CustomizationID>urn:peppol:taxdata:ae-1</cbc:CustomizationID>
+  <cbc:ProfileID>urn:peppol:taxreporting</cbc:ProfileID>
   <cbc:IssueDate>2025-04-14</cbc:IssueDate>
   <cbc:IssueTime>12:00:00Z</cbc:IssueTime>
   <pxs:DocumentTypeCode>S</pxs:DocumentTypeCode>

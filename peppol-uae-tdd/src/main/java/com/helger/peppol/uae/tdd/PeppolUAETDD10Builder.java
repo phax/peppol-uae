@@ -57,8 +57,8 @@ import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.Profile
  */
 public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
 {
-  public static final String DEFAULT_CUSTOMIZATION_ID = "urn:peppol:pint:taxdata-1@ae-1";
-  public static final String DEFAULT_PROFILE_ID = "urn:peppol:bis:taxreporting";
+  public static final String DEFAULT_CUSTOMIZATION_ID = "urn:peppol:taxdata:ae-1";
+  public static final String DEFAULT_PROFILE_ID = "urn:peppol:taxreporting";
 
   private static final Logger LOGGER = LoggerFactory.getLogger (PeppolUAETDD10Builder.class);
 

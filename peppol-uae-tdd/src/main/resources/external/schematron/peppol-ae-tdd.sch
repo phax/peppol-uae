@@ -71,12 +71,12 @@
       <let name="rtCount" value="count(pxs:ReportedTransaction)" />
 
       <!-- CustmizationID is mandatory per XSD -->
-      <assert id="ibr-tdd-01" flag="fatal" test="normalize-space(cbc:CustomizationID) = 'urn:peppol:pint:taxdata-1@ae-1'"
-      >[ibr-tdd-01] The Customization ID MUST use the value 'urn:peppol:pint:taxdata-1@ae-1'</assert>
+      <assert id="ibr-tdd-01" flag="fatal" test="normalize-space(cbc:CustomizationID) = 'urn:peppol:taxdata:ae-1'"
+      >[ibr-tdd-01] The Customization ID MUST use the value 'urn:peppol:taxdata:ae-1'</assert>
 
       <!-- ProfileID is mandatory per XSD -->
-      <assert id="ibr-tdd-02" flag="fatal" test="normalize-space(cbc:ProfileID) = 'urn:peppol:bis:taxreporting'"
-      >[ibr-tdd-02] The Profile ID MUST use the value 'urn:peppol:bis:taxreporting'</assert>
+      <assert id="ibr-tdd-02" flag="fatal" test="normalize-space(cbc:ProfileID) = 'urn:peppol:taxreporting'"
+      >[ibr-tdd-02] The Profile ID MUST use the value 'urn:peppol:taxreporting'</assert>
 
       <!-- ID is not allowed in UAE -->
       <assert id="ibr-tdd-03" flag="fatal" test="not(exists(cbc:ID))"
