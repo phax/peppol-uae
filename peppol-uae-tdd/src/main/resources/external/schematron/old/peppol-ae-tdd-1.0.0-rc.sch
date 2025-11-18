@@ -51,7 +51,7 @@
   <ns prefix="cac" uri="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"/>
   <ns prefix="cbc" uri="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"/>
   <ns prefix="cec" uri="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"/>
-  <ns prefix="pxs" uri="urn:peppol:schema:taxdata:1.0"/>
+  <ns prefix="pxs" uri="urn:peppol:schema:pint:peppol:tdd:1.0"/>
   <ns prefix="inv" uri="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"/>
   <ns prefix="cn"  uri="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2"/>
   <ns prefix="pxc" uri="urn:peppol:xslt:custom-function"/>

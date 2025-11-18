@@ -47,6 +47,13 @@ to build the solution.
 
 # News and noteworthy
 
+v0.9.0 - work in progress
+* Updated to XML Schema 1.0.0
+    * Changed the namespace URI to "urn:peppol:schema:taxdata:1.0"
+    * Added "schemaLocation" attribute to XS imports
+* Updated to Schematron 1.0.0
+    * Updated the pxs namespace URI according to the XSD
+
 v0.8.4 - 2025-11-16
 * Updated to ph-commons 12.1.0
 * Using JSpecify annotations

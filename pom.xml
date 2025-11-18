@@ -26,7 +26,7 @@
   </parent>
   <groupId>com.helger.peppol</groupId>
   <artifactId>peppol-uae-parent-pom</artifactId>
-  <version>0.8.5-SNAPSHOT</version>
+  <version>0.9.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>peppol-uae-parent-pom</name>
   <description>Peppol United Arab Emirates (UAE) support functions</description>

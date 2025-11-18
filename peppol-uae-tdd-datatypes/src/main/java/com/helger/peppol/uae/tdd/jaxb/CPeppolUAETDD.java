@@ -39,7 +39,7 @@ public final class CPeppolUAETDD
   /**
    * XML Schema resources for Peppol UAE TDD XSD 1.0
    */
-  public static final String TDD_XSD_1_0_PATH = "/external/schemas/peppol-tdd-1.0.0-rc.xsd";
+  public static final String TDD_XSD_1_0_PATH = "/external/schemas/peppol-tdd-1.0.0.xsd";
 
   /**
    * XML Schema resources for Peppol UAE TDD XSD 1.0
@@ -47,7 +47,7 @@ public final class CPeppolUAETDD
   public static final ClassPathResource TDD_XSD_1_0 = new ClassPathResource (TDD_XSD_1_0_PATH, _getCL ());
 
   /** Namespace URI for Peppol UAE TDD XSD 1.0 */
-  public static final String TDD_XSD_1_0_NS = "urn:peppol:schema:pint:peppol:tdd:1.0";
+  public static final String TDD_XSD_1_0_NS = "urn:peppol:schema:taxdata:1.0";
 
   @PresentForCodeCoverage
   private static final CPeppolUAETDD INSTANCE = new CPeppolUAETDD ();
