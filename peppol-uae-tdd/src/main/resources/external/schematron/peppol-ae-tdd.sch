@@ -108,9 +108,8 @@
     </rule>
     
     <!-- ReportingParty is mandatory in XSD -->
-    <!-- ReceivingParty is mandatory in XSD -->
     <!-- This rule basically checks that only the cbc:EndpointID element is present -->
-    <rule context="/pxs:TaxData/pxs:ReportingParty | /pxs:TaxData/pxs:ReceivingParty">
+    <rule context="/pxs:TaxData/pxs:ReportingParty">
       <let name="currentPath" value="pxc:genPath(.)" />
 
       <!-- elements not allowed in UAE -->
@@ -132,6 +131,31 @@
       <assert id="ibr-tdd-13" flag="fatal" test="not(exists(cbc:EndpointID/@schemeID)) or matches(cbc:EndpointID/@schemeID, $regex_pidscheme)"
       >[ibr-tdd-13] The <value-of select="$currentPath"/>/cbc:EndpointID/@schemeID attribute MUST be a Peppol Participant Identifier Scheme</assert>
     </rule>
+
+    <!-- ReceivingParty is mandatory in XSD -->
+    <!-- This rule basically checks that only the cbc:EndpointID element is present -->
+    <rule context="/pxs:TaxData/pxs:ReceivingParty">
+      <let name="currentPath" value="pxc:genPath(.)" />
+
+      <!-- elements not allowed in UAE -->
+      <assert id="ibr-tdd-14" flag="fatal" test="every $child in ('MarkCareIndicator', 'MarkAttentionIndicator', 'WebsiteURI', 'LogoReferenceID', 'IndustryClassificationCode',
+                                                              'PartyIdentification', 'PartyName', 'Language', 'PostalAddress', 'PhysicalLocation', 'PartyTaxScheme',
+                                                              'PartyLegalEntity', 'Contact', 'Person', 'AgentParty', 'ServiceProviderParty', 'PowerOfAttorney', 'FinancialAccount') 
+                                               satisfies count (*[local-name(.) = $child]) = 0"
+      >[ibr-tdd-14] The <value-of select="$currentPath"/> contains at least one forbidden child element</assert>
+      
+      <!-- EndpointID is mandatory in UAE -->
+      <assert id="ibr-tdd-15" flag="fatal" test="exists(cbc:EndpointID)"
+      >[ibr-tdd-15] The <value-of select="$currentPath"/>/cbc:EndpointID element MUST be present</assert>
+      
+      <!-- EndpointID must have a schemeID attribute mandatory in UAE -->
+      <assert id="ibr-tdd-16" flag="fatal" test="exists(cbc:EndpointID/@schemeID)"
+      >[ibr-tdd-16] The <value-of select="$currentPath"/>/cbc:EndpointID element MUST have a schemeID attribute</assert>
+      
+      <!-- EndpointID schemeID must be 0242 for SPIS -->
+      <assert id="ibr-tdd-17" flag="fatal" test="not(exists(cbc:EndpointID/@schemeID)) or (cbc:EndpointID/@schemeID = '0242')"
+      >[ibr-tdd-17] The <value-of select="$currentPath"/>/cbc:EndpointID/@schemeID attribute MUST have the value "0242" for SPIS</assert>
+    </rule>
     
     <!-- ReportersRepresentative is mandatory in XSD -->
     <!-- This rule basically checks that only the cac:PartyIdentification element is present -->
@@ -140,15 +164,15 @@
       <let name="pidCount" value="count(cac:PartyIdentification)" />
 
       <!-- elements not allowed in UAE -->
-      <assert id="ibr-tdd-14" flag="fatal" test="every $child in ('MarkCareIndicator', 'MarkAttentionIndicator', 'WebsiteURI', 'EndpointID', 'LogoReferenceID', 
+      <assert id="ibr-tdd-18" flag="fatal" test="every $child in ('MarkCareIndicator', 'MarkAttentionIndicator', 'WebsiteURI', 'EndpointID', 'LogoReferenceID', 
                                                               'IndustryClassificationCode', 'PartyName', 'Language', 'PostalAddress', 'PhysicalLocation', 'PartyTaxScheme',
                                                               'PartyLegalEntity', 'Contact', 'Person', 'AgentParty', 'ServiceProviderParty', 'PowerOfAttorney', 'FinancialAccount') 
                                                satisfies count (*[local-name(.) = $child]) = 0"
-      >[ibr-tdd-14] The <value-of select="$currentPath"/> contains at least one forbidden child element</assert>
+      >[ibr-tdd-18] The <value-of select="$currentPath"/> contains at least one forbidden child element</assert>
       
       <!-- PartyIdentification is mandatory in UAE -->
-      <assert id="ibr-tdd-15" flag="fatal" test="$pidCount = 1"
-      >[ibr-tdd-15] Exactly one <value-of select="$currentPath"/>/cac:PartyIdentification element MUST be present but found <value-of select="$pidCount"/> elements</assert>
+      <assert id="ibr-tdd-19" flag="fatal" test="$pidCount = 1"
+      >[ibr-tdd-19] Exactly one <value-of select="$currentPath"/>/cac:PartyIdentification element MUST be present but found <value-of select="$pidCount"/> elements</assert>
     </rule>
     
     <rule context="/pxs:TaxData/pxs:ReportersRepresentative/cac:PartyIdentification">
@@ -157,13 +181,13 @@
       <!-- ID is the only element and it is mandatory -->
 
       <!-- PartyIdentification/ID schemeID is mandatory in UAE -->
-      <assert id="ibr-tdd-16" flag="fatal" test="exists(cbc:ID/@schemeID)"
-      >[ibr-tdd-16] Exactly one <value-of select="$currentPath"/>/cbc:ID element MUST have a schemeID attribute</assert>
+      <assert id="ibr-tdd-20" flag="fatal" test="exists(cbc:ID/@schemeID)"
+      >[ibr-tdd-20] Exactly one <value-of select="$currentPath"/>/cbc:ID element MUST have a schemeID attribute</assert>
       
-      <!-- PartyIdentification/ID schemeID be a Peppol Participant Identifier Scheme -->
-      <assert id="ibr-tdd-17" flag="fatal" test="not(exists(cbc:ID/@schemeID)) or 
-                                             matches(cbc:ID/@schemeID, $regex_pidscheme)"
-      >[ibr-tdd-17] Exactly one <value-of select="$currentPath"/>/cbc:ID element MUST be a Peppol Participant Identifier Scheme</assert>
+      <!-- PartyIdentification/ID schemeID must be 0242 for SPIS -->
+      <assert id="ibr-tdd-21" flag="fatal" test="not(exists(cbc:ID/@schemeID)) or 
+                                                 (cbc:ID/@schemeID = '0242')"
+      >[ibr-tdd-21] Exactly one <value-of select="$currentPath"/>/cbc:ID element MUST have the value "0242" for SPIS</assert>
     </rule>
     
     <rule context="/pxs:TaxData/pxs:ReportedTransaction">
@@ -173,14 +197,14 @@
       <!-- pxs:TransportHeaderID is optional for UAE -->
     
       <!-- ReportedDocument is required for UAE -->
-      <assert id="ibr-tdd-18" flag="fatal" test="exists(pxs:ReportedDocument)"
-      >[ibr-tdd-18] The <value-of select="$currentPath"/>/pxs:ReportedDocument element MUST be present</assert>
+      <assert id="ibr-tdd-22" flag="fatal" test="exists(pxs:ReportedDocument)"
+      >[ibr-tdd-22] The <value-of select="$currentPath"/>/pxs:ReportedDocument element MUST be present</assert>
     
       <!-- CustomContent can appear zero, one or more times -->
 
       <!-- SourceDocument is required for UAE -->
-      <assert id="ibr-tdd-19" flag="fatal" test="exists(pxs:SourceDocument)"
-      >[ibr-tdd-19] The <value-of select="$currentPath"/>/pxs:SourceDocument element MUST be present</assert>
+      <assert id="ibr-tdd-23" flag="fatal" test="exists(pxs:SourceDocument)"
+      >[ibr-tdd-23] The <value-of select="$currentPath"/>/pxs:SourceDocument element MUST be present</assert>
     </rule>
     
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:ReportedDocument">
@@ -193,86 +217,86 @@
       <let name="mtCount" value="count(pxs:MonetaryTotal)" />
     
       <!-- CustomizationID is mandatory in UAE -->
-      <assert id="ibr-tdd-20" flag="fatal" test="exists(cbc:CustomizationID)"
-      >[ibr-tdd-20] The <value-of select="$currentPath"/>/cbc:CustomizationID element MUST be present</assert>
+      <assert id="ibr-tdd-24" flag="fatal" test="exists(cbc:CustomizationID)"
+      >[ibr-tdd-24] The <value-of select="$currentPath"/>/cbc:CustomizationID element MUST be present</assert>
       
       <!-- ProfileID is mandatory in UAE -->
-      <assert id="ibr-tdd-21" flag="fatal" test="exists(cbc:ProfileID)"
-      >[ibr-tdd-21] The <value-of select="$currentPath"/>/cbc:ProfileID element MUST be present</assert>
+      <assert id="ibr-tdd-25" flag="fatal" test="exists(cbc:ProfileID)"
+      >[ibr-tdd-25] The <value-of select="$currentPath"/>/cbc:ProfileID element MUST be present</assert>
       
       <!-- ID is mandatory in UAE -->
-      <assert id="ibr-tdd-22" flag="fatal" test="exists(cbc:ID)"
-      >[ibr-tdd-22] The <value-of select="$currentPath"/>/cbc:ID element MUST be present</assert>
+      <assert id="ibr-tdd-26" flag="fatal" test="exists(cbc:ID)"
+      >[ibr-tdd-26] The <value-of select="$currentPath"/>/cbc:ID element MUST be present</assert>
       
       <!-- UUID is mandatory in UAE -->
-      <assert id="ibr-tdd-23" flag="fatal" test="exists(cbc:UUID)"
-      >[ibr-tdd-23] The <value-of select="$currentPath"/>/cbc:UUID element MUST be present</assert>
+      <assert id="ibr-tdd-27" flag="fatal" test="exists(cbc:UUID)"
+      >[ibr-tdd-27] The <value-of select="$currentPath"/>/cbc:UUID element MUST be present</assert>
       
       <!-- IssueDate is mandatory in UAE -->
-      <assert id="ibr-tdd-24" flag="fatal" test="exists(cbc:IssueDate)"
-      >[ibr-tdd-24] The <value-of select="$currentPath"/>/cbc:IssueDate element MUST be present</assert>
+      <assert id="ibr-tdd-28" flag="fatal" test="exists(cbc:IssueDate)"
+      >[ibr-tdd-28] The <value-of select="$currentPath"/>/cbc:IssueDate element MUST be present</assert>
       
       <!-- IssueTime is optional in UAE -->
       
       <!-- DocumentTypeCode is mandatory in UAE -->
-      <assert id="ibr-tdd-25" flag="fatal" test="exists(pxs:DocumentTypeCode)"
-      >[ibr-tdd-25] The <value-of select="$currentPath"/>/pxs:DocumentTypeCode element MUST be present</assert>
+      <assert id="ibr-tdd-29" flag="fatal" test="exists(pxs:DocumentTypeCode)"
+      >[ibr-tdd-29] The <value-of select="$currentPath"/>/pxs:DocumentTypeCode element MUST be present</assert>
       
       <!-- DocumentCurrencyCode is mandatory in UAE -->
-      <assert id="ibr-tdd-26" flag="fatal" test="exists(cbc:DocumentCurrencyCode)"
-      >[ibr-tdd-26] The <value-of select="$currentPath"/>/cbc:DocumentCurrencyCode element MUST be present</assert>
+      <assert id="ibr-tdd-30" flag="fatal" test="exists(cbc:DocumentCurrencyCode)"
+      >[ibr-tdd-30] The <value-of select="$currentPath"/>/cbc:DocumentCurrencyCode element MUST be present</assert>
       
       <!-- TaxCurrencyCode is optional in UAE -->
 
       <!-- If TaxCurrencyCode is present, it must be different from DocumentCurrencyCode -->
-      <assert id="ibr-tdd-27" flag="fatal" test="not($has_tcc) or $dcc != $tcc"
-      >[ibr-tdd-27] The <value-of select="$currentPath"/>/cbc:TaxCurrencyCode (<value-of select="$tcc" />) MUST be different from the <value-of select="$currentPath"/>/cbc:DocumentCurrencyCode (<value-of select="$dcc" />)</assert>
+      <assert id="ibr-tdd-31" flag="fatal" test="not($has_tcc) or $dcc != $tcc"
+      >[ibr-tdd-31] The <value-of select="$currentPath"/>/cbc:TaxCurrencyCode (<value-of select="$tcc" />) MUST be different from the <value-of select="$currentPath"/>/cbc:DocumentCurrencyCode (<value-of select="$dcc" />)</assert>
 
       
       <!-- AccountingSupplierParty is mandatory in UAE -->
-      <assert id="ibr-tdd-28" flag="fatal" test="exists(cac:AccountingSupplierParty)"
-      >[ibr-tdd-28] The <value-of select="$currentPath"/>/cac:AccountingSupplierParty element MUST be present</assert>
+      <assert id="ibr-tdd-32" flag="fatal" test="exists(cac:AccountingSupplierParty)"
+      >[ibr-tdd-32] The <value-of select="$currentPath"/>/cac:AccountingSupplierParty element MUST be present</assert>
 
       
       <!-- AccountingCustomerParty is mandatory in UAE -->
-      <assert id="ibr-tdd-29" flag="fatal" test="exists(cac:AccountingCustomerParty)"
-      >[ibr-tdd-29] The <value-of select="$currentPath"/>/cac:AccountingCustomerParty element MUST be present</assert>
+      <assert id="ibr-tdd-33" flag="fatal" test="exists(cac:AccountingCustomerParty)"
+      >[ibr-tdd-33] The <value-of select="$currentPath"/>/cac:AccountingCustomerParty element MUST be present</assert>
 
       
       <!-- TaxTotal is mandatory in UAE -->
-      <assert id="ibr-tdd-30" flag="fatal" test="$ttCount = $currencyCount"
-      >[ibr-tdd-30] Exactly <value-of select="$currencyCount" /> <value-of select="$currentPath"/>/cac:TaxTotal <value-of select="if ($currencyCount = 1) then 'element is' else 'elements are'" /> expected but found <value-of select="$ttCount" /> elements</assert>
+      <assert id="ibr-tdd-34" flag="fatal" test="$ttCount = $currencyCount"
+      >[ibr-tdd-34] Exactly <value-of select="$currencyCount" /> <value-of select="$currentPath"/>/cac:TaxTotal <value-of select="if ($currencyCount = 1) then 'element is' else 'elements are'" /> expected but found <value-of select="$ttCount" /> elements</assert>
 
       <!-- TaxTotal in DocumentCurrency must be present -->
-      <assert id="ibr-tdd-31" flag="fatal" test="count(cac:TaxTotal[cbc:TaxAmount/@currencyID = $dcc]) = 1"
-      >[ibr-tdd-31] Exactly 1 <value-of select="$currentPath"/>/cac:TaxTotal element with an amount using document currency <value-of select="$dcc" />  MUST be present</assert>
+      <assert id="ibr-tdd-35" flag="fatal" test="count(cac:TaxTotal[cbc:TaxAmount/@currencyID = $dcc]) = 1"
+      >[ibr-tdd-35] Exactly 1 <value-of select="$currentPath"/>/cac:TaxTotal element with an amount using document currency <value-of select="$dcc" />  MUST be present</assert>
 
       <!-- If TaxCurrency is present, a TaxTotal in TaxCurrency must exist as well -->
-      <assert id="ibr-tdd-32" flag="fatal" test="not($has_tcc) or count(cac:TaxTotal[cbc:TaxAmount/@currencyID = $tcc]) = 1"
-      >[ibr-tdd-32] Exactly 1 <value-of select="$currentPath"/>/cac:TaxTotal element with an amount using Tax Currency <value-of select="$tcc" />  MUST be present</assert>
+      <assert id="ibr-tdd-36" flag="fatal" test="not($has_tcc) or count(cac:TaxTotal[cbc:TaxAmount/@currencyID = $tcc]) = 1"
+      >[ibr-tdd-36] Exactly 1 <value-of select="$currentPath"/>/cac:TaxTotal element with an amount using Tax Currency <value-of select="$tcc" />  MUST be present</assert>
 
       
       <!-- MonetaryTotal in DocumentCurrency is mandatory for UAE -->
-      <assert id="ibr-tdd-33" flag="fatal" test="$mtCount = 1"
-      >[ibr-tdd-33] Exactly 1 <value-of select="$currentPath"/>/pxs:MonetaryTotal element must be present but found <value-of select="$mtCount" /> elements</assert>
+      <assert id="ibr-tdd-37" flag="fatal" test="$mtCount = 1"
+      >[ibr-tdd-37] Exactly 1 <value-of select="$currentPath"/>/pxs:MonetaryTotal element must be present but found <value-of select="$mtCount" /> elements</assert>
 
       <!-- MonetaryTotal currency must be document currency -->
-      <assert id="ibr-tdd-34" flag="fatal" test="$mtCount != 1 or count(pxs:MonetaryTotal[cbc:TaxExclusiveAmount/@currencyID = $dcc]) = 1"
-      >[ibr-tdd-34] Exactly 1 <value-of select="$currentPath"/>/pxs:MonetaryTotal element with an amount using Document Currency <value-of select="$dcc" />  MUST be present</assert>
+      <assert id="ibr-tdd-38" flag="fatal" test="$mtCount != 1 or count(pxs:MonetaryTotal[cbc:TaxExclusiveAmount/@currencyID = $dcc]) = 1"
+      >[ibr-tdd-38] Exactly 1 <value-of select="$currentPath"/>/pxs:MonetaryTotal element with an amount using Document Currency <value-of select="$dcc" />  MUST be present</assert>
     </rule>
 
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:ReportedDocument/cac:AccountingSupplierParty">
       <let name="currentPath" value="pxc:genPath(.)" />
 
       <!-- Make sure only Party is present in UAE -->
-      <assert id="ibr-tdd-35" flag="fatal" test="every $child in ('CustomerAssignedAccountID', 'AdditionalAccountID', 'DataSendingCapability', 
+      <assert id="ibr-tdd-39" flag="fatal" test="every $child in ('CustomerAssignedAccountID', 'AdditionalAccountID', 'DataSendingCapability', 
                                                               'DespatchContact', 'AccountingContact', 'SellerContact') 
                                                satisfies count (*[local-name(.) = $child]) = 0"
-      >[ibr-tdd-35] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
+      >[ibr-tdd-39] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
 
       <!-- Party is mandatory in UAE -->
-      <assert id="ibr-tdd-36" flag="fatal" test="exists(cac:Party)"
-      >[ibr-tdd-36] The <value-of select="$currentPath"/>/cac:Party element MUST be present</assert>
+      <assert id="ibr-tdd-40" flag="fatal" test="exists(cac:Party)"
+      >[ibr-tdd-40] The <value-of select="$currentPath"/>/cac:Party element MUST be present</assert>
     </rule>
 
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:ReportedDocument/cac:AccountingSupplierParty/cac:Party">
@@ -280,59 +304,59 @@
       <let name="ptsCount" value="count(cac:PartyTaxScheme)" />
 
       <!-- Make sure only PartyTaxScheme is present in UAE -->
-      <assert id="ibr-tdd-37" flag="fatal" test="every $child in ('MarkCareIndicator', 'MarkAttentionIndicator', 'WebsiteURI', 'LogoReferenceID', 'EndpointID',
+      <assert id="ibr-tdd-41" flag="fatal" test="every $child in ('MarkCareIndicator', 'MarkAttentionIndicator', 'WebsiteURI', 'LogoReferenceID', 'EndpointID',
                                                               'IndustryClassificationCode', 'PartyIdentification', 'PartyName', 'Language', 'PostalAddress', 'PhysicalLocation',
                                                               'PartyLegalEntity', 'Contact', 'Person', 'AgentParty', 'ServiceProviderParty', 'PowerOfAttorney', 'FinancialAccount')
                                                satisfies count (*[local-name(.) = $child]) = 0"
-      >[ibr-tdd-37] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
+      >[ibr-tdd-41] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
 
       <!-- PartyTaxScheme is mandatory in UAE -->
-      <assert id="ibr-tdd-38" flag="fatal" test="$ptsCount = 1"
-      >[ibr-tdd-38] Exactly 1 <value-of select="$currentPath"/>/cac:PartyTaxScheme element MUST be present but found <value-of select="$ptsCount" /> elements</assert>
+      <assert id="ibr-tdd-42" flag="fatal" test="$ptsCount = 1"
+      >[ibr-tdd-42] Exactly 1 <value-of select="$currentPath"/>/cac:PartyTaxScheme element MUST be present but found <value-of select="$ptsCount" /> elements</assert>
     </rule>
 
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:ReportedDocument/cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme">
       <let name="currentPath" value="pxc:genPath(.)" />
 
       <!-- Make sure only CompanyID and TaxScheme are present in UAE -->
-      <assert id="ibr-tdd-39" flag="fatal" test="every $child in ('RegistrationName', 'TaxLevelCode', 'ExemptionReasonCode', 'ExemptionReason', 'RegistrationAddress')
+      <assert id="ibr-tdd-43" flag="fatal" test="every $child in ('RegistrationName', 'TaxLevelCode', 'ExemptionReasonCode', 'ExemptionReason', 'RegistrationAddress')
                                                satisfies count (*[local-name(.) = $child]) = 0"
-      >[ibr-tdd-39] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
+      >[ibr-tdd-43] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
 
       <!-- CompanyID is mandatory in UAE -->
-      <assert id="ibr-tdd-40" flag="fatal" test="exists(cbc:CompanyID)"
-      >[ibr-tdd-40] The <value-of select="$currentPath"/>/cbc:CompanyID element MUST be present</assert>
+      <assert id="ibr-tdd-44" flag="fatal" test="exists(cbc:CompanyID)"
+      >[ibr-tdd-44] The <value-of select="$currentPath"/>/cbc:CompanyID element MUST be present</assert>
 
       <!-- TaxScheme is mandatory -->
       
       <!-- TaxScheme/ID is mandatory in UAE -->
-      <assert id="ibr-tdd-41" flag="fatal" test="exists(cac:TaxScheme/cbc:ID)"
-      >[ibr-tdd-41] The <value-of select="$currentPath"/>/cac:TaxScheme/cbc:ID element MUST be present</assert>
+      <assert id="ibr-tdd-45" flag="fatal" test="exists(cac:TaxScheme/cbc:ID)"
+      >[ibr-tdd-45] The <value-of select="$currentPath"/>/cac:TaxScheme/cbc:ID element MUST be present</assert>
     </rule>
 
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:ReportedDocument/cac:AccountingCustomerParty">
       <let name="currentPath" value="pxc:genPath(.)" />
 
       <!-- Make sure only Party is present in UAE -->
-      <assert id="ibr-tdd-42" flag="fatal" test="every $child in ('CustomerAssignedAccountID', 'SupplierAssignedAccountID', 'AdditionalAccountID', 
+      <assert id="ibr-tdd-46" flag="fatal" test="every $child in ('CustomerAssignedAccountID', 'SupplierAssignedAccountID', 'AdditionalAccountID', 
                                                               'DeliveryContact', 'AccountingContact', 'BuyerContact') 
                                                satisfies count (*[local-name(.) = $child]) = 0"
-      >[ibr-tdd-42] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
+      >[ibr-tdd-46] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
 
       <!-- Party is mandatory in UAE -->
-      <assert id="ibr-tdd-43" flag="fatal" test="exists(cac:Party)"
-      >[ibr-tdd-43] The <value-of select="$currentPath"/>/cac:Party element MUST be present</assert>
+      <assert id="ibr-tdd-47" flag="fatal" test="exists(cac:Party)"
+      >[ibr-tdd-47] The <value-of select="$currentPath"/>/cac:Party element MUST be present</assert>
     </rule>
 
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:ReportedDocument/cac:AccountingCustomerParty/cac:Party">
       <let name="currentPath" value="pxc:genPath(.)" />
 
       <!-- Make sure only PartyIdentification or PartyTaxScheme or present in UAE -->
-      <assert id="ibr-tdd-44" flag="fatal" test="every $child in ('MarkCareIndicator', 'MarkAttentionIndicator', 'WebsiteURI', 'LogoReferenceID', 'EndpointID',
+      <assert id="ibr-tdd-48" flag="fatal" test="every $child in ('MarkCareIndicator', 'MarkAttentionIndicator', 'WebsiteURI', 'LogoReferenceID', 'EndpointID',
                                                               'IndustryClassificationCode', 'PartyName', 'Language', 'PostalAddress', 'PhysicalLocation',
                                                               'PartyLegalEntity', 'Contact', 'Person', 'AgentParty', 'ServiceProviderParty', 'PowerOfAttorney', 'FinancialAccount')
                                                satisfies count (*[local-name(.) = $child]) = 0"
-      >[ibr-tdd-44] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
+      >[ibr-tdd-48] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
 
       <!-- both cac:PartyIdentification and cac:PartyTaxScheme are optional -->
     </rule>
@@ -346,13 +370,13 @@
       <let name="currentPath" value="pxc:genPath(.)" />
 
       <!-- Make sure only CompanyID and TaxScheme are present in UAE -->
-      <assert id="ibr-tdd-45" flag="fatal" test="every $child in ('RegistrationName', 'TaxLevelCode', 'ExemptionReasonCode', 'ExemptionReason', 'RegistrationAddress')
+      <assert id="ibr-tdd-49" flag="fatal" test="every $child in ('RegistrationName', 'TaxLevelCode', 'ExemptionReasonCode', 'ExemptionReason', 'RegistrationAddress')
                                                satisfies count (*[local-name(.) = $child]) = 0"
-      >[ibr-tdd-45] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
+      >[ibr-tdd-49] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
 
       <!-- CompanyID is mandatory in UAE -->
-      <assert id="ibr-tdd-46" flag="fatal" test="exists(cbc:CompanyID)"
-      >[ibr-tdd-46] The <value-of select="$currentPath"/>/cbc:CompanyID element MUST be present</assert>
+      <assert id="ibr-tdd-50" flag="fatal" test="exists(cbc:CompanyID)"
+      >[ibr-tdd-50] The <value-of select="$currentPath"/>/cbc:CompanyID element MUST be present</assert>
 
       <!-- TaxScheme is mandatory -->
       <!-- TaxScheme/ID is optional -->
@@ -362,9 +386,9 @@
       <let name="currentPath" value="pxc:genPath(.)" />
 
       <!-- Make sure only TaxAmount is present in UAE -->
-      <assert id="ibr-tdd-47" flag="fatal" test="every $child in ('RoundingAmount', 'TaxEvidenceIndicator', 'TaxIncludedIndicator', 'TaxSubtotal') 
+      <assert id="ibr-tdd-51" flag="fatal" test="every $child in ('RoundingAmount', 'TaxEvidenceIndicator', 'TaxIncludedIndicator', 'TaxSubtotal') 
                                                satisfies count (*[local-name(.) = $child]) = 0"
-      >[ibr-tdd-47] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
+      >[ibr-tdd-51] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
       
       <!-- TaxAmount element is mandatory -->
     </rule>
@@ -375,16 +399,16 @@
       <let name="dc" value="normalize-space(../cbc:DocumentCurrencyCode)" />
 
       <!-- TaxExclusiveAmount is mandatory in UAE -->
-      <assert id="ibr-tdd-48" flag="fatal" test="exists(cbc:TaxExclusiveAmount)"
-      >[ibr-tdd-48] The <value-of select="$currentPath"/>/cbc:TaxExclusiveAmount element must be present</assert>
+      <assert id="ibr-tdd-52" flag="fatal" test="exists(cbc:TaxExclusiveAmount)"
+      >[ibr-tdd-52] The <value-of select="$currentPath"/>/cbc:TaxExclusiveAmount element must be present</assert>
 
       <!-- TaxExclusiveAmount currency must be the document currency -->
-      <assert id="ibr-tdd-49" flag="fatal" test="cbc:TaxExclusiveAmount/@currencyID = $dc"
-      >[ibr-tdd-49] The <value-of select="$currentPath"/>/cbc:TaxExclusiveAmount currency must match the document currency (<value-of select="$dc"/>)</assert>
+      <assert id="ibr-tdd-53" flag="fatal" test="cbc:TaxExclusiveAmount/@currencyID = $dc"
+      >[ibr-tdd-53] The <value-of select="$currentPath"/>/cbc:TaxExclusiveAmount currency must match the document currency (<value-of select="$dc"/>)</assert>
       
       <!-- TaxInclusiveAmount is forbidden in UAE -->
-      <assert id="ibr-tdd-50" flag="fatal" test="not(exists(cbc:TaxInclusiveAmount))"
-      >[ibr-tdd-50] The <value-of select="$currentPath"/>/cbc:TaxInclusiveAmount element must not be present</assert>
+      <assert id="ibr-tdd-54" flag="fatal" test="not(exists(cbc:TaxInclusiveAmount))"
+      >[ibr-tdd-54] The <value-of select="$currentPath"/>/cbc:TaxInclusiveAmount element must not be present</assert>
     </rule>
     
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:CustomContent">
@@ -396,18 +420,18 @@
       <!-- UAE only allows the simple cbc:Value element
            As the XSD uses "choice" the existance of Value implicitly forbids ExtensionContent element existance
       -->
-      <assert id="ibr-tdd-51" flag="fatal" test="exists(cbc:Value)"
-      >[ibr-tdd-51] The <value-of select="$currentPath"/> MUST use the simple cbc:Value element</assert>
+      <assert id="ibr-tdd-55" flag="fatal" test="exists(cbc:Value)"
+      >[ibr-tdd-55] The <value-of select="$currentPath"/> MUST use the simple cbc:Value element</assert>
     </rule>
     
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:SourceDocument">
       <let name="currentPath" value="pxc:genPath(.)" />
 
       <!-- elements not allowed in UAE -->
-      <assert id="ibr-tdd-52" flag="fatal" test="every $child in ('ID', 'Name', 'ExtensionAgencyID', 'ExtensionAgencyName', 'ExtensionVersionID', 'ExtensionAgencyURI',
+      <assert id="ibr-tdd-56" flag="fatal" test="every $child in ('ID', 'Name', 'ExtensionAgencyID', 'ExtensionAgencyName', 'ExtensionVersionID', 'ExtensionAgencyURI',
                                                               'ExtensionURI', 'ExtensionReasonCode', 'ExtensionReason') 
                                                satisfies count (*[local-name(.) = $child]) = 0"
-      >[ibr-tdd-52] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
+      >[ibr-tdd-56] The <value-of select="$currentPath"/> element contains at least one forbidden child element</assert>
       
       <!-- The element ExtensionContent is mandatory in XSD -->
     </rule>
@@ -416,8 +440,8 @@
       <let name="currentPath" value="pxc:genPath(.)" />
 
       <!-- In UAE it must be UBL Invoice or UBL CreditNote -->
-      <assert id="ibr-tdd-53" flag="fatal" test="exists(inv:Invoice) or exists(cn:CreditNote)"
-      >[ibr-tdd-53] The <value-of select="$currentPath"/> element MUST contain either a UBL Invoice or a UBL Credit Note</assert>
+      <assert id="ibr-tdd-57" flag="fatal" test="exists(inv:Invoice) or exists(cn:CreditNote)"
+      >[ibr-tdd-57] The <value-of select="$currentPath"/> element MUST contain either a UBL Invoice or a UBL Credit Note</assert>
     </rule>
   </pattern>
 </schema>

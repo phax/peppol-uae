@@ -14,15 +14,15 @@
     <cbc:EndpointID schemeID="0235">dummy-sender</cbc:EndpointID>
   </pxs:ReportingParty>
   <pxs:ReceivingParty>
-    <cbc:EndpointID schemeID="0235">dummy-receiver</cbc:EndpointID>
+    <cbc:EndpointID schemeID="0242">dummy-receiver</cbc:EndpointID>
   </pxs:ReceivingParty>
   <pxs:ReportersRepresentative>
     <cac:PartyIdentification>
-      <cbc:ID schemeID="0235">dummy-representative</cbc:ID>
-    </cac:PartyIdentification>  
+      <cbc:ID schemeID="0242">dummy-representative</cbc:ID>
+    </cac:PartyIdentification>
   </pxs:ReportersRepresentative>
-                                                                                        
-  <pxs:ReportedTransaction>                                                                
+
+  <pxs:ReportedTransaction>
     <pxs:TransportHeaderID>cf510157-2967-460b-806a-a6e63b052164</pxs:TransportHeaderID>     
   </pxs:ReportedTransaction>
                                                                                       
@@ -37,17 +37,17 @@
       <pxs:DocumentTypeCode>380</pxs:DocumentTypeCode>                                       
     </pxs:ReportedDocument>
   </pxs:ReportedTransaction>
-                                                                                       
-  <pxs:ReportedTransaction>                                                                
-    <pxs:ReportedDocument>                                                                  
-      <cbc:ID>inv2</cbc:ID>                                                                  
-      <cbc:IssueDate>2025-04-13</cbc:IssueDate>                                              
-      <cbc:IssueTime>12:34:56</cbc:IssueTime>                                                
+
+  <pxs:ReportedTransaction>
+    <pxs:ReportedDocument>
+      <cbc:ID>inv2</cbc:ID>
+      <cbc:IssueDate>2025-04-13</cbc:IssueDate>
+      <cbc:IssueTime>12:34:56</cbc:IssueTime>
     </pxs:ReportedDocument>
   </pxs:ReportedTransaction>
-                                                                                       
-  <pxs:ReportedTransaction>                                                                
-    <pxs:SourceDocument>                                                              
+
+  <pxs:ReportedTransaction>
+    <pxs:SourceDocument>
       <cec:ExtensionContent>                                                                              
         <ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">                   
           <!-- removed for readability -->

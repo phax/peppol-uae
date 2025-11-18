@@ -14,7 +14,7 @@
     <cbc:EndpointID schemeID="0235">dummy-sender</cbc:EndpointID>
   </pxs:ReportingParty>
   <pxs:ReceivingParty>
-    <cbc:EndpointID schemeID="0235">dummy-receiver</cbc:EndpointID>
+    <cbc:EndpointID schemeID="0242">dummy-receiver</cbc:EndpointID>
   </pxs:ReceivingParty>
   <pxs:ReportersRepresentative>
     <cac:PartyIdentification>

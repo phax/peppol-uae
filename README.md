@@ -55,6 +55,8 @@ v0.9.0 - work in progress
     * Updated the pxs namespace URI according to the XSD
     * The expected `CustomizationID` must be `urn:peppol:taxdata:ae-1`
     * The expected `ProfileID` must be `urn:peppol:taxreporting`
+    * The schemeID of the `ReceivingParty` must be `0242`
+    * The schemeID of the `ReportersRepresentative` must be `0242`
 
 v0.8.4 - 2025-11-16
 * Updated to ph-commons 12.1.0
