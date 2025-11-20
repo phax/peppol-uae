@@ -34,7 +34,8 @@
       <pxs:DocumentTypeCode>380</pxs:DocumentTypeCode>                                       
       <cbc:DocumentCurrencyCode>AED</cbc:DocumentCurrencyCode>
       
-      <cac:AccountingSupplierParty>                                                          
+      <cac:AccountingSupplierParty>
+        <cbc:CustomerAssignedAccountID>1234</cbc:CustomerAssignedAccountID>                                                          
         <cac:Party>
           <cac:PartyTaxScheme>
             <cbc:CompanyID>123456789</cbc:CompanyID>

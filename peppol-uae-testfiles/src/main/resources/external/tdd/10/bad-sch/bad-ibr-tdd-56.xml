@@ -65,8 +65,9 @@
       </pxs:MonetaryTotal>
     </pxs:ReportedDocument>
     
-    <pxs:SourceDocument>                                                          
-      <cec:ExtensionContent>                                                                              
+    <pxs:SourceDocument>      
+      <cbc:ID>123</cbc:ID>                                                                              
+      <cec:ExtensionContent>
         <ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">                   
           <!-- removed for readability -->
         </ubl:Invoice>

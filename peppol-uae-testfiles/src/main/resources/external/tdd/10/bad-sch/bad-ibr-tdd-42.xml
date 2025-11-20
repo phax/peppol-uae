@@ -42,6 +42,12 @@
               <cbc:ID>anything</cbc:ID>
             </cac:TaxScheme>
           </cac:PartyTaxScheme>
+          <cac:PartyTaxScheme>
+            <cbc:CompanyID>123456789</cbc:CompanyID>
+            <cac:TaxScheme>
+              <cbc:ID>anything2</cbc:ID>
+            </cac:TaxScheme>
+          </cac:PartyTaxScheme>
         </cac:Party>  
       </cac:AccountingSupplierParty>
 

@@ -47,6 +47,7 @@
 
       <cac:AccountingCustomerParty>                                                       
         <cac:Party>
+          <cbc:WebsiteURI>https://any.uri</cbc:WebsiteURI>
           <cac:PartyTaxScheme>
             <cbc:CompanyID>9876543210000</cbc:CompanyID>
             <!-- element is mandatory in XSD -->

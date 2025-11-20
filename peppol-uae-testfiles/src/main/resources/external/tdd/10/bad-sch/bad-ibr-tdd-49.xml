@@ -48,6 +48,7 @@
       <cac:AccountingCustomerParty>                                                       
         <cac:Party>
           <cac:PartyTaxScheme>
+            <cbc:RegistrationName>Acme Inc</cbc:RegistrationName>
             <cbc:CompanyID>9876543210000</cbc:CompanyID>
             <!-- element is mandatory in XSD -->
             <cac:TaxScheme>

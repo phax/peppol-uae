@@ -61,7 +61,6 @@
       </cac:TaxTotal>
 
       <pxs:MonetaryTotal>
-        <cbc:TaxExclusiveAmount currencyID="AED">282.9</cbc:TaxExclusiveAmount>
       </pxs:MonetaryTotal>
     </pxs:ReportedDocument>
     

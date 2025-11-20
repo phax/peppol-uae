@@ -36,6 +36,7 @@
       
       <cac:AccountingSupplierParty>                                                          
         <cac:Party>
+          <cbc:WebsiteURI>https://any.uri</cbc:WebsiteURI>
           <cac:PartyTaxScheme>
             <cbc:CompanyID>123456789</cbc:CompanyID>
             <cac:TaxScheme>

@@ -58,6 +58,7 @@
 
       <cac:TaxTotal>
         <cbc:TaxAmount currencyID="AED">2.3</cbc:TaxAmount>
+        <cbc:TaxEvidenceIndicator>false</cbc:TaxEvidenceIndicator>
       </cac:TaxTotal>
 
       <pxs:MonetaryTotal>

@@ -67,9 +67,9 @@
     
     <pxs:SourceDocument>                                                          
       <cec:ExtensionContent>                                                                              
-        <ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">                   
+        <ubl:ApplicationResponse xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:ApplicationResponse-2">                   
           <!-- removed for readability -->
-        </ubl:Invoice>
+        </ubl:ApplicationResponse>
       </cec:ExtensionContent>
     </pxs:SourceDocument>
   </pxs:ReportedTransaction>

@@ -65,6 +65,13 @@
       </pxs:MonetaryTotal>
     </pxs:ReportedDocument>
     
+    <pxs:CustomContent>            
+      <cbc:ID>BTAE-20</cbc:ID>     
+      <cec:ExtensionContent>
+        <any xmlns="urn:any:else" />
+      </cec:ExtensionContent> 
+    </pxs:CustomContent>
+    
     <pxs:SourceDocument>                                                          
       <cec:ExtensionContent>                                                                              
         <ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">                   

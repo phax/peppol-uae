@@ -45,7 +45,8 @@
         </cac:Party>  
       </cac:AccountingSupplierParty>
 
-      <cac:AccountingCustomerParty>                                                       
+      <cac:AccountingCustomerParty>       
+        <cbc:CustomerAssignedAccountID>1212</cbc:CustomerAssignedAccountID>                                                
         <cac:Party>
           <cac:PartyTaxScheme>
             <cbc:CompanyID>9876543210000</cbc:CompanyID>

@@ -48,7 +48,6 @@
       <cac:AccountingCustomerParty>                                                       
         <cac:Party>
           <cac:PartyTaxScheme>
-            <cbc:CompanyID>9876543210000</cbc:CompanyID>
             <!-- element is mandatory in XSD -->
             <cac:TaxScheme>
             </cac:TaxScheme>

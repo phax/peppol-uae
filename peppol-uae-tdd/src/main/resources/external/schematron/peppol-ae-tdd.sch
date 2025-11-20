@@ -297,9 +297,9 @@
 
       <!-- Make sure only PartyTaxScheme is present in UAE -->
       <assert id="ibr-tdd-41" flag="fatal" test="every $child in ('MarkCareIndicator', 'MarkAttentionIndicator', 'WebsiteURI', 'LogoReferenceID', 'EndpointID',
-                                                              'IndustryClassificationCode', 'PartyIdentification', 'PartyName', 'Language', 'PostalAddress', 'PhysicalLocation',
-                                                              'PartyLegalEntity', 'Contact', 'Person', 'AgentParty', 'ServiceProviderParty', 'PowerOfAttorney', 'FinancialAccount')
-                                               satisfies count (*[local-name(.) = $child]) = 0"
+                                                                  'IndustryClassificationCode', 'PartyIdentification', 'PartyName', 'Language', 'PostalAddress', 'PhysicalLocation',
+                                                                  'PartyLegalEntity', 'Contact', 'Person', 'AgentParty', 'ServiceProviderParty', 'PowerOfAttorney', 'FinancialAccount')
+                                                   satisfies count (*[local-name(.) = $child]) = 0"
       >[ibr-tdd-41] Only XML elements defined in this specification are allowed to be used</assert>
 
       <!-- PartyTaxScheme is mandatory in UAE -->

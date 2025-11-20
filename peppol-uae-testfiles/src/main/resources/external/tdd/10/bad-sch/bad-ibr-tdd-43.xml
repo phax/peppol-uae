@@ -37,6 +37,7 @@
       <cac:AccountingSupplierParty>                                                          
         <cac:Party>
           <cac:PartyTaxScheme>
+            <cbc:RegistrationName>Acme Inc</cbc:RegistrationName>
             <cbc:CompanyID>123456789</cbc:CompanyID>
             <cac:TaxScheme>
               <cbc:ID>anything</cbc:ID>
