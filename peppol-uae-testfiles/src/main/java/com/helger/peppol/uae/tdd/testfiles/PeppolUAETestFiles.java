@@ -16,10 +16,15 @@
  */
 package com.helger.peppol.uae.tdd.testfiles;
 
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.jspecify.annotations.NonNull;
 
 import com.helger.annotation.Nonempty;
 import com.helger.annotation.style.ReturnsMutableCopy;
+import com.helger.base.CGlobal;
+import com.helger.base.string.StringHelper;
 import com.helger.collection.commons.CommonsArrayList;
 import com.helger.collection.commons.ICommonsList;
 import com.helger.io.resource.ClassPathResource;
@@ -96,6 +101,10 @@ public final class PeppolUAETestFiles
   @ReturnsMutableCopy
   public static ICommonsList <ClassPathResource> getAllSchematronBadTDD10Files ()
   {
-    return _getAll ("tdd/10/bad-sch/", "bad-ibr-tdd-09.xml");
+    return _getAll ("tdd/10/bad-sch/",
+                    IntStream.range (1, 20)
+                             .mapToObj (x -> "bad-ibr-tdd-" + StringHelper.getLeadingZero (x, 2) + ".xml")
+                             .collect (Collectors.toList ())
+                             .toArray (CGlobal.EMPTY_STRING_ARRAY));
   }
 }
