@@ -33,11 +33,11 @@ public final class PeppolUAETDDValidator
 {
   public static final String SCH_UAE_TDD_100_PATH = "external/schematron/peppol-ae-tdd.sch";
 
-  private static final ISchematronResource UAE_TDD_MLS_100 = SchematronResourceSCH.fromClassPath (SCH_UAE_TDD_100_PATH);
+  private static final ISchematronResource UAE_TDD_100 = SchematronResourceSCH.fromClassPath (SCH_UAE_TDD_100_PATH);
 
   static
   {
-    for (final ISchematronResource aSch : new ISchematronResource [] { UAE_TDD_MLS_100 })
+    for (final ISchematronResource aSch : new ISchematronResource [] { UAE_TDD_100 })
       if (!aSch.isValidSchematron ())
         throw new InitializationException ("Schematron in " + aSch.getResource ().getPath () + " is invalid");
   }
@@ -51,6 +51,6 @@ public final class PeppolUAETDDValidator
   @NonNull
   public static ISchematronResource getSchematronUAE_TDD_100 ()
   {
-    return UAE_TDD_MLS_100;
+    return UAE_TDD_100;
   }
 }

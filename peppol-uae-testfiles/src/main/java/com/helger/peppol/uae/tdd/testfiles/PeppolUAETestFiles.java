@@ -102,7 +102,7 @@ public final class PeppolUAETestFiles
   public static ICommonsList <ClassPathResource> getAllSchematronBadTDD10Files ()
   {
     return _getAll ("tdd/10/bad-sch/",
-                    IntStream.range (1, 20)
+                    IntStream.range (1, 30)
                              .mapToObj (x -> "bad-ibr-tdd-" + StringHelper.getLeadingZero (x, 2) + ".xml")
                              .collect (Collectors.toList ())
                              .toArray (CGlobal.EMPTY_STRING_ARRAY));
