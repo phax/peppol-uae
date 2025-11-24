@@ -190,13 +190,13 @@
     
       <!-- ReportedDocument is required for UAE -->
       <assert id="ibr-tdd-22" flag="fatal" test="exists(pxs:ReportedDocument)"
-      >[ibr-tdd-22] The REPORTED DOCUMENT (tbg-02) MUST be present</assert>
+      >[ibr-tdd-22] The REPORTED DOCUMENT (tdg-02) MUST be present</assert>
     
       <!-- CustomContent can appear zero, one or more times -->
 
       <!-- SourceDocument is required for UAE -->
       <assert id="ibr-tdd-23" flag="fatal" test="exists(pxs:SourceDocument)"
-      >[ibr-tdd-23] The SOURCE DOCUMENT (tbg-03) MUST be present</assert>
+      >[ibr-tdd-23] The SOURCE DOCUMENT (tdg-03) MUST be present</assert>
     </rule>
     
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:ReportedDocument">
