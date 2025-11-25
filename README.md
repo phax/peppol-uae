@@ -58,6 +58,7 @@ v0.9.0 - work in progress
     * The schemeID of the `ReceivingParty` must be `0242`
     * The schemeID of the `ReportersRepresentative` must be `0242`
     * Reworded rules, so that they refer to semantic rules instead of the XML artifacts
+    * Added checks that used currencies are in ISO 4217 codelist
 
 v0.8.4 - 2025-11-16
 * Updated to ph-commons 12.1.0
