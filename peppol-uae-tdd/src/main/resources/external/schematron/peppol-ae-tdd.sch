@@ -61,6 +61,7 @@
     <let name="cl_dtc" value="' S R W F '" />
     <let name="cl_ds" value="' D IP INP '" />
     <let name="cl_rr" value="' 01 02 '" />
+    <let name="cl_currency" value="' AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BOV BRL BSD BTN BWP BYN BZD CAD CDF CHE CHF CHW CLF CLP CNH CNY COP COU CRC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GHS GIP GMD GNF GTQ GYD HKD HNL HTG HUF IDR ILS INR IQD IRR ISK JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LYD MAD MDL MGA MKD MMK MNT MOP MRU MUR MVR MWK MXN MXV MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLE SOS SRD SSP STD SVC SYP SZL THB TJS TMT TND TOP TRY TTD TWD TZS UAH UGX USD USN UYI UYU UYW UZS VES VED VND VUV WST XAF XAG XAU XBA XBB XBC XBD XCD XDR XOF XPD XPF XPT XSU XTS XUA XXX YER ZAR ZMW ZWG '" />
     <let name="regex_pidscheme" value="'^[0-9]{4}$'" />
 
     <!-- Root element -->
@@ -201,6 +202,7 @@
     
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:ReportedDocument">
       <let name="currentPath" value="pxc:genPath(.)" />
+      <let name="has_dcc" value="exists(cbc:DocumentCurrencyCode)" />
       <let name="dcc" value="normalize-space(cbc:DocumentCurrencyCode)" />
       <let name="has_tcc" value="exists(cbc:TaxCurrencyCode)" />
       <let name="tcc" value="normalize-space(cbc:TaxCurrencyCode)" />
@@ -238,12 +240,17 @@
       <assert id="ibr-tdd-30" flag="fatal" test="exists(cbc:DocumentCurrencyCode)"
       >[ibr-tdd-30] The Document currency code (ibt-005) MUST be present</assert>
       
+      <assert id="ibr-tdd-30-1" flag="fatal" test="not($has_dcc) or (not(contains($dcc, ' ')) and contains($cl_currency, concat(' ', $dcc, ' ')))"
+      >[ibr-tdd-30-1] The Document currency code (idt-005) (<value-of select="$dcc"/>) MUST be coded according to the code list</assert>
+      
       <!-- TaxCurrencyCode is optional in UAE -->
 
       <!-- If TaxCurrencyCode is present, it must be different from DocumentCurrencyCode -->
       <assert id="ibr-tdd-31" flag="fatal" test="not($has_tcc) or $dcc != $tcc"
       >[ibr-tdd-31] The Accounting currency code (ibt-006) (<value-of select="$tcc" />) MUST be different from Document currency code (ibt-005) (<value-of select="$dcc" />)</assert>
 
+      <assert id="ibr-tdd-31-1" flag="fatal" test="not($has_tcc) or (not(contains($tcc, ' ')) and contains($cl_currency, concat(' ', $tcc, ' ')))"
+      >[ibr-tdd-31-1] The Accounting currency code (idt-006) (<value-of select="$tcc"/>) MUST be coded according to the code list</assert>
       
       <!-- AccountingSupplierParty is mandatory in UAE -->
       <assert id="ibr-tdd-32" flag="fatal" test="exists(cac:AccountingSupplierParty)"

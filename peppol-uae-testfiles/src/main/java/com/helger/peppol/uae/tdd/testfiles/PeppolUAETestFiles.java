@@ -105,10 +105,14 @@ public final class PeppolUAETestFiles
   @ReturnsMutableCopy
   public static ICommonsList <ClassPathResource> getAllSchematronBadTDD10Files ()
   {
-    return _getAll ("tdd/10/bad-sch/",
-                    IntStream.range (1, 58)
-                             .mapToObj (x -> "bad-ibr-tdd-" + StringHelper.getLeadingZero (x, 2) + ".xml")
-                             .collect (Collectors.toList ())
-                             .toArray (CGlobal.EMPTY_STRING_ARRAY));
+    final ICommonsList <ClassPathResource> ret = _getAll ("tdd/10/bad-sch/",
+                                                          IntStream.range (1, 58)
+                                                                   .mapToObj (x -> "bad-ibr-tdd-" +
+                                                                                   StringHelper.getLeadingZero (x, 2) +
+                                                                                   ".xml")
+                                                                   .collect (Collectors.toList ())
+                                                                   .toArray (CGlobal.EMPTY_STRING_ARRAY));
+    ret.addAll (_getAll ("tdd/10/bad-sch/", "bad-ibr-tdd-30-1.xml", "bad-ibr-tdd-31-1.xml"));
+    return ret;
   }
 }
