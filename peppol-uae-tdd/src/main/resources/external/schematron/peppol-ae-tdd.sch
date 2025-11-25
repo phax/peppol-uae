@@ -61,7 +61,7 @@
     <let name="cl_dtc" value="' S R W F '" />
     <let name="cl_ds" value="' D IP INP '" />
     <let name="cl_rr" value="' 01 02 '" />
-    <let name="regex_pidscheme" value="'[0-9]{4}'" />
+    <let name="regex_pidscheme" value="'^[0-9]{4}$'" />
 
     <!-- Root element -->
     <rule context="/pxs:TaxData">
