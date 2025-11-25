@@ -93,7 +93,11 @@ public final class PeppolUAETestFiles
   @ReturnsMutableCopy
   public static ICommonsList <ClassPathResource> getAllGoodTDD10Files ()
   {
-    return _getAll ("tdd/10/good/", "simple.xml", "tax-currency.xml");
+    return _getAll ("tdd/10/good/",
+                    "commercial-invoice-tdd.xml",
+                    "simple.xml",
+                    "standard-invoice-tdd.xml",
+                    "tax-currency.xml");
   }
 
   @NonNull
