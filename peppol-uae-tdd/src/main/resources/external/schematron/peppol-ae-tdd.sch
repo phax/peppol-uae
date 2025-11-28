@@ -13,11 +13,20 @@
       Philip Helger
 
     History
+      v1.0.0
+        2025-11-25, Philip Helger
+        * Reworded the rules to use the business terms and not the technical terms
+        * Separate rules for /TaxData/ReportingParty and /TaxData/ReceivingParty
+        * Fixed an error in the participant ID regular expression (missing ^ and $)
+        * Added check that ReceivingParty/EndpointID/@schemeID must be an SPIS (0242)
+        * Added check that ReportersRepresentative/PartyIdentification/ID/@schemeID must be an SPIS (0242)
+        * Added new checks that provided currencies are contained in the ISO 4217 code list
       v1.0.0-RC
-        2025-09-23, Philip Helger - disallow MonetaryTotal/TaxInclusiveAmount
-                                    requiring MonetaryTotal/TaxExclusiveAmount to use document currency
-                                    removed CustomContent limit of 0..1
-                                    removed CustomContent ID uppercase requirement
+        2025-09-23, Philip Helger
+        * disallow MonetaryTotal/TaxInclusiveAmount
+        * requiring MonetaryTotal/TaxExclusiveAmount to use document currency
+        * removed CustomContent limit of 0..1
+        * removed CustomContent ID uppercase requirement
   </p>
 
   <xsl:function name="pxc:genPath" as="xs:string">
