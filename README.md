@@ -47,7 +47,7 @@ to build the solution.
 
 # News and noteworthy
 
-v0.9.0 - 2025.11.28
+v0.9.0 - 2025-11-28
 * Updated to XML Schema 1.0.0
     * Changed the namespace URI to `urn:peppol:schema:taxdata:1.0`
     * Added `schemaLocation` attribute to XS imports
