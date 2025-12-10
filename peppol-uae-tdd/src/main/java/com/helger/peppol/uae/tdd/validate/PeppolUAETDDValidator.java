@@ -31,7 +31,7 @@ import com.helger.schematron.sch.SchematronResourceSCH;
 @Immutable
 public final class PeppolUAETDDValidator
 {
-  public static final String SCH_UAE_TDD_100_PATH = "external/schematron/peppol-ae-tdd.sch";
+  public static final String SCH_UAE_TDD_100_PATH = "external/schematron/peppol-ae-tdd-1.0.0.sch";
 
   private static final ISchematronResource UAE_TDD_100 = SchematronResourceSCH.fromClassPath (SCH_UAE_TDD_100_PATH);
 
