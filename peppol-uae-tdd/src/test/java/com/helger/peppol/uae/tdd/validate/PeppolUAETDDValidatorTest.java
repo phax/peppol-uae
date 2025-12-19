@@ -97,6 +97,7 @@ public final class PeppolUAETDDValidatorTest
                                                                           x -> x.getID ().toLowerCase (Locale.ROOT));
       LOGGER.info ("Found " + aAllErrorIDs.size () + " errors: " + aAllErrorIDs);
       final String sBaseName = FilenameHelper.getBaseName (aRes.getPath ());
+
       assertTrue (aAllErrorIDs.toString () + " found for " + aRes.getPath () + " (" + sBaseName + ")",
                   aAllErrorIDs.contains (sBaseName.substring (sBaseName.indexOf ('-') + 1)));
     }
