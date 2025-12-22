@@ -31,13 +31,17 @@ import com.helger.schematron.sch.SchematronResourceSCH;
 @Immutable
 public final class PeppolUAETDDValidator
 {
+  @Deprecated (forRemoval = true, since = "0.9.1")
   public static final String SCH_UAE_TDD_100_PATH = "external/schematron/peppol-ae-tdd-1.0.0.sch";
+  public static final String SCH_UAE_TDD_101_PATH = "external/schematron/peppol-ae-tdd-1.0.1.sch";
 
+  @Deprecated (forRemoval = true, since = "0.9.1")
   private static final ISchematronResource UAE_TDD_100 = SchematronResourceSCH.fromClassPath (SCH_UAE_TDD_100_PATH);
+  private static final ISchematronResource UAE_TDD_101 = SchematronResourceSCH.fromClassPath (SCH_UAE_TDD_101_PATH);
 
   static
   {
-    for (final ISchematronResource aSch : new ISchematronResource [] { UAE_TDD_100 })
+    for (final ISchematronResource aSch : new ISchematronResource [] { UAE_TDD_100, UAE_TDD_101 })
       if (!aSch.isValidSchematron ())
         throw new InitializationException ("Schematron in " + aSch.getResource ().getPath () + " is invalid");
   }
@@ -49,8 +53,27 @@ public final class PeppolUAETDDValidator
    * @return Schematron UAE TDD v1.0.0
    */
   @NonNull
+  @Deprecated (forRemoval = true, since = "0.9.1")
   public static ISchematronResource getSchematronUAE_TDD_100 ()
   {
     return UAE_TDD_100;
+  }
+
+  /**
+   * @return Schematron UAE TDD v1.0.1
+   */
+  @NonNull
+  public static ISchematronResource getSchematronUAE_TDD_101 ()
+  {
+    return UAE_TDD_101;
+  }
+
+  /**
+   * @return Schematron UAE TDD v1.0.x
+   */
+  @NonNull
+  public static ISchematronResource getSchematronUAE_TDD_10 ()
+  {
+    return getSchematronUAE_TDD_101 ();
   }
 }

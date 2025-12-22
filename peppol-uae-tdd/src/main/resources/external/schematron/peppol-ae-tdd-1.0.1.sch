@@ -14,8 +14,8 @@
 
     History
       v1.0.1
-        2025-12-19, Philip Helger
-        * Removed the mandatory checks for child elements of "pxs:ReportedTransaction" in case of a failed TDD
+        2025-12-22, Philip Helger
+        * Removed the mandatory check for "pxs:ReportedTransaction" in case of a failed TDD (TDS)
       v1.0.0
         2025-11-25, Philip Helger
         * Reworded the rules to use the business terms and not the technical terms
@@ -75,8 +75,8 @@
     <let name="cl_rr" value="' 01 02 '" />
     <let name="cl_currency" value="' AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BOV BRL BSD BTN BWP BYN BZD CAD CDF CHE CHF CHW CLF CLP CNH CNY COP COU CRC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GHS GIP GMD GNF GTQ GYD HKD HNL HTG HUF IDR ILS INR IQD IRR ISK JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LYD MAD MDL MGA MKD MMK MNT MOP MRU MUR MVR MWK MXN MXV MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLE SOS SRD SSP STD SVC SYP SZL THB TJS TMT TND TOP TRY TTD TWD TZS UAH UGX USD USN UYI UYU UYW UZS VES VED VND VUV WST XAF XAG XAU XBA XBB XBC XBD XCD XDR XOF XPD XPF XPT XSU XTS XUA XXX YER ZAR ZMW ZWG '" />
     <let name="regex_pidscheme" value="'^[0-9]{4}$'" />
-    <!-- TDD for "Failed" transmissions makes certain fields optional -->
-    <let name="checkForRequiredFields" value="normalize-space(/pxs:TaxData/pxs:DocumentTypeCode) != 'F'" />
+    <!-- TDD for "Failed" transmissions (=TDS) the ReportedDocument is optional -->
+    <let name="checkForReportedDocument" value="normalize-space(/pxs:TaxData/pxs:DocumentTypeCode) != 'F'" />
 
     <!-- Root element -->
     <rule context="/pxs:TaxData">
@@ -203,8 +203,8 @@
       
       <!-- pxs:TransportHeaderID is optional for UAE -->
     
-      <!-- ReportedDocument is required for UAE -->
-      <assert id="ibr-tdd-22" flag="fatal" test="exists(pxs:ReportedDocument)"
+      <!-- ReportedDocument is required for UAE (except for TDS) -->
+      <assert id="ibr-tdd-22" flag="fatal" test="exists(pxs:ReportedDocument) or not($checkForReportedDocument)"
       >[ibr-tdd-22] The REPORTED DOCUMENT (tdg-02) MUST be present</assert>
     
       <!-- CustomContent can appear zero, one or more times -->
@@ -225,76 +225,76 @@
       <let name="mtCount" value="count(pxs:MonetaryTotal)" />
     
       <!-- CustomizationID is mandatory in UAE -->
-      <assert id="ibr-tdd-24" flag="fatal" test="exists(cbc:CustomizationID) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-24" flag="fatal" test="exists(cbc:CustomizationID)"
       >[ibr-tdd-24] The Specification identifier (ibt-024) MUST be present</assert>
       
       <!-- ProfileID is mandatory in UAE -->
-      <assert id="ibr-tdd-25" flag="fatal" test="exists(cbc:ProfileID) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-25" flag="fatal" test="exists(cbc:ProfileID)"
       >[ibr-tdd-25] The Business process type (ibt-023) MUST be present</assert>
       
       <!-- ID is mandatory in UAE -->
-      <assert id="ibr-tdd-26" flag="fatal" test="exists(cbc:ID) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-26" flag="fatal" test="exists(cbc:ID)"
       >[ibr-tdd-26] The Invoice number (ibt-001) MUST be present</assert>
       
       <!-- UUID is mandatory in UAE -->
-      <assert id="ibr-tdd-27" flag="fatal" test="exists(cbc:UUID) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-27" flag="fatal" test="exists(cbc:UUID)"
       >[ibr-tdd-27] The UUID (btae-07) MUST be present</assert>
       
       <!-- IssueDate is mandatory in UAE -->
-      <assert id="ibr-tdd-28" flag="fatal" test="exists(cbc:IssueDate) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-28" flag="fatal" test="exists(cbc:IssueDate)"
       >[ibr-tdd-28] The Invoice issue date (ibt-002) MUST be present</assert>
       
       <!-- IssueTime (ibt-168) is optional in UAE -->
       
       <!-- DocumentTypeCode is mandatory in UAE -->
-      <assert id="ibr-tdd-29" flag="fatal" test="exists(pxs:DocumentTypeCode) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-29" flag="fatal" test="exists(pxs:DocumentTypeCode)"
       >[ibr-tdd-29] The Invoice type code (ibt-003) element MUST be present</assert>
       
       <!-- DocumentCurrencyCode is mandatory in UAE -->
-      <assert id="ibr-tdd-30" flag="fatal" test="exists(cbc:DocumentCurrencyCode) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-30" flag="fatal" test="exists(cbc:DocumentCurrencyCode)"
       >[ibr-tdd-30] The Document currency code (ibt-005) MUST be present</assert>
       
-      <assert id="ibr-tdd-30-1" flag="fatal" test="not($has_dcc) or (not(contains($dcc, ' ')) and contains($cl_currency, concat(' ', $dcc, ' '))) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-30-1" flag="fatal" test="not($has_dcc) or (not(contains($dcc, ' ')) and contains($cl_currency, concat(' ', $dcc, ' ')))"
       >[ibr-tdd-30-1] The Document currency code (idt-005) (<value-of select="$dcc"/>) MUST be coded according to the code list</assert>
       
       <!-- TaxCurrencyCode is optional in UAE -->
 
       <!-- If TaxCurrencyCode is present, it must be different from DocumentCurrencyCode -->
-      <assert id="ibr-tdd-31" flag="fatal" test="not($has_tcc) or $dcc != $tcc or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-31" flag="fatal" test="not($has_tcc) or $dcc != $tcc"
       >[ibr-tdd-31] The Accounting currency code (ibt-006) (<value-of select="$tcc" />) MUST be different from Document currency code (ibt-005) (<value-of select="$dcc" />)</assert>
 
-      <assert id="ibr-tdd-31-1" flag="fatal" test="not($has_tcc) or (not(contains($tcc, ' ')) and contains($cl_currency, concat(' ', $tcc, ' '))) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-31-1" flag="fatal" test="not($has_tcc) or (not(contains($tcc, ' ')) and contains($cl_currency, concat(' ', $tcc, ' ')))"
       >[ibr-tdd-31-1] The Accounting currency code (idt-006) (<value-of select="$tcc"/>) MUST be coded according to the code list</assert>
       
       <!-- AccountingSupplierParty is mandatory in UAE -->
-      <assert id="ibr-tdd-32" flag="fatal" test="exists(cac:AccountingSupplierParty) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-32" flag="fatal" test="exists(cac:AccountingSupplierParty)"
       >[ibr-tdd-32] The SELLER (ibg-04) MUST be present</assert>
 
       
       <!-- AccountingCustomerParty is mandatory in UAE -->
-      <assert id="ibr-tdd-33" flag="fatal" test="exists(cac:AccountingCustomerParty) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-33" flag="fatal" test="exists(cac:AccountingCustomerParty)"
       >[ibr-tdd-33] The BUYER (ibg-07) MUST be present</assert>
 
       
       <!-- TaxTotal is mandatory in UAE -->
-      <assert id="ibr-tdd-34" flag="fatal" test="$ttCount = $currencyCount or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-34" flag="fatal" test="$ttCount = $currencyCount"
       >[ibr-tdd-34] An Invoice total TAX amount (ibt-110, ibt-111) MUST be provided for each currency used</assert>
 
       <!-- TaxTotal in DocumentCurrency must be present -->
-      <assert id="ibr-tdd-35" flag="fatal" test="count(cac:TaxTotal[cbc:TaxAmount/@currencyID = $dcc]) = 1 or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-35" flag="fatal" test="count(cac:TaxTotal[cbc:TaxAmount/@currencyID = $dcc]) = 1"
       >[ibr-tdd-35] Exactly 1 Invoice total TAX amount (ibt-110) MUST be provided for Document currency code (ibt-005) (<value-of select="$dcc" />)</assert>
 
       <!-- If TaxCurrency is present, a TaxTotal in TaxCurrency must exist as well -->
-      <assert id="ibr-tdd-36" flag="fatal" test="not($has_tcc) or count(cac:TaxTotal[cbc:TaxAmount/@currencyID = $tcc]) = 1 or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-36" flag="fatal" test="not($has_tcc) or count(cac:TaxTotal[cbc:TaxAmount/@currencyID = $tcc]) = 1"
       >[ibr-tdd-36] Exactly 1 Invoice total TAX amount (ibt-111) MUST be provided for Accounting currency code (ibt-006) (<value-of select="$tcc" />)</assert>
 
       
       <!-- MonetaryTotal in DocumentCurrency is mandatory for UAE -->
-      <assert id="ibr-tdd-37" flag="fatal" test="$mtCount = 1 or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-37" flag="fatal" test="$mtCount = 1"
       >[ibr-tdd-37] Exactly 1 <value-of select="$currentPath"/>/pxs:MonetaryTotal element must be present but found <value-of select="$mtCount" /> elements</assert>
 
       <!-- MonetaryTotal currency must be document currency -->
-      <assert id="ibr-tdd-38" flag="fatal" test="$mtCount != 1 or count(pxs:MonetaryTotal[cbc:TaxExclusiveAmount/@currencyID = $dcc]) = 1 or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-38" flag="fatal" test="$mtCount != 1 or count(pxs:MonetaryTotal[cbc:TaxExclusiveAmount/@currencyID = $dcc]) = 1"
       >[ibr-tdd-38] Exactly 1 <value-of select="$currentPath"/>/pxs:MonetaryTotal element with an amount using Document Currency <value-of select="$dcc" />  MUST be present</assert>
     </rule>
 
@@ -304,11 +304,11 @@
       <!-- Make sure only Party is present in UAE -->
       <assert id="ibr-tdd-39" flag="fatal" test="every $child in ('CustomerAssignedAccountID', 'AdditionalAccountID', 'DataSendingCapability', 
                                                                   'DespatchContact', 'AccountingContact', 'SellerContact') 
-                                                   satisfies count (*[local-name(.) = $child]) = 0 or not($checkForRequiredFields)"
+                                                   satisfies count (*[local-name(.) = $child]) = 0"
       >[ibr-tdd-39] Only XML elements defined in this specification are allowed to be used</assert>
 
       <!-- Party is mandatory in UAE -->
-      <assert id="ibr-tdd-40" flag="fatal" test="exists(cac:Party) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-40" flag="fatal" test="exists(cac:Party)"
       >[ibr-tdd-40] The <value-of select="$currentPath"/>/cac:Party element MUST be present</assert>
     </rule>
 
@@ -320,11 +320,11 @@
       <assert id="ibr-tdd-41" flag="fatal" test="every $child in ('MarkCareIndicator', 'MarkAttentionIndicator', 'WebsiteURI', 'LogoReferenceID', 'EndpointID',
                                                                   'IndustryClassificationCode', 'PartyIdentification', 'PartyName', 'Language', 'PostalAddress', 'PhysicalLocation',
                                                                   'PartyLegalEntity', 'Contact', 'Person', 'AgentParty', 'ServiceProviderParty', 'PowerOfAttorney', 'FinancialAccount')
-                                                   satisfies count (*[local-name(.) = $child]) = 0 or not($checkForRequiredFields)"
+                                                   satisfies count (*[local-name(.) = $child]) = 0"
       >[ibr-tdd-41] Only XML elements defined in this specification are allowed to be used</assert>
 
       <!-- PartyTaxScheme is mandatory in UAE -->
-      <assert id="ibr-tdd-42" flag="fatal" test="$ptsCount = 1 or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-42" flag="fatal" test="$ptsCount = 1"
       >[ibr-tdd-42] Exactly 1 <value-of select="$currentPath"/>/cac:PartyTaxScheme element MUST be present but found <value-of select="$ptsCount" /> elements</assert>
     </rule>
 
@@ -335,17 +335,17 @@
     
       <!-- Make sure only CompanyID and TaxScheme are present in UAE -->
       <assert id="ibr-tdd-43" flag="fatal" test="every $child in ('RegistrationName', 'TaxLevelCode', 'ExemptionReasonCode', 'ExemptionReason', 'RegistrationAddress')
-                                                   satisfies count (*[local-name(.) = $child]) = 0 or not($checkForRequiredFields)"
+                                                   satisfies count (*[local-name(.) = $child]) = 0"
       >[ibr-tdd-43] Only XML elements defined in this specification are allowed to be used</assert>
 
       <!-- CompanyID is mandatory in UAE -->
-      <assert id="ibr-tdd-44" flag="fatal" test="exists(cbc:CompanyID) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-44" flag="fatal" test="exists(cbc:CompanyID)"
       >[ibr-tdd-44] The <value-of select="$btName"/> (<value-of select="$btID"/>) MUST be present</assert>
 
       <!-- TaxScheme is mandatory -->
       
       <!-- TaxScheme/ID is mandatory in UAE -->
-      <assert id="ibr-tdd-45" flag="fatal" test="exists(cac:TaxScheme/cbc:ID) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-45" flag="fatal" test="exists(cac:TaxScheme/cbc:ID)"
       >[ibr-tdd-45] The <value-of select="$btName"/> Tax scheme code (<value-of select="$btID"/>-1) MUST be present</assert>
     </rule>
 
@@ -355,11 +355,11 @@
       <!-- Make sure only Party is present in UAE -->
       <assert id="ibr-tdd-46" flag="fatal" test="every $child in ('CustomerAssignedAccountID', 'SupplierAssignedAccountID', 'AdditionalAccountID', 
                                                                   'DeliveryContact', 'AccountingContact', 'BuyerContact') 
-                                                   satisfies count (*[local-name(.) = $child]) = 0 or not($checkForRequiredFields)"
+                                                   satisfies count (*[local-name(.) = $child]) = 0"
       >[ibr-tdd-46] Only XML elements defined in this specification are allowed to be used</assert>
 
       <!-- Party is mandatory in UAE -->
-      <assert id="ibr-tdd-47" flag="fatal" test="exists(cac:Party) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-47" flag="fatal" test="exists(cac:Party)"
       >[ibr-tdd-47] The <value-of select="$currentPath"/>/cac:Party element MUST be present</assert>
     </rule>
 
@@ -368,7 +368,7 @@
       <assert id="ibr-tdd-48" flag="fatal" test="every $child in ('MarkCareIndicator', 'MarkAttentionIndicator', 'WebsiteURI', 'LogoReferenceID', 'EndpointID',
                                                                   'IndustryClassificationCode', 'PartyName', 'Language', 'PostalAddress', 'PhysicalLocation',
                                                                   'PartyLegalEntity', 'Contact', 'Person', 'AgentParty', 'ServiceProviderParty', 'PowerOfAttorney', 'FinancialAccount')
-                                                   satisfies count (*[local-name(.) = $child]) = 0 or not($checkForRequiredFields)"
+                                                   satisfies count (*[local-name(.) = $child]) = 0"
       >[ibr-tdd-48] Only XML elements defined in this specification are allowed to be used</assert>
 
       <!-- both cac:PartyIdentification and cac:PartyTaxScheme are optional -->
@@ -382,11 +382,11 @@
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:ReportedDocument/cac:AccountingCustomerParty/cac:Party/cac:PartyTaxScheme">
       <!-- Make sure only CompanyID and TaxScheme are present in UAE -->
       <assert id="ibr-tdd-49" flag="fatal" test="every $child in ('RegistrationName', 'TaxLevelCode', 'ExemptionReasonCode', 'ExemptionReason', 'RegistrationAddress')
-                                                   satisfies count (*[local-name(.) = $child]) = 0 or not($checkForRequiredFields)"
+                                                   satisfies count (*[local-name(.) = $child]) = 0"
       >[ibr-tdd-49] Only XML elements defined in this specification are allowed to be used</assert>
 
       <!-- CompanyID is mandatory in UAE -->
-      <assert id="ibr-tdd-50" flag="fatal" test="exists(cbc:CompanyID) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-50" flag="fatal" test="exists(cbc:CompanyID)"
       >[ibr-tdd-50] The Buyer VAT identifier (ibt-048) MUST be present</assert>
 
       <!-- TaxScheme is mandatory -->
@@ -396,7 +396,7 @@
     <rule context="/pxs:TaxData/pxs:ReportedTransaction/pxs:ReportedDocument/cac:TaxTotal">
       <!-- Make sure only TaxAmount is present in UAE -->
       <assert id="ibr-tdd-51" flag="fatal" test="every $child in ('RoundingAmount', 'TaxEvidenceIndicator', 'TaxIncludedIndicator', 'TaxSubtotal') 
-                                                   satisfies count (*[local-name(.) = $child]) = 0 or not($checkForRequiredFields)"
+                                                   satisfies count (*[local-name(.) = $child]) = 0"
       >[ibr-tdd-51] Only XML elements defined in this specification are allowed to be used</assert>
       
       <!-- TaxAmount element is mandatory -->
@@ -407,15 +407,15 @@
       <let name="dc" value="normalize-space(../cbc:DocumentCurrencyCode)" />
 
       <!-- TaxExclusiveAmount is mandatory in UAE -->
-      <assert id="ibr-tdd-52" flag="fatal" test="exists(cbc:TaxExclusiveAmount) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-52" flag="fatal" test="exists(cbc:TaxExclusiveAmount)"
       >[ibr-tdd-52] The Invoice total amount without VAT (ibt-109) element must be present</assert>
 
       <!-- TaxExclusiveAmount currency must be the document currency -->
-      <assert id="ibr-tdd-53" flag="fatal" test="cbc:TaxExclusiveAmount/@currencyID = $dc or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-53" flag="fatal" test="cbc:TaxExclusiveAmount/@currencyID = $dc"
       >[ibr-tdd-53] The Invoice total amount without VAT (ibt-109) currency must match the Document currency code (ibt-005) (<value-of select="$dc"/>)</assert>
       
       <!-- TaxInclusiveAmount is forbidden in UAE -->
-      <assert id="ibr-tdd-54" flag="fatal" test="not(exists(cbc:TaxInclusiveAmount)) or not($checkForRequiredFields)"
+      <assert id="ibr-tdd-54" flag="fatal" test="not(exists(cbc:TaxInclusiveAmount))"
       >[ibr-tdd-54] Only XML elements defined in this specification are allowed to be used</assert>
     </rule>
     

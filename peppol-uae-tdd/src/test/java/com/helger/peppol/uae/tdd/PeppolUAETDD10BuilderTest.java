@@ -64,7 +64,7 @@ public final class PeppolUAETDD10BuilderTest
   public void testBasicMinimal () throws Exception
   {
     final IIdentifierFactory aIF = PeppolIdentifierFactory.INSTANCE;
-    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_100 ();
+    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_10 ();
 
     final TaxDataType aTDD = new PeppolUAETDD10Builder ().documentTypeCode (EUAETDDDocumentTypeCode.SUBMIT)
                                                          .documentScope (EUAETDDDocumentScope.DOMESTIC)
@@ -112,7 +112,7 @@ public final class PeppolUAETDD10BuilderTest
   public void testBasicMaximal () throws Exception
   {
     final IIdentifierFactory aIF = PeppolIdentifierFactory.INSTANCE;
-    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_100 ();
+    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_10 ();
 
     final TaxDataType aTDD = new PeppolUAETDD10Builder ().documentTypeCode (EUAETDDDocumentTypeCode.SUBMIT)
                                                          .documentScope (EUAETDDDocumentScope.DOMESTIC)
@@ -168,7 +168,7 @@ public final class PeppolUAETDD10BuilderTest
   public void testCreateFromAllInvoices () throws Exception
   {
     final IIdentifierFactory aIF = PeppolIdentifierFactory.INSTANCE;
-    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_100 ();
+    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_10 ();
 
     for (final ClassPathResource aRes : PeppolUAETestFiles.getAllGoodBillingInvoiceFiles ())
     {
@@ -206,7 +206,7 @@ public final class PeppolUAETDD10BuilderTest
   public void testCreateFromAllCreditNotes () throws Exception
   {
     final IIdentifierFactory aIF = PeppolIdentifierFactory.INSTANCE;
-    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_100 ();
+    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_10 ();
 
     for (final ClassPathResource aRes : PeppolUAETestFiles.getAllGoodBillingCreditNoteFiles ())
     {

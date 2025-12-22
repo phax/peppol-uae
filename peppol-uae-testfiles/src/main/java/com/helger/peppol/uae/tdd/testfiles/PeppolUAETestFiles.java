@@ -96,7 +96,8 @@ public final class PeppolUAETestFiles
     return _getAll ("tdd/10/good/",
                     "commercial-invoice-tdd.xml",
                     // For SCH 1.0.1
-                    // "example-failure.xml",
+                    "example-tds-no-repdoc.xml",
+                    "example-tds-with-repdoc.xml",
                     "simple.xml",
                     "standard-invoice-tdd.xml",
                     "tax-currency.xml");

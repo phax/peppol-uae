@@ -51,7 +51,7 @@ public final class PeppolUAETDDValidatorTest
   @Test
   public void testReadTDD10Good () throws Exception
   {
-    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_100 ();
+    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_10 ();
     assertNotNull (aSCHRes);
 
     final PeppolUAETDD10Marshaller aMarshaller = new PeppolUAETDD10Marshaller ();
@@ -75,7 +75,7 @@ public final class PeppolUAETDDValidatorTest
   @Test
   public void testReadTDD10Bad () throws Exception
   {
-    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_100 ();
+    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_10 ();
     assertNotNull (aSCHRes);
 
     final PeppolUAETDD10Marshaller aMarshaller = new PeppolUAETDD10Marshaller ();

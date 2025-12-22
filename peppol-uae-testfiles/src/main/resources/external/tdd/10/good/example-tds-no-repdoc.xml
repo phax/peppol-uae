@@ -26,9 +26,7 @@
   <pxs:ReportedTransaction>
     <pxs:TransportHeaderID>cf510157-2967-460b-806a-a6e63b052164</pxs:TransportHeaderID>
        
-    <pxs:ReportedDocument>
-      <!-- everything is optional -->                                                  
-    </pxs:ReportedDocument>
+    <!-- pxs:ReportedDocument is optional with type code "F" -->                                                  
     
     <pxs:SourceDocument>                                                          
       <cec:ExtensionContent>                                                                              
