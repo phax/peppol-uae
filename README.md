@@ -47,6 +47,10 @@ to build the solution.
 
 # News and noteworthy
 
+v0.9.1 - work in progress
+* Added updated Schematron 1.0.1
+    * Removed the mandatory check for "pxs:ReportedTransaction" in case of a failed TDD (TDS)
+
 v0.9.0 - 2025-11-28
 * This version suits the TDD 1.0 release published at https://docs.peppol.eu/tdd/ae/v1.0.0/
 * Updated to XML Schema 1.0.0
