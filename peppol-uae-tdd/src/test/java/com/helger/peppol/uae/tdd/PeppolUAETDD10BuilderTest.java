@@ -17,7 +17,9 @@
 package com.helger.peppol.uae.tdd;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Month;
@@ -48,6 +50,8 @@ import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import com.helger.ubl21.UBL21Marshaller;
 import com.helger.xml.serialize.read.DOMReader;
 
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.CustomizationIDType;
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.IDType;
 import oasis.names.specification.ubl.schema.xsd.creditnote_21.CreditNoteType;
 import oasis.names.specification.ubl.schema.xsd.invoice_21.InvoiceType;
 
@@ -181,7 +185,7 @@ public final class PeppolUAETDD10BuilderTest
                                                            .documentScope (EUAETDDDocumentScope.DOMESTIC)
                                                            .reporterRole (EUAETDDReporterRole.SENDER)
                                                            .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
-                                                           .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c5id"))
+                                                           .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0242:c5id"))
                                                            .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
                                                            .reportedTransaction (rt -> rt.transportHeaderID ("my-sbdh-uuid-12345678")
                                                                                          .initFromInvoice (aInvoice))
@@ -219,7 +223,7 @@ public final class PeppolUAETDD10BuilderTest
                                                            .documentScope (EUAETDDDocumentScope.DOMESTIC)
                                                            .reporterRole (EUAETDDReporterRole.SENDER)
                                                            .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
-                                                           .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c5id"))
+                                                           .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0242:c5id"))
                                                            .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
                                                            .reportedTransaction (rt -> rt.transportHeaderID ("my-sbdh-uuid-12345678")
                                                                                          .initFromCreditNote (aCreditNote))
@@ -238,5 +242,84 @@ public final class PeppolUAETDD10BuilderTest
       assertNotNull (aSVRL);
       assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
     }
+  }
+
+  @Test
+  public void testCreateFailedInvoiceWithReportedDocument () throws Exception
+  {
+    final IIdentifierFactory aIF = PeppolIdentifierFactory.INSTANCE;
+    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_10 ();
+
+    final ClassPathResource aRes = PeppolUAETestFiles.getAllGoodBillingInvoiceFiles ().getFirstOrNull ();
+    LOGGER.info ("Converting Invoice '" + aRes.getPath () + "' to a TDD");
+
+    final InvoiceType aInvoice = UBL21Marshaller.invoice ().read (aRes);
+    assertNotNull (aInvoice);
+
+    final TaxDataType aTDD = new PeppolUAETDD10Builder ().documentTypeCode (EUAETDDDocumentTypeCode.FAILED)
+                                                         .documentScope (EUAETDDDocumentScope.DOMESTIC)
+                                                         .reporterRole (EUAETDDReporterRole.SENDER)
+                                                         .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
+                                                         .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0242:c5id"))
+                                                         .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
+                                                         .reportedTransaction (rt -> rt.transportHeaderID ("my-sbdh-uuid-12345678")
+                                                                                       .initFromInvoice (aInvoice))
+                                                         .build ();
+    assertNotNull (aTDD);
+
+    // Serialize
+    final String sXML = new PeppolUAETDD10Marshaller ().setFormattedOutput (true).getAsString (aTDD);
+    assertNotNull (sXML);
+    assertTrue (sXML.contains ("<pxs:ReportedDocument>"));
+
+    if (false)
+      LOGGER.info (sXML);
+
+    // Schematron validation
+    final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (aRes);
+    assertNotNull (aSVRL);
+    assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
+  }
+
+  @Test
+  public void testCreateFailedInvoiceWithoutReportedDocument () throws Exception
+  {
+    final IIdentifierFactory aIF = PeppolIdentifierFactory.INSTANCE;
+    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_10 ();
+
+    final ClassPathResource aRes = PeppolUAETestFiles.getAllGoodBillingInvoiceFiles ().getFirstOrNull ();
+    LOGGER.info ("Converting Invoice '" + aRes.getPath () + "' to a TDD");
+
+    final InvoiceType aInvoice = UBL21Marshaller.invoice ().read (aRes);
+    assertNotNull (aInvoice);
+
+    // Explicitly sets a "null" CustomizationID to indicate an invalid source message
+    aInvoice.setCustomizationID ((CustomizationIDType) null);
+    // This one is special, because it is an XSD mandatory fields
+    aInvoice.setID ((IDType) null);
+
+    final TaxDataType aTDD = new PeppolUAETDD10Builder ().documentTypeCode (EUAETDDDocumentTypeCode.FAILED)
+                                                         .documentScope (EUAETDDDocumentScope.DOMESTIC)
+                                                         .reporterRole (EUAETDDReporterRole.SENDER)
+                                                         .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
+                                                         .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0242:c5id"))
+                                                         .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
+                                                         .reportedTransaction (rt -> rt.transportHeaderID ("my-sbdh-uuid-12345678")
+                                                                                       .initFromInvoice (aInvoice))
+                                                         .build ();
+    assertNotNull (aTDD);
+
+    // Serialize
+    final String sXML = new PeppolUAETDD10Marshaller ().setFormattedOutput (true).getAsString (aTDD);
+    assertNotNull (sXML);
+    assertFalse (sXML.contains ("<pxs:ReportedDocument>"));
+
+    if (false)
+      LOGGER.info (sXML);
+
+    // Schematron validation
+    final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (aRes);
+    assertNotNull (aSVRL);
+    assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
   }
 }

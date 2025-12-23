@@ -47,9 +47,12 @@ to build the solution.
 
 # News and noteworthy
 
-v0.9.1 - work in progress
+v0.9.1 - 2025-12-23
 * Added updated Schematron 1.0.1
-    * Removed the mandatory check for "pxs:ReportedTransaction" in case of a failed TDD (TDS)
+    * Removed the mandatory check for "pxs:ReportedDocument" in case of a failed TDD (TDS)
+* Added explicit check, that C5 participant ID must use scheme `0242`
+* Updated class `PeppolUAETDD10ReportedTransactionBuilder` to properly handle an optional `ReportedDocument`
+* Improved inclusion of source Invoice and CreditNote as `SourceDocument` if they are not XSD compliant
 
 v0.9.0 - 2025-11-28
 * This version suits the TDD 1.0 release published at https://docs.peppol.eu/tdd/ae/v1.0.0/

@@ -262,7 +262,9 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
   @NonNull
   public PeppolUAETDD10Builder reportedTransaction (@NonNull final Consumer <PeppolUAETDD10ReportedTransactionBuilder> aBuilderConsumer)
   {
-    final PeppolUAETDD10ReportedTransactionBuilder aBuilder = new PeppolUAETDD10ReportedTransactionBuilder ();
+    if (m_eDocumentTypeCode == null)
+      throw new IllegalStateException ("The ReportedTransaction can only be built, after the DocumentTypeCode is set!");
+    final PeppolUAETDD10ReportedTransactionBuilder aBuilder = new PeppolUAETDD10ReportedTransactionBuilder (m_eDocumentTypeCode);
     aBuilderConsumer.accept (aBuilder);
     return reportedTransaction (aBuilder.build ());
   }
@@ -316,6 +318,7 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
       aCondLog.error (sErrorPrefix + "ReporterRole is missing");
       nErrs++;
     }
+
     if (m_aReportingParty == null)
     {
       aCondLog.error (sErrorPrefix + "ReportingParty is missing");
@@ -366,6 +369,18 @@ public class PeppolUAETDD10Builder implements IBuilder <TaxDataType>
                           m_aReceivingParty.getScheme () +
                           "'");
           nErrs++;
+        }
+        else
+        {
+          final String [] aParts = StringHelper.getExplodedArray (':', m_aReceivingParty.getValue (), 2);
+          if (!"0242".equals (aParts[0]))
+          {
+            aCondLog.error (sErrorPrefix +
+                            "ReceivingParty identifier value '" +
+                            m_aReceivingParty.getValue () +
+                            "' must use the 0242 identifier scheme");
+            nErrs++;
+          }
         }
 
     if (m_aReportersRepresentative == null)
