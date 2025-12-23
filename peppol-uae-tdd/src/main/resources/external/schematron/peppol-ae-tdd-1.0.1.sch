@@ -15,7 +15,7 @@
     History
       v1.0.1
         2025-12-22, Philip Helger
-        * Removed the mandatory check for "pxs:ReportedTransaction" in case of a failed TDD (TDS)
+        * Removed the mandatory check for "pxs:ReportedDocument" in case of a failed TDD (TDS)
       v1.0.0
         2025-11-25, Philip Helger
         * Reworded the rules to use the business terms and not the technical terms
