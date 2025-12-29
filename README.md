@@ -5,12 +5,13 @@
 
 Peppol specific stuff for United Arab Emirates (UAE)
 
-**This project is work in progress and not yet meant to production use!**
-
 This contains a set of Java libraries.
 They are licensed under the Apache 2.0 license.
 The minimum requirement is Java 17.
 
+The backing specifications are:
+* TDD AE: https://docs.peppol.eu/tdd/ae/v1.0.1/
+* PINT AE: https://test-docs.peppol.eu/pint/pint-ae/
 
 # Submodules
 
