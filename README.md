@@ -17,7 +17,7 @@ The backing specifications are:
 
 This project consists of the following submodules (in alphabetic order)
 
-* `peppol-uae-tdd` - contains the main logic to create UAE TDD documents based on PINT AE documents as well as documentation - see https://docs.peppol.eu/tdd/ae/v1.0.0/
+* `peppol-uae-tdd` - contains the main logic to create UAE TDD documents based on PINT AE documents as well as documentation
     * Main class to build a complete TDD from scratch is `PeppolUAETDD10Builder`
     * To run the Schematron validation, use class `PeppolUAETDDValidator`
 * `peppol-uae-tdd-datatypes` - contains the JAXB generated UAE TDD data model
