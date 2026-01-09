@@ -76,6 +76,7 @@ public final class PeppolUAETDD10BuilderTest
                                                          .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
                                                          .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0242:c5id"))
                                                          .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
+                                                         // Provide all fields manually
                                                          .reportedTransaction (rt -> rt.transportHeaderID ("my-sbdh-uuid-12345678")
                                                                                        .customizationID ("urn:peppol:pint:billing-1@ae-1")
                                                                                        .profileID ("urn:peppol:bis:billing")
@@ -124,6 +125,7 @@ public final class PeppolUAETDD10BuilderTest
                                                          .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
                                                          .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0242:c5id"))
                                                          .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
+                                                         // Provide all fields manually
                                                          .reportedTransaction (rt -> rt.transportHeaderID ("my-sbdh-uuid-12345678")
                                                                                        .customizationID ("urn:peppol:pint:billing-1@ae-1")
                                                                                        .profileID ("urn:peppol:bis:billing")
@@ -158,7 +160,7 @@ public final class PeppolUAETDD10BuilderTest
     // Serialize
     final String sXML = new PeppolUAETDD10Marshaller ().setFormattedOutput (true).getAsString (aTDD);
     assertNotNull (sXML);
-    if (true)
+    if (false)
       LOGGER.info (sXML);
 
     // Schematron validation
@@ -187,6 +189,7 @@ public final class PeppolUAETDD10BuilderTest
                                                            .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
                                                            .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0242:c5id"))
                                                            .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
+                                                           // Read from pre-parsed UBL Invoice
                                                            .reportedTransaction (rt -> rt.transportHeaderID ("my-sbdh-uuid-12345678")
                                                                                          .initFromInvoice (aInvoice))
                                                            .build ();
@@ -225,6 +228,7 @@ public final class PeppolUAETDD10BuilderTest
                                                            .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
                                                            .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0242:c5id"))
                                                            .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
+                                                           // Read from pre-parsed UBL CreditNote
                                                            .reportedTransaction (rt -> rt.transportHeaderID ("my-sbdh-uuid-12345678")
                                                                                          .initFromCreditNote (aCreditNote))
                                                            .build ();
@@ -262,6 +266,7 @@ public final class PeppolUAETDD10BuilderTest
                                                          .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
                                                          .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0242:c5id"))
                                                          .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
+                                                         // It's not really an invalid invoice
                                                          .reportedTransaction (rt -> rt.transportHeaderID ("my-sbdh-uuid-12345678")
                                                                                        .initFromInvoice (aInvoice))
                                                          .build ();
@@ -304,6 +309,7 @@ public final class PeppolUAETDD10BuilderTest
                                                          .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
                                                          .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0242:c5id"))
                                                          .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
+                                                         // This Invoice is really broken
                                                          .reportedTransaction (rt -> rt.transportHeaderID ("my-sbdh-uuid-12345678")
                                                                                        .initFromInvoice (aInvoice))
                                                          .build ();
@@ -321,5 +327,32 @@ public final class PeppolUAETDD10BuilderTest
     final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (aRes);
     assertNotNull (aSVRL);
     assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
+  }
+
+  @Test
+  public void testReadBadPayloads () throws Exception
+  {
+    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_10 ();
+
+    for (final ClassPathResource aRes : PeppolUAETestFiles.getAllPayloadBadTDD10Files ())
+    {
+      LOGGER.info ("Reading Bad Payload TDD '" + aRes.getPath () + "'");
+
+      final TaxDataType aTDD = new PeppolUAETDD10Marshaller ().read (aRes);
+      assertNotNull (aTDD);
+
+      // Serialize
+      final String sXML = new PeppolUAETDD10Marshaller ().setFormattedOutput (true).getAsString (aTDD);
+      assertNotNull (sXML);
+      assertFalse (sXML.contains ("<pxs:ReportedDocument>"));
+
+      if (true)
+        LOGGER.info (sXML);
+
+      // Schematron validation
+      final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (aRes);
+      assertNotNull (aSVRL);
+      assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
+    }
   }
 }

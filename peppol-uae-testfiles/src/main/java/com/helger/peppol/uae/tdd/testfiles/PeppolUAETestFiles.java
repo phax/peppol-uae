@@ -47,8 +47,8 @@ public final class PeppolUAETestFiles
 
   @NonNull
   @ReturnsMutableCopy
-  private static ICommonsList <ClassPathResource> _getAll (@NonNull final String sPrefix,
-                                                           @NonNull final String... aFilenames)
+  private static ICommonsList <@NonNull ClassPathResource> _getAll (@NonNull final String sPrefix,
+                                                                    @NonNull final String @NonNull... aFilenames)
   {
     final ICommonsList <ClassPathResource> ret = new CommonsArrayList <> (aFilenames.length);
     for (final String s : aFilenames)
@@ -59,7 +59,7 @@ public final class PeppolUAETestFiles
   @NonNull
   @Nonempty
   @ReturnsMutableCopy
-  public static ICommonsList <ClassPathResource> getAllGoodBillingCreditNoteFiles ()
+  public static ICommonsList <@NonNull ClassPathResource> getAllGoodBillingCreditNoteFiles ()
   {
     return _getAll ("billing/cn/", "Disclosed agent billing tax credit note.xml", "Standard tax credit Note.xml");
   }
@@ -67,7 +67,7 @@ public final class PeppolUAETestFiles
   @NonNull
   @Nonempty
   @ReturnsMutableCopy
-  public static ICommonsList <ClassPathResource> getAllGoodBillingInvoiceFiles ()
+  public static ICommonsList <@NonNull ClassPathResource> getAllGoodBillingInvoiceFiles ()
   {
     return _getAll ("billing/inv/",
                     "Commercial invoice.xml",
@@ -91,7 +91,7 @@ public final class PeppolUAETestFiles
   @NonNull
   @Nonempty
   @ReturnsMutableCopy
-  public static ICommonsList <ClassPathResource> getAllGoodTDD10Files ()
+  public static ICommonsList <@NonNull ClassPathResource> getAllGoodTDD10Files ()
   {
     return _getAll ("tdd/10/good/",
                     "commercial-invoice-tdd.xml",
@@ -106,16 +106,27 @@ public final class PeppolUAETestFiles
   @NonNull
   @Nonempty
   @ReturnsMutableCopy
-  public static ICommonsList <ClassPathResource> getAllSchematronBadTDD10Files ()
+  public static ICommonsList <@NonNull ClassPathResource> getAllSchematronBadTDD10Files ()
   {
-    final ICommonsList <ClassPathResource> ret = _getAll ("tdd/10/bad-sch/",
+    final String sPrefix = "tdd/10/bad-sch/";
+    final ICommonsList <ClassPathResource> ret = _getAll (sPrefix,
                                                           IntStream.range (1, 58)
                                                                    .mapToObj (x -> "bad-ibr-tdd-" +
                                                                                    StringHelper.getLeadingZero (x, 2) +
                                                                                    ".xml")
                                                                    .collect (Collectors.toList ())
                                                                    .toArray (CGlobal.EMPTY_STRING_ARRAY));
-    ret.addAll (_getAll ("tdd/10/bad-sch/", "bad-ibr-tdd-30-1.xml", "bad-ibr-tdd-31-1.xml"));
+    ret.addAll (_getAll (sPrefix, "bad-ibr-tdd-30-1.xml", "bad-ibr-tdd-31-1.xml"));
+    return ret;
+  }
+
+  @NonNull
+  @Nonempty
+  @ReturnsMutableCopy
+  public static ICommonsList <@NonNull ClassPathResource> getAllPayloadBadTDD10Files ()
+  {
+    final ICommonsList <ClassPathResource> ret = _getAll ("tdd/10/bad-payload/",
+                                                          "invalid-invoice-self-billing-pint-ae.xml");
     return ret;
   }
 }

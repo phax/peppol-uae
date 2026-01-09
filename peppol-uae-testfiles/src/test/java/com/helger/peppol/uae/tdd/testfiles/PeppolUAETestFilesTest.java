@@ -36,5 +36,6 @@ public final class PeppolUAETestFilesTest
     assertTrue (PeppolUAETestFiles.getAllGoodBillingInvoiceFiles ().stream ().allMatch (ClassPathResource::exists));
     assertTrue (PeppolUAETestFiles.getAllGoodTDD10Files ().stream ().allMatch (ClassPathResource::exists));
     assertTrue (PeppolUAETestFiles.getAllSchematronBadTDD10Files ().stream ().allMatch (ClassPathResource::exists));
+    assertTrue (PeppolUAETestFiles.getAllPayloadBadTDD10Files ().stream ().allMatch (ClassPathResource::exists));
   }
 }

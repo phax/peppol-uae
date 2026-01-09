@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pxs:TaxData xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+            xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+            xmlns:cec="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
+            xmlns:pxs="urn:peppol:schema:taxdata:1.0">
+  <cbc:CustomizationID>urn:peppol:taxdata:ae-1</cbc:CustomizationID>
+  <cbc:ProfileID>urn:peppol:taxreporting</cbc:ProfileID>
+  <cbc:IssueDate>2026-01-09</cbc:IssueDate>
+  <cbc:IssueTime>15:55:29.435+02:00</cbc:IssueTime>
+  <pxs:DocumentTypeCode>F</pxs:DocumentTypeCode>
+  <pxs:DocumentScope>D</pxs:DocumentScope>
+  <pxs:ReporterRole>01</pxs:ReporterRole>
+  <pxs:ReportingParty>
+     <cbc:EndpointID schemeID="0235">dummy-sender</cbc:EndpointID>
+  </pxs:ReportingParty>
+  <pxs:ReceivingParty>
+     <cbc:EndpointID schemeID="0242">dummy-receiver</cbc:EndpointID>
+  </pxs:ReceivingParty>
+  <pxs:ReportersRepresentative>
+     <cac:PartyIdentification>
+        <cbc:ID schemeID="0242">dummy-representative</cbc:ID>
+     </cac:PartyIdentification>
+  </pxs:ReportersRepresentative>
+  <pxs:ReportedTransaction>
+     <pxs:TransportHeaderID>cf510157-2967-460b-806a-a6e63b052164</pxs:TransportHeaderID>
+     <pxs:SourceDocument>
+        <cec:ExtensionContent>
+           <ns4:Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+                        xmlns:ns2="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
+                        xmlns:ns3="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+                        xmlns:ns4="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">
+              <CustomizationID>urn:peppol:pint:selfbilling-1@ae-1</CustomizationID>
+              <ProfileID>urn:peppol:bis:selfbilling</ProfileID>
+              <ProfileExecutionID>00000000</ProfileExecutionID>
+              <ID>1</ID>
+              <UUID>68205910-ac6b-4e35-9fe7-d1f0a3e3ae72</UUID>
+              <IssueDate>2026-01-09</IssueDate>
+              <IssueTime>07:54:00.123456789</IssueTime>
+              <DueDate>2026-02-08</DueDate>
+              <InvoiceTypeCode>389</InvoiceTypeCode>
+              <Note>Self Billing Tax invoice</Note>
+              <TaxPointDate>2025-01-30</TaxPointDate>
+              <DocumentCurrencyCode>AED</DocumentCurrencyCode>
+              <AccountingCost>ACC:COST:TC421</AccountingCost>
+              <BuyerReference>0703004321</BuyerReference>
+              <ns3:InvoicePeriod>
+                 <StartDate>2026-01-03</StartDate>
+                 <EndDate>2026-02-07</EndDate>
+              </ns3:InvoicePeriod>
+              <ns3:OrderReference>
+                 <ID>PO-AE-220</ID>
+                 <SalesOrderID>Salesorder-2122</SalesOrderID>
+              </ns3:OrderReference>
+              <ns3:BillingReference>
+                 <ns3:InvoiceDocumentReference>
+                    <ID>INV-234-2025</ID>
+                    <IssueDate>2025-02-06</IssueDate>
+                 </ns3:InvoiceDocumentReference>
+              </ns3:BillingReference>
+              <ns3:DespatchDocumentReference>
+                 <ID>Memo-1000</ID>
+              </ns3:DespatchDocumentReference>
+              <ns3:OriginatorDocumentReference>
+                 <ID>PO-AE-220</ID>
+              </ns3:OriginatorDocumentReference>
+              <ns3:AdditionalDocumentReference>
+                 <ID>PO-AE-220</ID>
+                 <ns3:Attachment>
+                    <ns3:ExternalReference>
+                       <URI>https://www.site.ae/PO-AE-220.pdf</URI>
+                    </ns3:ExternalReference>
+                 </ns3:Attachment>
+              </ns3:AdditionalDocumentReference>
+              <ns3:AdditionalDocumentReference>
+                 <ID>PO-AE-220</ID>
+                 <ns3:Attachment>
+                    <EmbeddedDocumentBinaryObject filename="PO-AE-220.pdf" mimeCode="application/pdf">QmFzZTY0IGNvbnRlbnQgZXhhbXBfZQ==</EmbeddedDocumentBinaryObject>
+                 </ns3:Attachment>
+              </ns3:AdditionalDocumentReference>
+              <ns3:ProjectReference>
+                 <ID>Regular work</ID>
+              </ns3:ProjectReference>
+              <ns3:AccountingSupplierParty>
+                 <ns3:Party>
+                    <EndpointID schemeID="0235">peppol-tester</EndpointID>
+                    <ns3:PartyName>
+                       <Name>Party Trade Name</Name>
+                    </ns3:PartyName>
+                    <ns3:PostalAddress>
+                       <StreetName>Street Name</StreetName>
+                       <CityName>Sharjah</CityName>
+                       <CountrySubentity>SHJ</CountrySubentity>
+                       <ns3:Country>
+                          <IdentificationCode>AE</IdentificationCode>
+                       </ns3:Country>
+                    </ns3:PostalAddress>
+                    <ns3:PartyTaxScheme>
+                       <CompanyID>198765432102003</CompanyID>
+                       <ns3:TaxScheme>
+                          <ID>VAT</ID>
+                       </ns3:TaxScheme>
+                    </ns3:PartyTaxScheme>
+                    <ns3:PartyLegalEntity>
+                       <RegistrationName>Supplier Legal Name</RegistrationName>
+                       <CompanyID schemeAgencyID="TL" schemeAgencyName="Trade License issuing Authority">112345678900003</CompanyID>
+                       <CompanyLegalForm>Merchant</CompanyLegalForm>
+                    </ns3:PartyLegalEntity>
+                    <ns3:Contact>
+                       <Name>Contact Name</Name>
+                       <Telephone>Telephone number</Telephone>
+                       <ElectronicMail>Email address</ElectronicMail>
+                    </ns3:Contact>
+                 </ns3:Party>
+              </ns3:AccountingSupplierParty>
+              <ns3:AccountingCustomerParty>
+                 <ns3:Party>
+                    <EndpointID schemeID="9922">OPTBCNTRLS1007</EndpointID>
+                    <ns3:PartyName>
+                       <Name>Buyer Trade Name</Name>
+                    </ns3:PartyName>
+                    <ns3:PostalAddress>
+                       <StreetName>Street Name</StreetName>
+                       <CityName>Abu Dhabi</CityName>
+                       <CountrySubentity>AUH</CountrySubentity>
+                       <ns3:Country>
+                          <IdentificationCode>AE</IdentificationCode>
+                       </ns3:Country>
+                    </ns3:PostalAddress>
+                    <ns3:PartyTaxScheme>
+                       <CompanyID>134567890123003</CompanyID>
+                       <ns3:TaxScheme>
+                          <ID>VAT</ID>
+                       </ns3:TaxScheme>
+                    </ns3:PartyTaxScheme>
+                    <ns3:PartyLegalEntity>
+                       <RegistrationName>Buyer Legal Name</RegistrationName>
+                       <CompanyID schemeAgencyID="TL" schemeAgencyName="Trade License issuing Authority">112345679000001</CompanyID>
+                    </ns3:PartyLegalEntity>
+                    <ns3:Contact>
+                       <Name>Contact Name</Name>
+                       <Telephone>Telephone number</Telephone>
+                       <ElectronicMail>Email address</ElectronicMail>
+                    </ns3:Contact>
+                 </ns3:Party>
+              </ns3:AccountingCustomerParty>
+              <ns3:PayeeParty>
+                 <ns3:PartyName>
+                    <Name>Payee Name</Name>
+                 </ns3:PartyName>
+                 <ns3:PartyLegalEntity>
+                    <CompanyID>1122334455</CompanyID>
+                 </ns3:PartyLegalEntity>
+              </ns3:PayeeParty>
+              <ns3:PaymentMeans>
+                 <PaymentMeansCode name="Debit Card">55</PaymentMeansCode>
+                 <ns3:CardAccount>
+                    <PrimaryAccountNumberID>XXXXXXXXXXXX1234</PrimaryAccountNumberID>
+                    <NetworkID>VISA</NetworkID>
+                    <HolderName>Card Holder Name</HolderName>
+                 </ns3:CardAccount>
+              </ns3:PaymentMeans>
+              <ns3:PaymentTerms>
+                 <Note>Within a week</Note>
+              </ns3:PaymentTerms>
+              <ns3:AllowanceCharge>
+                 <ChargeIndicator>false</ChargeIndicator>
+                 <AllowanceChargeReasonCode>100</AllowanceChargeReasonCode>
+                 <AllowanceChargeReason>Special Rebate</AllowanceChargeReason>
+                 <MultiplierFactorNumeric>2.5</MultiplierFactorNumeric>
+                 <Amount currencyID="AED">262.15</Amount>
+                 <BaseAmount currencyID="AED">10486</BaseAmount>
+                 <ns3:TaxCategory>
+                    <ID>S</ID>
+                    <Percent>5</Percent>
+                    <ns3:TaxScheme>
+                       <ID>VAT</ID>
+                    </ns3:TaxScheme>
+                 </ns3:TaxCategory>
+              </ns3:AllowanceCharge>
+              <ns3:AllowanceCharge>
+                 <ChargeIndicator>true</ChargeIndicator>
+                 <AllowanceChargeReasonCode>AAT</AllowanceChargeReasonCode>
+                 <AllowanceChargeReason>Rush Delivery</AllowanceChargeReason>
+                 <MultiplierFactorNumeric>4</MultiplierFactorNumeric>
+                 <Amount currencyID="AED">419.44</Amount>
+                 <BaseAmount currencyID="AED">10486</BaseAmount>
+                 <ns3:TaxCategory>
+                    <ID>S</ID>
+                    <Percent>5</Percent>
+                    <ns3:TaxScheme>
+                       <ID>VAT</ID>
+                    </ns3:TaxScheme>
+                 </ns3:TaxCategory>
+              </ns3:AllowanceCharge>
+              <ns3:TaxTotal>
+                 <TaxAmount currencyID="AED">532.16</TaxAmount>
+                 <TaxIncludedIndicator>false</TaxIncludedIndicator>
+                 <ns3:TaxSubtotal>
+                    <TaxableAmount currencyID="AED">10643.29</TaxableAmount>
+                    <TaxAmount currencyID="AED">532.1645</TaxAmount>
+                    <ns3:TaxCategory>
+                       <ID>S</ID>
+                       <Percent>5</Percent>
+                       <ns3:TaxScheme>
+                          <ID>VAT</ID>
+                       </ns3:TaxScheme>
+                    </ns3:TaxCategory>
+                 </ns3:TaxSubtotal>
+              </ns3:TaxTotal>
+              <ns3:LegalMonetaryTotal>
+                 <LineExtensionAmount currencyID="AED">10486</LineExtensionAmount>
+                 <TaxExclusiveAmount currencyID="AED">10643.29</TaxExclusiveAmount>
+                 <TaxInclusiveAmount currencyID="AED">11175.45</TaxInclusiveAmount>
+                 <AllowanceTotalAmount currencyID="AED">262.15</AllowanceTotalAmount>
+                 <ChargeTotalAmount currencyID="AED">419.44</ChargeTotalAmount>
+                 <PayableRoundingAmount currencyID="AED">0.05</PayableRoundingAmount>
+                 <PayableAmount currencyID="AED">11175.5</PayableAmount>
+              </ns3:LegalMonetaryTotal>
+           </ns4:Invoice>
+           <!-- No InvoiceLine -->
+        </cec:ExtensionContent>
+     </pxs:SourceDocument>
+  </pxs:ReportedTransaction>
+</pxs:TaxData>
