@@ -25,7 +25,7 @@
     <version>0.9.2-SNAPSHOT</version>
   </parent>
   <artifactId>peppol-uae-tdd</artifactId>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>peppol-uae-tdd</name>
   <description>Peppol UAE TDD creation and extraction methods</description>
   <url>https://github.com/phax/peppol-uae/peppol-uae-tdd</url>
@@ -96,23 +96,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Automatic-Module-Name>com.helger.peppol.uae.tdd</Automatic-Module-Name>
-            <Export-Package>
-              com.helger.peppol.uae.tdd
-            </Export-Package>
-            <Import-Package>!org.jspecify.annotations.*,*</Import-Package>
-          </instructions>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>

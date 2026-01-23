@@ -48,6 +48,9 @@ to build the solution.
 
 # News and noteworthy
 
+v0.9.2 - work in progress
+* Building as a simple JAR file and not as a bundle
+
 v0.9.1 - 2025-12-23
 * This version suits the TDD 1.0 release published at https://docs.peppol.eu/tdd/ae/v1.0.1/
 * Added updated Schematron 1.0.1
