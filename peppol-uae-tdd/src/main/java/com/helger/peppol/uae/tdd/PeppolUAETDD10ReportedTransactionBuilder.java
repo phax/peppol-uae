@@ -148,7 +148,10 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     final InvoiceType ret = aInv.clone ();
     for (final var aAddDocRef : ret.getAdditionalDocumentReference ())
       if (aAddDocRef.getAttachment () != null)
+      {
+        // Make sure the attachment contents are not included
         aAddDocRef.getAttachment ().setEmbeddedDocumentBinaryObject ((EmbeddedDocumentBinaryObjectType) null);
+      }
     return ret;
   }
 
@@ -158,7 +161,10 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     final CreditNoteType ret = aCN.clone ();
     for (final var aAddDocRef : ret.getAdditionalDocumentReference ())
       if (aAddDocRef.getAttachment () != null)
+      {
+        // Make sure the attachment contents are not included
         aAddDocRef.getAttachment ().setEmbeddedDocumentBinaryObject ((EmbeddedDocumentBinaryObjectType) null);
+      }
     return ret;
   }
 
