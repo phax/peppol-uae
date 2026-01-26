@@ -206,7 +206,7 @@
 
       <xs:element name="CustomContent" type="tns:CustomContentType" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
-          <xs:documentation>Custom content (e.g. distince elements)</xs:documentation>
+          <xs:documentation>Custom content (e.g. distinct elements)</xs:documentation>
         </xs:annotation>
       </xs:element>
 
