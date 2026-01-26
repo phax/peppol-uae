@@ -32,16 +32,20 @@ import com.helger.schematron.sch.SchematronResourceSCH;
 public final class PeppolUAETDDValidator
 {
   @Deprecated (forRemoval = true, since = "0.9.1")
-  public static final String SCH_UAE_TDD_100_PATH = "external/schematron/peppol-ae-tdd-1.0.0.sch";
-  public static final String SCH_UAE_TDD_101_PATH = "external/schematron/peppol-ae-tdd-1.0.1.sch";
+  public static final String SCH_UAE_TDD_100_PATH = "external/schematron/old/peppol-ae-tdd-1.0.0.sch";
+  @Deprecated (forRemoval = true, since = "0.9.2")
+  public static final String SCH_UAE_TDD_101_PATH = "external/schematron/old/peppol-ae-tdd-1.0.1.sch";
+  public static final String SCH_UAE_TDD_102_PATH = "external/schematron/peppol-ae-tdd-1.0.2.sch";
 
   @Deprecated (forRemoval = true, since = "0.9.1")
   private static final ISchematronResource UAE_TDD_100 = SchematronResourceSCH.fromClassPath (SCH_UAE_TDD_100_PATH);
+  @Deprecated (forRemoval = true, since = "0.9.2")
   private static final ISchematronResource UAE_TDD_101 = SchematronResourceSCH.fromClassPath (SCH_UAE_TDD_101_PATH);
+  private static final ISchematronResource UAE_TDD_102 = SchematronResourceSCH.fromClassPath (SCH_UAE_TDD_102_PATH);
 
   static
   {
-    for (final ISchematronResource aSch : new ISchematronResource [] { UAE_TDD_100, UAE_TDD_101 })
+    for (final ISchematronResource aSch : new ISchematronResource [] { UAE_TDD_100, UAE_TDD_101, UAE_TDD_102 })
       if (!aSch.isValidSchematron ())
         throw new InitializationException ("Schematron in " + aSch.getResource ().getPath () + " is invalid");
   }
@@ -63,9 +67,19 @@ public final class PeppolUAETDDValidator
    * @return Schematron UAE TDD v1.0.1
    */
   @NonNull
+  @Deprecated (forRemoval = true, since = "0.9.2")
   public static ISchematronResource getSchematronUAE_TDD_101 ()
   {
     return UAE_TDD_101;
+  }
+
+  /**
+   * @return Schematron UAE TDD v1.0.2
+   */
+  @NonNull
+  public static ISchematronResource getSchematronUAE_TDD_102 ()
+  {
+    return UAE_TDD_102;
   }
 
   /**
@@ -74,6 +88,6 @@ public final class PeppolUAETDDValidator
   @NonNull
   public static ISchematronResource getSchematronUAE_TDD_10 ()
   {
-    return getSchematronUAE_TDD_101 ();
+    return getSchematronUAE_TDD_102 ();
   }
 }
