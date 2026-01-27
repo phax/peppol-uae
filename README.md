@@ -10,7 +10,7 @@ They are licensed under the Apache 2.0 license.
 The minimum requirement is Java 17.
 
 The backing specifications are:
-* TDD AE: https://docs.peppol.eu/tdd/ae/v1.0.1/
+* TDD AE: https://docs.peppol.eu/tdd/ae/v1.0.2/
 * PINT AE: https://test-docs.peppol.eu/pint/pint-ae/
 
 # Submodules
@@ -48,11 +48,13 @@ to build the solution.
 
 # News and noteworthy
 
-v0.9.2 - work in progress
+v0.9.2 - 2026-01-27
+* This version suits the TDD 1.0.2 release published at https://docs.peppol.eu/tdd/ae/v1.0.2/
 * Building as a simple JAR file and not as a bundle
+* Updated to AE TDD 1.0.2 Schematron 
 
 v0.9.1 - 2025-12-23
-* This version suits the TDD 1.0 release published at https://docs.peppol.eu/tdd/ae/v1.0.1/
+* This version suits the TDD 1.0.1 release published at https://docs.peppol.eu/tdd/ae/v1.0.1/
 * Added updated Schematron 1.0.1
     * Removed the mandatory check for "pxs:ReportedDocument" in case of a failed TDD (TDS)
 * Added explicit check, that C5 participant ID must use scheme `0242`
