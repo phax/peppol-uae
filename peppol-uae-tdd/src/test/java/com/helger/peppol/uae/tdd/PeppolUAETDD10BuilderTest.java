@@ -46,6 +46,8 @@ import com.helger.peppolid.factory.IIdentifierFactory;
 import com.helger.peppolid.factory.PeppolIdentifierFactory;
 import com.helger.schematron.ISchematronResource;
 import com.helger.schematron.svrl.SVRLHelper;
+import com.helger.schematron.svrl.SVRLMarshaller;
+import com.helger.schematron.svrl.jaxb.FiredRule;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import com.helger.ubl21.UBL21Marshaller;
 import com.helger.xml.serialize.read.DOMReader;
@@ -110,6 +112,11 @@ public final class PeppolUAETDD10BuilderTest
     final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (new ReadableResourceString (sXML,
                                                                                                             StandardCharsets.UTF_8));
     assertNotNull (aSVRL);
+    assertTrue (aSVRL.getActivePatternAndFiredRuleAndFailedAssert ()
+                     .stream ()
+                     .filter (FiredRule.class::isInstance)
+                     .map (FiredRule.class::cast)
+                     .count () > 0);
     assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
   }
 
@@ -167,6 +174,11 @@ public final class PeppolUAETDD10BuilderTest
     final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (new ReadableResourceString (sXML,
                                                                                                             StandardCharsets.UTF_8));
     assertNotNull (aSVRL);
+    assertTrue (aSVRL.getActivePatternAndFiredRuleAndFailedAssert ()
+                     .stream ()
+                     .filter (FiredRule.class::isInstance)
+                     .map (FiredRule.class::cast)
+                     .count () > 0);
     assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
   }
 
@@ -203,8 +215,18 @@ public final class PeppolUAETDD10BuilderTest
         LOGGER.info (sXML);
 
       // Schematron validation
-      final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (aRes);
+      final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (new ReadableResourceString (sXML,
+                                                                                                              StandardCharsets.UTF_8));
       assertNotNull (aSVRL);
+      assertTrue (aSVRL.getActivePatternAndFiredRuleAndFailedAssert ()
+                       .stream ()
+                       .filter (FiredRule.class::isInstance)
+                       .map (FiredRule.class::cast)
+                       .count () > 0);
+
+      if (false)
+        LOGGER.info (new SVRLMarshaller ().setFormattedOutput (true).getAsString (aSVRL));
+
       assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
     }
   }
@@ -242,8 +264,14 @@ public final class PeppolUAETDD10BuilderTest
         LOGGER.info (sXML);
 
       // Schematron validation
-      final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (aRes);
+      final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (new ReadableResourceString (sXML,
+                                                                                                              StandardCharsets.UTF_8));
       assertNotNull (aSVRL);
+      assertTrue (aSVRL.getActivePatternAndFiredRuleAndFailedAssert ()
+                       .stream ()
+                       .filter (FiredRule.class::isInstance)
+                       .map (FiredRule.class::cast)
+                       .count () > 0);
       assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
     }
   }
@@ -281,8 +309,14 @@ public final class PeppolUAETDD10BuilderTest
       LOGGER.info (sXML);
 
     // Schematron validation
-    final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (aRes);
+    final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (new ReadableResourceString (sXML,
+                                                                                                            StandardCharsets.UTF_8));
     assertNotNull (aSVRL);
+    assertTrue (aSVRL.getActivePatternAndFiredRuleAndFailedAssert ()
+                     .stream ()
+                     .filter (FiredRule.class::isInstance)
+                     .map (FiredRule.class::cast)
+                     .count () > 0);
     assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
   }
 
@@ -324,8 +358,14 @@ public final class PeppolUAETDD10BuilderTest
       LOGGER.info (sXML);
 
     // Schematron validation
-    final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (aRes);
+    final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (new ReadableResourceString (sXML,
+                                                                                                            StandardCharsets.UTF_8));
     assertNotNull (aSVRL);
+    assertTrue (aSVRL.getActivePatternAndFiredRuleAndFailedAssert ()
+                     .stream ()
+                     .filter (FiredRule.class::isInstance)
+                     .map (FiredRule.class::cast)
+                     .count () > 0);
     assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
   }
 
@@ -346,12 +386,21 @@ public final class PeppolUAETDD10BuilderTest
       assertNotNull (sXML);
       assertFalse (sXML.contains ("<pxs:ReportedDocument>"));
 
-      if (true)
+      if (false)
         LOGGER.info (sXML);
 
       // Schematron validation
       final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (aRes);
       assertNotNull (aSVRL);
+      assertTrue (aSVRL.getActivePatternAndFiredRuleAndFailedAssert ()
+                       .stream ()
+                       .filter (FiredRule.class::isInstance)
+                       .map (FiredRule.class::cast)
+                       .count () > 0);
+
+      if (false)
+        LOGGER.info (new SVRLMarshaller ().setFormattedOutput (true).getAsString (aSVRL));
+
       assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
     }
   }
