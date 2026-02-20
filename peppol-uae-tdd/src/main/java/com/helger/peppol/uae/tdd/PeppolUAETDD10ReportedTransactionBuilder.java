@@ -633,7 +633,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     return this;
   }
 
-  private boolean _isEveryRequiredFieldSet (final boolean bDoLogOnError, @NonNull final MutableInt aReportedDocsErrs)
+  private boolean _isEveryRequiredFieldSet (final boolean bDoLogOnError, @NonNull final MutableInt aErrorCount)
   {
     int nErrs = 0;
     final ConditionalLogger aCondLog = new ConditionalLogger (LOGGER, bDoLogOnError);
@@ -646,48 +646,48 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     if (StringHelper.isEmpty (m_sCustomizationID))
     {
       aCondLog.error (sErrorPrefix + "CustomizationID is missing");
-      aReportedDocsErrs.inc ();
+      aErrorCount.inc ();
     }
     if (StringHelper.isEmpty (m_sProfileID))
     {
       aCondLog.error (sErrorPrefix + "ProfileID is missing");
-      aReportedDocsErrs.inc ();
+      aErrorCount.inc ();
     }
     if (StringHelper.isEmpty (m_sID))
     {
       aCondLog.error (sErrorPrefix + "ID is missing");
-      aReportedDocsErrs.inc ();
+      aErrorCount.inc ();
     }
     if (StringHelper.isEmpty (m_sUUID))
     {
       aCondLog.error (sErrorPrefix + "UUID is missing");
-      aReportedDocsErrs.inc ();
+      aErrorCount.inc ();
     }
     if (m_aIssueDate == null)
     {
       aCondLog.error (sErrorPrefix + "IssueDate is missing");
-      aReportedDocsErrs.inc ();
+      aErrorCount.inc ();
     }
     // IssueTime is optional
     if (StringHelper.isEmpty (m_sDocumentTypeCode))
     {
       aCondLog.error (sErrorPrefix + "DocumentTypeCode is missing");
-      aReportedDocsErrs.inc ();
+      aErrorCount.inc ();
     }
     if (StringHelper.isEmpty (m_sDocumentCurrencyCode))
     {
       aCondLog.error (sErrorPrefix + "DocumentCurrencyCode is missing");
-      aReportedDocsErrs.inc ();
+      aErrorCount.inc ();
     }
     if (StringHelper.isEmpty (m_sSellerTaxID))
     {
       aCondLog.error (sErrorPrefix + "SellerTaxID is missing");
-      aReportedDocsErrs.inc ();
+      aErrorCount.inc ();
     }
     if (StringHelper.isEmpty (m_sSellerTaxSchemeID))
     {
       aCondLog.error (sErrorPrefix + "SellerTaxSchemeID is missing");
-      aReportedDocsErrs.inc ();
+      aErrorCount.inc ();
     }
     if (StringHelper.isNotEmpty (m_sBuyerIDSchemeID))
     {
@@ -700,7 +700,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     if (m_aTaxTotalAmountDocumentCurrency == null)
     {
       aCondLog.error (sErrorPrefix + "TaxTotalAmountDocumentCurrency is missing");
-      aReportedDocsErrs.inc ();
+      aErrorCount.inc ();
     }
     if (m_aTaxTotalAmountTaxCurrency != null)
     {
@@ -708,7 +708,7 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
       {
         aCondLog.error (sErrorPrefix +
                         "If TaxTotalAmountTaxCurrency is provided, TaxCurrencyCode must also be provided");
-        aReportedDocsErrs.inc ();
+        aErrorCount.inc ();
       }
     }
     else
@@ -717,18 +717,18 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
       {
         aCondLog.error (sErrorPrefix +
                         "If TaxCurrencyCode is provided, TaxTotalAmountTaxCurrency must also be provided");
-        aReportedDocsErrs.inc ();
+        aErrorCount.inc ();
       }
     }
     if (m_aTaxExclusiveTotalAmount == null)
     {
       aCondLog.error (sErrorPrefix + "TaxExclusiveTotalAmount is missing");
-      aReportedDocsErrs.inc ();
+      aErrorCount.inc ();
     }
 
     // Failed TDDs don't need this
     if (m_eDocumentTypeCode != EUAETDDDocumentTypeCode.FAILED)
-      nErrs += aReportedDocsErrs.intValue ();
+      nErrs += aErrorCount.intValue ();
 
     if (m_aSourceDocument == null)
     {
