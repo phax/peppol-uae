@@ -1,9 +1,11 @@
-# peppol-uae
+# Peppol UAE
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.helger.peppol/peppol-uae-parent-pom)](https://img.shields.io/maven-central/v/com.helger.peppol/peppol-uae-parent-pom)
 [![javadoc](https://javadoc.io/badge2/com.helger.peppol/peppol-uae-tdd/javadoc.svg)](https://javadoc.io/doc/com.helger.peppol/peppol-uae-tdd)
 
 Peppol specific stuff for United Arab Emirates (UAE)
+
+Peppol UAE is part of my Peppol solution stack. See https://github.com/phax/peppol for other components and libraries in that area.
 
 This contains a set of Java libraries.
 They are licensed under the Apache 2.0 license.
