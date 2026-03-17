@@ -1,7 +1,9 @@
 # peppol-uae
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.helger.peppol/peppol-uae-parent-pom)](https://img.shields.io/maven-central/v/com.helger.peppol/peppol-uae-parent-pom)
-[![javadoc](https://javadoc.io/badge2/com.helger.peppol/peppol-uae-tdd/javadoc.svg)](https://javadoc.io/doc/com.helger.peppol/peppol-uae-tdd)
+<!-- ph-badge-start -->
+[![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.helger.peppol/peppol-uae-parent-pom/badge.svg)](https://maven-badges.sml.io/sonatype-central/com.helger.peppol/peppol-uae-parent-pom/)
+[![javadoc](https://javadoc.io/badge2/com.helger.peppol/peppol-uae-testfiles/javadoc.svg)](https://javadoc.io/doc/com.helger.peppol/peppol-uae-testfiles)
+<!-- ph-badge-end -->
 
 Peppol specific stuff for United Arab Emirates (UAE)
 
