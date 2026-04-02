@@ -52,6 +52,9 @@ to build the solution.
 
 # News and noteworthy
 
+v0.9.3 - work in progress
+* Made the method `PeppolUAETDD10Marshaller.getAllXSDs` public
+
 v0.9.2 - 2026-01-27
 * This version suits the TDD 1.0.2 release published at https://docs.peppol.eu/tdd/ae/v1.0.2/
 * Building as a simple JAR file and not as a bundle
