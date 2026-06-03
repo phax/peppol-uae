@@ -3,6 +3,8 @@
 <!-- ph-badge-start -->
 [![Sonatype Central](https://maven-badges.sml.io/sonatype-central/com.helger.peppol/peppol-uae-parent-pom/badge.svg)](https://maven-badges.sml.io/sonatype-central/com.helger.peppol/peppol-uae-parent-pom/)
 [![javadoc](https://javadoc.io/badge2/com.helger.peppol/peppol-uae-testfiles/javadoc.svg)](https://javadoc.io/doc/com.helger.peppol/peppol-uae-testfiles)
+
+> If this project saved you some time or made your day a little easier, a star would mean a lot — it helps others find it too.
 <!-- ph-badge-end -->
 
 Peppol specific stuff for United Arab Emirates (UAE)
@@ -52,7 +54,13 @@ to build the solution.
 
 # News and noteworthy
 
-v0.9.3 - work in progress
+v1.0.0 - 2026-06-03
+* This version suits the TDD 1.0.3 release
+* Updated to AE TDD 1.0.3 Schematron
+    * Schematron message text corrections (ibr-tdd-17, ibr-tdd-21, ibr-tdd-30-1, ibr-tdd-31-1)
+    * Changed XPath namespace prefix from `inv:Invoice` to `ubl:Invoice` (ibr-tdd-57)
+    * Removed dead commented-out rule block (ibr-tdd-50)
+    * Note: No data model, code list, or business rule changes versus 1.0.2
 * Made the method `PeppolUAETDD10Marshaller.getAllXSDs` public
 
 v0.9.2 - 2026-01-27

@@ -109,8 +109,10 @@ public final class PeppolUAETestFiles
   public static ICommonsList <@NonNull ClassPathResource> getAllSchematronBadTDD10Files ()
   {
     final String sPrefix = "tdd/10/bad-sch/";
+    // ibr-tdd-50 was removed in TDD 1.0.3 (dead commented-out rule)
     final ICommonsList <ClassPathResource> ret = _getAll (sPrefix,
                                                           IntStream.range (1, 58)
+                                                                   .filter (x -> x != 50)
                                                                    .mapToObj (x -> "bad-ibr-tdd-" +
                                                                                    StringHelper.getLeadingZero (x, 2) +
                                                                                    ".xml")
