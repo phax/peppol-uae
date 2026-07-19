@@ -40,16 +40,21 @@ public final class PeppolUAETDDValidator
   public static final String SCH_UAE_TDD_103_PATH = "external/schematron/peppol-ae-tdd-1.0.3.sch";
 
   @Deprecated (forRemoval = true, since = "0.9.1")
-  private static final ISchematronResource UAE_TDD_100 = SchematronResourceSCH.fromClassPath (SCH_UAE_TDD_100_PATH);
+  private static final ISchematronResource UAE_TDD_100 = SchematronResourceSCH.builderFromClassPath (SCH_UAE_TDD_100_PATH)
+                                                                              .build ();
   @Deprecated (forRemoval = true, since = "0.9.2")
-  private static final ISchematronResource UAE_TDD_101 = SchematronResourceSCH.fromClassPath (SCH_UAE_TDD_101_PATH);
+  private static final ISchematronResource UAE_TDD_101 = SchematronResourceSCH.builderFromClassPath (SCH_UAE_TDD_101_PATH)
+                                                                              .build ();
   @Deprecated (forRemoval = true, since = "1.0.0")
-  private static final ISchematronResource UAE_TDD_102 = SchematronResourceSCH.fromClassPath (SCH_UAE_TDD_102_PATH);
-  private static final ISchematronResource UAE_TDD_103 = SchematronResourceSCH.fromClassPath (SCH_UAE_TDD_103_PATH);
+  private static final ISchematronResource UAE_TDD_102 = SchematronResourceSCH.builderFromClassPath (SCH_UAE_TDD_102_PATH)
+                                                                              .build ();
+  private static final ISchematronResource UAE_TDD_103 = SchematronResourceSCH.builderFromClassPath (SCH_UAE_TDD_103_PATH)
+                                                                              .build ();
 
   static
   {
-    for (final ISchematronResource aSch : new ISchematronResource [] { UAE_TDD_100, UAE_TDD_101, UAE_TDD_102, UAE_TDD_103 })
+    for (final ISchematronResource aSch : new ISchematronResource [] { UAE_TDD_100, UAE_TDD_101, UAE_TDD_102,
+                                                                       UAE_TDD_103 })
       if (!aSch.isValidSchematron ())
         throw new InitializationException ("Schematron in " + aSch.getResource ().getPath () + " is invalid");
   }

@@ -54,6 +54,10 @@ to build the solution.
 
 # News and noteworthy
 
+
+v1.1.0 - 2026-07-19
+* Updated to ph-schematron v10.x
+
 v1.0.0 - 2026-06-03
 * This version suits the TDD 1.0.3 release
 * Updated to AE TDD 1.0.3 Schematron

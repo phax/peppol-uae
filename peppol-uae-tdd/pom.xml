@@ -67,7 +67,7 @@
     </dependency>
     <dependency>
       <groupId>com.helger.schematron</groupId>
-      <artifactId>ph-schematron-xslt</artifactId>
+      <artifactId>ph-schematron-isosch</artifactId>
     </dependency>
 
     <dependency>
