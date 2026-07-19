@@ -22,7 +22,7 @@
   <parent>
     <groupId>com.helger.peppol</groupId>
     <artifactId>peppol-uae-parent-pom</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0</version>
   </parent>
   <artifactId>peppol-uae-tdd</artifactId>
   <packaging>jar</packaging>
