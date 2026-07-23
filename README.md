@@ -55,6 +55,14 @@ to build the solution.
 # News and noteworthy
 
 
+v1.1.1 - 2026-07-23
+* This version suits the TDD 1.0.4 release
+* Updated to AE TDD 1.0.4 Schematron
+    * `ibr-tdd-17`: Receivers Endpoint Scheme identifier (tdt-008-1) is now required to be present AND equal to `0242` (SPIS)
+    * `ibr-tdd-33`: Added export exclusion aligned with PINT AE rule `ibr-135-ae` (BUYER no longer mandatory when BTAE-02 is `XXXXXXX1` / Exports)
+    * Schematron message text corrections (ibr-tdd-21, ibr-tdd-22, ibr-tdd-40, ibr-tdd-44, ibr-tdd-45, ibr-tdd-47, ibr-tdd-55)
+    * Note: No data model or code list changes versus 1.0.3
+
 v1.1.0 - 2026-07-19
 * Updated to ph-schematron v10.x
 
