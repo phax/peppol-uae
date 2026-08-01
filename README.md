@@ -55,7 +55,7 @@ to build the solution.
 # News and noteworthy
 
 
-v1.1.2 - work in progress
+v1.1.2 - 2026-08-01
 * Aligned the AE TDD 1.0.4 Schematron with the final published release (assertion message text of `ibr-tdd-44`, `ibr-tdd-45` and `ibr-tdd-55`; no rule logic changes)
 
 v1.1.1 - 2026-07-23
