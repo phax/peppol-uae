@@ -90,8 +90,8 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     public CustomContent (@NonNull @Nonempty final String sID, @NonNull @Nonempty final String sValue)
     {
       ValueEnforcer.notEmpty (sID, "ID");
-      ValueEnforcer.isTrue ( () -> sID.equals (sID.toUpperCase (Locale.ROOT)),
-                             () -> "ID '" + sID + "' must be all uppercase");
+      ValueEnforcer.isTrue (() -> sID.equals (sID.toUpperCase (Locale.ROOT)),
+                            () -> "ID '" + sID + "' must be all uppercase");
       ValueEnforcer.notEmpty (sValue, "Value");
       m_sID = sID;
       m_sValue = sValue;

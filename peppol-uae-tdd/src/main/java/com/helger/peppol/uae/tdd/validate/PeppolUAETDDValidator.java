@@ -58,8 +58,11 @@ public final class PeppolUAETDDValidator
 
   static
   {
-    for (final ISchematronResource aSch : new ISchematronResource [] { UAE_TDD_100, UAE_TDD_101, UAE_TDD_102,
-                                                                       UAE_TDD_103, UAE_TDD_104 })
+    for (final ISchematronResource aSch : new ISchematronResource [] { UAE_TDD_100,
+                                                                       UAE_TDD_101,
+                                                                       UAE_TDD_102,
+                                                                       UAE_TDD_103,
+                                                                       UAE_TDD_104 })
       if (!aSch.isValidSchematron ())
         throw new InitializationException ("Schematron in " + aSch.getResource ().getPath () + " is invalid");
   }
