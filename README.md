@@ -54,6 +54,9 @@ to build the solution.
 
 # News and noteworthy
 
+v1.1.3 - work in progress
+* Added the overload `isEveryRequiredFieldSet (ErrorList)` to `PeppolUAETDD10Builder` and to all sub-builders. It collects the reasons why a builder is incomplete in an `ErrorList` instead of only logging them, so that callers can pass them on
+
 
 v1.1.2 - 2026-08-01
 * Aligned the AE TDD 1.0.4 Schematron with the final published release (assertion message text of `ibr-tdd-44`, `ibr-tdd-45` and `ibr-tdd-55`; no rule logic changes)

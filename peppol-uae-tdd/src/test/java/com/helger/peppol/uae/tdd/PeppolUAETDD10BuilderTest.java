@@ -24,6 +24,7 @@ import static org.junit.Assert.assertTrue;
 import java.nio.charset.StandardCharsets;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.util.Locale;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import com.helger.base.numeric.BigHelper;
 import com.helger.collection.commons.CommonsArrayList;
 import com.helger.datetime.helper.PDTFactory;
+import com.helger.diagnostics.error.list.ErrorList;
 import com.helger.io.resource.ClassPathResource;
 import com.helger.io.resource.inmemory.ReadableResourceString;
 import com.helger.peppol.uae.tdd.PeppolUAETDD10ReportedTransactionBuilder.CustomContent;
@@ -403,5 +405,18 @@ public final class PeppolUAETDD10BuilderTest
 
       assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
     }
+  }
+
+  @Test
+  public void testIsEveryRequiredFieldSetErrorList ()
+  {
+    final PeppolUAETDD10Builder aBuilder = new PeppolUAETDD10Builder ();
+    assertFalse (aBuilder.isEveryRequiredFieldSet (false));
+
+    final ErrorList aErrorList = new ErrorList ();
+    assertFalse (aBuilder.isEveryRequiredFieldSet (aErrorList));
+    assertFalse (aErrorList.isEmpty ());
+    assertEquals (aErrorList.size (), aErrorList.getAllErrors ().size ());
+    assertTrue (aErrorList.getAllTexts (Locale.ROOT).get (0).contains ("is missing"));
   }
 }
