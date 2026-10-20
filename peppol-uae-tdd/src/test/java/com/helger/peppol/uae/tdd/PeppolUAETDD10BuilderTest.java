@@ -19,6 +19,7 @@ package com.helger.peppol.uae.tdd;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.nio.charset.StandardCharsets;
@@ -30,8 +31,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.helger.base.log.ILogHandler;
 import com.helger.base.numeric.BigHelper;
 import com.helger.collection.commons.CommonsArrayList;
+import com.helger.collection.commons.ICommonsList;
 import com.helger.datetime.helper.PDTFactory;
 import com.helger.diagnostics.error.list.ErrorList;
 import com.helger.io.resource.ClassPathResource;
@@ -411,12 +414,34 @@ public final class PeppolUAETDD10BuilderTest
   public void testIsEveryRequiredFieldSetErrorList ()
   {
     final PeppolUAETDD10Builder aBuilder = new PeppolUAETDD10Builder ();
-    assertFalse (aBuilder.isEveryRequiredFieldSet (false));
+    assertFalse (aBuilder.isEveryRequiredFieldSet (new ErrorList ()));
 
     final ErrorList aErrorList = new ErrorList ();
     assertFalse (aBuilder.isEveryRequiredFieldSet (aErrorList));
     assertFalse (aErrorList.isEmpty ());
     assertEquals (aErrorList.size (), aErrorList.getAllErrors ().size ());
     assertTrue (aErrorList.getAllTexts (Locale.ROOT).get (0).contains ("is missing"));
+  }
+
+  @Test
+  public void testLogHandler ()
+  {
+    final ICommonsList <String> aErrors = new CommonsArrayList <> ();
+    final PeppolUAETDD10Builder aBuilder = new PeppolUAETDD10Builder ().logHandler (ILogHandler.createForConsumer (aErrors::add)).documentTypeCode (EUAETDDDocumentTypeCode.SUBMIT);
+
+    // The handler receives the messages of build()
+    assertNull (aBuilder.build ());
+    assertFalse (aErrors.isEmpty ());
+
+    // The ErrorList variant is independent of the handler
+    aErrors.clear ();
+    assertFalse (aBuilder.isEveryRequiredFieldSet (new ErrorList ()));
+    assertTrue (aErrors.isEmpty ());
+
+    // Sub-builders created via lambda inherit the handler
+    aBuilder.reportedTransaction (aRT -> {
+      assertNull (aRT.build ());
+      assertFalse (aErrors.isEmpty ());
+    });
   }
 }
