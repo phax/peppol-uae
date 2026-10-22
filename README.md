@@ -54,12 +54,14 @@ to build the solution.
 
 # News and noteworthy
 
-v1.1.3 - work in progress
-* Updated to ph-commons 12.5.2
-* Added `logHandler (ILogHandler)` to `PeppolUAETDD10Builder` and all sub-builders. It receives the message of each missing or invalid required field (as error, warnings as warnings) when calling `build ()`; the default handler logs to the logger of the builder class. Use `ILogHandler.createForConsumer`, `ILogHandler.createForBiConsumer` or `ErrorListLogHandler` to redirect the messages, and `ILogHandler.createNoOp ()` to discard them. Call it first, because it is passed on to sub-builders created via lambda afterwards
+v1.1.3 - 2026-10-22
+* Requires ph-commons 12.5.2
+* Added `logHandler (ILogHandler)` to `PeppolUAETDD10Builder` and all sub-builders.
+  It receives the message of each missing or invalid required field (as error, warnings as warnings) when calling `build ()`; the default handler logs to the logger of the builder class.
+  Use `ILogHandler.createForConsumer`, `ILogHandler.createForBiConsumer` or `ErrorListLogHandler` to redirect the messages, and `ILogHandler.createNoOp ()` to discard them.
+  Call it first, because it is passed on to sub-builders created via lambda afterwards
 * Added `isEveryRequiredFieldSet (ErrorList)` which collects the messages in an `ErrorList`, independent of the log handler
 * Removed the public `isEveryRequiredFieldSet ()` and `isEveryRequiredFieldSet (boolean)` methods; use `isEveryRequiredFieldSet (ErrorList)` or `build ()` instead
-
 
 v1.1.2 - 2026-08-01
 * Aligned the AE TDD 1.0.4 Schematron with the final published release (assertion message text of `ibr-tdd-44`, `ibr-tdd-45` and `ibr-tdd-55`; no rule logic changes)
