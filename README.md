@@ -23,6 +23,7 @@ The backing specifications are:
 
 This project consists of the following submodules (in alphabetic order)
 
+* `peppol-uae-bom` - the Bill of Materials (BOM) with the managed versions of all artifacts of this project (since v1.1.4)
 * `peppol-uae-tdd` - contains the main logic to create UAE TDD documents based on PINT AE documents as well as documentation
     * Main class to build a complete TDD from scratch is `PeppolUAETDD10Builder`
     * To run the Schematron validation, use class `PeppolUAETDDValidator`
@@ -43,6 +44,20 @@ Add the following to your `pom.xml` to use this artifact:, replacing `x.y.z` wit
 </dependency>
 ```
 
+Alternatively use the following code in your `dependencyManagement` section to use it as a BOM:
+
+```xml
+<dependency>
+  <groupId>com.helger.peppol</groupId>
+  <artifactId>peppol-uae-bom</artifactId>
+  <version>x.y.z</version>
+  <type>pom</type>
+  <scope>import</scope>
+</dependency>
+```
+
+Note: prior to v1.1.4 there was no dedicated BOM and `peppol-uae-parent-pom` had to be imported instead, which also carries the build configuration of this project.
+
 # Building
 
 This project requires Apache Maven 3.x and Java 17 for building.
@@ -53,6 +68,13 @@ mvn clean install
 to build the solution.
 
 # News and noteworthy
+
+v1.1.4 - 2026-11-15
+* Requires at least ph-commons 12.7.1
+* Updated to peppol-commons 13.2.3 and ph-ubl 10.3.0, importing their new BOMs `ph-commons-bom`, `peppol-commons-bom` and `ph-ubl-bom`
+* Updated to ph-schematron 10.3.2
+* Added the new module `peppol-uae-bom` as a Maven BOM (Bill of Materials) for all peppol-uae artifacts.
+  Use it instead of `peppol-uae-parent-pom` when importing the managed versions
 
 v1.1.3 - 2026-10-22
 * Requires ph-commons 12.5.2

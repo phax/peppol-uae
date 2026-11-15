@@ -10,6 +10,7 @@ Spec references: [TDD AE](https://docs.peppol.eu/tdd/ae/), [PINT AE](https://tes
 
 ## Modules
 
+- `peppol-uae-bom` — Maven BOM managing the versions of all other artifacts (packaging `pom`, no code). Add new artifacts to it as well.
 - `peppol-uae-testfiles` — bundled UAE TDD test XML files (entry: `PeppolUAETestFiles`).
 - `peppol-uae-tdd-datatypes` — JAXB-generated UAE TDD data model (entry: `PeppolUAETDD10Marshaller`).
 - `peppol-uae-tdd` — builders and validator (entries: `PeppolUAETDD10Builder`, `PeppolUAETDD10ReportedTransactionBuilder`, `PeppolUAETDDValidator`).
