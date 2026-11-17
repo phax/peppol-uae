@@ -25,7 +25,7 @@
   <pxs:ReportedTransaction>
     <pxs:TransportHeaderID>cf510157-2967-460b-806a-a6e63b052164</pxs:TransportHeaderID>
     
-    <!-- This element may be present with "F" but must not be present -->
+    <!-- This element is optional with "F" -->
     <pxs:ReportedDocument>                                                                  
       <cbc:CustomizationID>urn:peppol:pint:billing-1@ae-1</cbc:CustomizationID>              
       <cbc:ProfileID>urn:peppol:bis:billing</cbc:ProfileID>                                  
@@ -41,9 +41,12 @@
           <cac:PartyTaxScheme>
             <cbc:CompanyID>123456789</cbc:CompanyID>
             <cac:TaxScheme>
-              <cbc:ID>anything</cbc:ID>
+              <cbc:ID>VAT</cbc:ID>
             </cac:TaxScheme>
           </cac:PartyTaxScheme>
+          <cac:PartyLegalEntity>
+            <cbc:RegistrationName>Seller Legal Name</cbc:RegistrationName>
+          </cac:PartyLegalEntity>
         </cac:Party>  
       </cac:AccountingSupplierParty>
 
@@ -51,10 +54,13 @@
         <cac:Party>
           <cac:PartyTaxScheme>
             <cbc:CompanyID>9876543210000</cbc:CompanyID>
-            <!-- element is mandatory in XSD -->
             <cac:TaxScheme>
+              <cbc:ID>VAT</cbc:ID>
             </cac:TaxScheme>
           </cac:PartyTaxScheme>
+          <cac:PartyLegalEntity>
+            <cbc:RegistrationName>Buyer Legal Name</cbc:RegistrationName>
+          </cac:PartyLegalEntity>
         </cac:Party>
       </cac:AccountingCustomerParty>
 

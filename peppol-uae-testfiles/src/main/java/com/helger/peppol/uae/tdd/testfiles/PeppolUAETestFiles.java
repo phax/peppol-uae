@@ -61,7 +61,10 @@ public final class PeppolUAETestFiles
   @ReturnsMutableCopy
   public static ICommonsList <@NonNull ClassPathResource> getAllGoodBillingCreditNoteFiles ()
   {
-    return _getAll ("billing/cn/", "Disclosed agent billing tax credit note.xml", "Standard tax credit Note.xml");
+    return _getAll ("billing/cn/",
+                    "Disclosed agent billing tax credit note.xml",
+                    "Standard tax credit Note.xml",
+                    "Volume-discount-credit-note.xml");
   }
 
   @NonNull
@@ -85,7 +88,19 @@ public final class PeppolUAETestFiles
                     "Supply involving free trade zone.xml",
                     "Supply through e-commerce.xml",
                     "Supply under Reverse charge mechanism.xml",
-                    "Zero rated supplies.xml");
+                    "Zero rated supplies.xml",
+                    "Buyer-PAS-identifier.xml",
+                    "Doc-level-allowance-AE-category.xml",
+                    "Doc-level-allowance-E-category.xml",
+                    "Doc-level-allowance-O-category.xml",
+                    "Doc-level-allowance-Z-category.xml",
+                    "Doc-level-charge-AE-category.xml",
+                    "Doc-level-charge-E-category.xml",
+                    "Doc-level-charge-O-category.xml",
+                    "Doc-level-charge-Z-category.xml",
+                    "Seller-PAS-identifier.xml",
+                    "Seller-TIN-identifier.xml",
+                    "Seller-TRN-and-TIN-identifiers.xml");
   }
 
   @NonNull
@@ -111,7 +126,7 @@ public final class PeppolUAETestFiles
     final String sPrefix = "tdd/10/bad-sch/";
     // ibr-tdd-50 was removed in TDD 1.0.3 (dead commented-out rule)
     final ICommonsList <ClassPathResource> ret = _getAll (sPrefix,
-                                                          IntStream.range (1, 58)
+                                                          IntStream.range (1, 62)
                                                                    .filter (x -> x != 50)
                                                                    .mapToObj (x -> "bad-ibr-tdd-" +
                                                                                    StringHelper.getLeadingZero (x, 2) +
