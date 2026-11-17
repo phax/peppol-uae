@@ -27,6 +27,7 @@ import java.time.Month;
 import java.time.ZoneOffset;
 import java.util.Locale;
 
+import org.jspecify.annotations.NonNull;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,7 @@ import com.helger.peppol.uae.tdd.codelist.EUAETDDDocumentTypeCode;
 import com.helger.peppol.uae.tdd.codelist.EUAETDDReporterRole;
 import com.helger.peppol.uae.tdd.jaxb.PeppolUAETDD10Marshaller;
 import com.helger.peppol.uae.tdd.testfiles.PeppolUAETestFiles;
+import com.helger.peppol.uae.tdd.v100.ReportedTransactionType;
 import com.helger.peppol.uae.tdd.v100.TaxDataType;
 import com.helger.peppol.uae.tdd.validate.PeppolUAETDDValidator;
 import com.helger.peppolid.factory.IIdentifierFactory;
@@ -71,6 +73,55 @@ public final class PeppolUAETDD10BuilderTest
 {
   private static final Logger LOGGER = LoggerFactory.getLogger (PeppolUAETDD10BuilderTest.class);
 
+  @NonNull
+  private static PeppolUAETDD10ReportedTransactionBuilder _createMinimalRT (@NonNull final String sDocumentTypeCode)
+  {
+    return new PeppolUAETDD10ReportedTransactionBuilder (EUAETDDDocumentTypeCode.SUBMIT).customizationID ("urn:peppol:pint:billing-1@ae-1")
+                                                                                        .profileID ("urn:peppol:bis:billing")
+                                                                                        .id ("invoice-1")
+                                                                                        .uuid ("19e2c9a3-b000-4fb0-9bd5-a9c4ebda2358")
+                                                                                        .issueDate (PDTFactory.createLocalDate (2025,
+                                                                                                                                Month.SEPTEMBER,
+                                                                                                                                20))
+                                                                                        .documentTypeCode (sDocumentTypeCode)
+                                                                                        .documentCurrencyCode ("AED")
+                                                                                        .sellerName ("Seller Legal Name")
+                                                                                        .buyerTaxID ("987654321")
+                                                                                        .buyerName ("Buyer Legal Name")
+                                                                                        .taxTotalAmountDocumentCurrency (BigHelper.toBigDecimal ("123.45"))
+                                                                                        .taxExclusiveTotalAmount (BigHelper.toBigDecimal ("1200"))
+                                                                                        .sourceDocument (DOMReader.readXMLDOM ("<Invoice xmlns='urn:oasis:names:specification:ubl:schema:xsd:Invoice-2'>" +
+                                                                                                                               "\n... omitted for brevity ...\n" +
+                                                                                                                               "</Invoice>"));
+  }
+
+  private static void _assertSchematronValid (@NonNull final PeppolUAETDD10ReportedTransactionBuilder aRT) throws Exception
+  {
+    final IIdentifierFactory aIF = PeppolIdentifierFactory.INSTANCE;
+    final ISchematronResource aSCHRes = PeppolUAETDDValidator.getSchematronUAE_TDD_10 ();
+
+    final ReportedTransactionType aReportedTransaction = aRT.build ();
+    assertNotNull (aReportedTransaction);
+
+    final TaxDataType aTDD = new PeppolUAETDD10Builder ().documentTypeCode (EUAETDDDocumentTypeCode.SUBMIT)
+                                                         .documentScope (EUAETDDDocumentScope.DOMESTIC)
+                                                         .reporterRole (EUAETDDReporterRole.SENDER)
+                                                         .reportingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0235:c1id"))
+                                                         .receivingParty (aIF.createParticipantIdentifierWithDefaultScheme ("0242:c5id"))
+                                                         .reportersRepresentative (aIF.createParticipantIdentifierWithDefaultScheme ("0242:987654"))
+                                                         .reportedTransaction (aReportedTransaction)
+                                                         .build ();
+    assertNotNull (aTDD);
+
+    final String sXML = new PeppolUAETDD10Marshaller ().setFormattedOutput (true).getAsString (aTDD);
+    assertNotNull (sXML);
+
+    final SchematronOutputType aSVRL = aSCHRes.applySchematronValidationToSVRL (new ReadableResourceString (sXML,
+                                                                                                            StandardCharsets.UTF_8));
+    assertNotNull (aSVRL);
+    assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
+  }
+
   @Test
   public void testBasicMinimal () throws Exception
   {
@@ -96,9 +147,11 @@ public final class PeppolUAETDD10BuilderTest
                                                                                        .documentCurrencyCode ("AED")
                                                                                        .sellerTaxID ("123456789")
                                                                                        .sellerTaxSchemeID ("VAT")
+                                                                                       .sellerName ("Seller Legal Name")
                                                                                        .buyerID ("11223344")
                                                                                        .buyerIDSchemeID ("AE:TIN")
                                                                                        .buyerTaxID ("987654321")
+                                                                                       .buyerName ("Buyer Legal Name")
                                                                                        .taxTotalAmountDocumentCurrency (BigHelper.toBigDecimal ("123.45"))
                                                                                        .taxExclusiveTotalAmount (BigHelper.toBigDecimal ("1200"))
                                                                                        .sourceDocument (DOMReader.readXMLDOM ("<Invoice xmlns='urn:oasis:names:specification:ubl:schema:xsd:Invoice-2'>" +
@@ -155,9 +208,11 @@ public final class PeppolUAETDD10BuilderTest
                                                                                        .taxCurrencyCode ("EUR")
                                                                                        .sellerTaxID ("123456789")
                                                                                        .sellerTaxSchemeID ("VAT")
+                                                                                       .sellerName ("Seller Legal Name")
                                                                                        .buyerID ("11223344")
                                                                                        .buyerIDSchemeID ("AE:TIN")
                                                                                        .buyerTaxID ("987654321")
+                                                                                       .buyerName ("Buyer Legal Name")
                                                                                        .taxTotalAmountDocumentCurrency (BigHelper.toBigDecimal ("123.45"))
                                                                                        .taxTotalAmountTaxCurrency (BigHelper.toBigDecimal ("500"))
                                                                                        .taxExclusiveTotalAmount (BigHelper.toBigDecimal ("1200"))
@@ -408,6 +463,52 @@ public final class PeppolUAETDD10BuilderTest
 
       assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
     }
+  }
+
+  @Test
+  public void testSellerTaxIdentifierOptional () throws Exception
+  {
+    // Mandatory for a standard invoice
+    assertFalse (_createMinimalRT ("380").isEveryRequiredFieldSet (new ErrorList ()));
+
+    // Optional for 'Out of scope of VAT' and 'Credit note related to goods or services'
+    for (final String sDocTypeCode : new String [] { "480", "81" })
+    {
+      final PeppolUAETDD10ReportedTransactionBuilder aRT = _createMinimalRT (sDocTypeCode);
+      assertTrue (aRT.isEveryRequiredFieldSet (new ErrorList ()));
+      _assertSchematronValid (aRT);
+
+      // If partially present, it must be complete
+      assertFalse (_createMinimalRT (sDocTypeCode).sellerTaxSchemeID ("VAT").isEveryRequiredFieldSet (new ErrorList ()));
+    }
+  }
+
+  @Test
+  public void testSellerAdditionalTaxIdentifier () throws Exception
+  {
+    final PeppolUAETDD10ReportedTransactionBuilder aRT = _createMinimalRT ("380").sellerTaxID ("123456789")
+                                                                                 .sellerTaxSchemeID ("VAT")
+                                                                                 .sellerAdditionalTaxID ("1234567890")
+                                                                                 .sellerAdditionalTaxSchemeID ("TIN");
+    assertTrue (aRT.isEveryRequiredFieldSet (new ErrorList ()));
+    _assertSchematronValid (aRT);
+
+    // Exactly one of them must be VAT
+    assertFalse (_createMinimalRT ("380").sellerTaxID ("123456789")
+                                         .sellerTaxSchemeID ("VAT")
+                                         .sellerAdditionalTaxID ("1234567890")
+                                         .sellerAdditionalTaxSchemeID ("VAT")
+                                         .isEveryRequiredFieldSet (new ErrorList ()));
+    assertFalse (_createMinimalRT ("380").sellerTaxID ("123456789")
+                                         .sellerTaxSchemeID ("TAX")
+                                         .sellerAdditionalTaxID ("1234567890")
+                                         .sellerAdditionalTaxSchemeID ("TIN")
+                                         .isEveryRequiredFieldSet (new ErrorList ()));
+
+    // Additional only together with the first one
+    assertFalse (_createMinimalRT ("480").sellerAdditionalTaxID ("1234567890")
+                                         .sellerAdditionalTaxSchemeID ("TIN")
+                                         .isEveryRequiredFieldSet (new ErrorList ()));
   }
 
   @Test

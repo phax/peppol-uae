@@ -43,6 +43,9 @@
               <cbc:ID>VAT</cbc:ID>
             </cac:TaxScheme>
           </cac:PartyTaxScheme>
+          <cac:PartyLegalEntity>
+            <cbc:RegistrationName>Seller Legal Name</cbc:RegistrationName>
+          </cac:PartyLegalEntity>
         </cac:Party>  
       </cac:AccountingSupplierParty>
 
@@ -51,9 +54,12 @@
           <cac:PartyTaxScheme>
             <cbc:CompanyID>9876543210000</cbc:CompanyID>
             <cac:TaxScheme>
-              <cbc:ID>TIN</cbc:ID>
+              <cbc:ID>VAT</cbc:ID>
             </cac:TaxScheme>
           </cac:PartyTaxScheme>
+          <cac:PartyLegalEntity>
+            <cbc:RegistrationName>Buyer Legal Name</cbc:RegistrationName>
+          </cac:PartyLegalEntity>
         </cac:Party>
       </cac:AccountingCustomerParty>
 

@@ -69,6 +69,23 @@ to build the solution.
 
 # News and noteworthy
 
+v1.1.5 - work in progress
+* This version suits the TDD 1.0.5 release
+* Updated to AE TDD 1.0.5 Schematron
+    * `ibr-tdd-58` / `ibr-tdd-60`: new rules, Seller name (ibt-027) and Buyer name (ibt-044) are mandatory in `cac:PartyLegalEntity/cbc:RegistrationName`
+    * `ibr-tdd-59` / `ibr-tdd-61`: new rules, `cac:PartyLegalEntity` of Seller and Buyer may only contain `cbc:RegistrationName`
+    * `ibr-tdd-41` / `ibr-tdd-48`: `cac:PartyLegalEntity` is now allowed in the Seller and Buyer party
+    * `ibr-tdd-42`: the Seller tax identifier group may occur twice (once with tax scheme `VAT`), and may be omitted for document type codes `480` and `81`
+    * `ibr-tdd-30-1` / `ibr-tdd-31-1`: currency code list aligned with PINT AE (`STN` and `XCG` added; `ANG`, `BGN` and `STD` removed)
+    * Message text corrections for many rules
+* Deprecated `PeppolUAETDDValidator.getSchematronUAE_TDD_104 ()` in favour of `getSchematronUAE_TDD_105 ()`
+* Added `sellerName` and `buyerName` to `PeppolUAETDD10ReportedTransactionBuilder`. Both are mandatory and are filled by `initFromInvoice` and `initFromCreditNote` from `cac:PartyLegalEntity/cbc:RegistrationName`
+* Added `sellerAdditionalTaxID` and `sellerAdditionalTaxSchemeID` to `PeppolUAETDD10ReportedTransactionBuilder` for the optional second Seller tax identifier group.
+  If used, exactly one of the two groups must have the tax scheme `VAT`. `initFromInvoice` and `initFromCreditNote` fill it from the second `cac:PartyTaxScheme`
+* `PeppolUAETDD10ReportedTransactionBuilder`: `sellerTaxID` and `sellerTaxSchemeID` are now optional for the document type codes `480` and `81`
+* Updated the good TDD test files to the TDD 1.0.5 examples and added bad test files for `ibr-tdd-58` to `ibr-tdd-61`
+* Updated the PINT AE Billing and Self-Billing test files to the 1.0.5 examples and added the new Billing examples
+
 v1.1.4 - 2026-11-15
 * Requires at least ph-commons 12.7.1
 * Updated to peppol-commons 13.2.3 and ph-ubl 10.3.0, importing their new BOMs `ph-commons-bom`, `peppol-commons-bom` and `ph-ubl-bom`

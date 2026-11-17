@@ -39,9 +39,12 @@
           <cac:PartyTaxScheme>
             <cbc:CompanyID>123456789</cbc:CompanyID>
             <cac:TaxScheme>
-              <cbc:ID>anything</cbc:ID>
+              <cbc:ID>VAT</cbc:ID>
             </cac:TaxScheme>
           </cac:PartyTaxScheme>
+          <cac:PartyLegalEntity>
+            <cbc:RegistrationName>Seller Legal Name</cbc:RegistrationName>
+          </cac:PartyLegalEntity>
         </cac:Party>  
       </cac:AccountingSupplierParty>
 
@@ -49,10 +52,13 @@
         <cac:Party>
           <cac:PartyTaxScheme>
             <cbc:CompanyID>9876543210000</cbc:CompanyID>
-            <!-- element is mandatory in XSD -->
             <cac:TaxScheme>
+              <cbc:ID>VAT</cbc:ID>
             </cac:TaxScheme>
           </cac:PartyTaxScheme>
+          <cac:PartyLegalEntity>
+            <cbc:RegistrationName>Buyer Legal Name</cbc:RegistrationName>
+          </cac:PartyLegalEntity>
         </cac:Party>
       </cac:AccountingCustomerParty>
 
