@@ -27,7 +27,7 @@
   </parent>
   <groupId>com.helger.peppol</groupId>
   <artifactId>peppol-uae-bom</artifactId>
-  <version>1.1.5-SNAPSHOT</version>
+  <version>1.2.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>peppol-uae-bom</name>
   <description>Bill of Materials for all peppol-uae artifacts</description>

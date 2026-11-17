@@ -69,7 +69,7 @@ to build the solution.
 
 # News and noteworthy
 
-v1.1.5 - work in progress
+v1.2.0 - work in progress
 * This version suits the TDD 1.0.5 release
 * Updated to AE TDD 1.0.5 Schematron
     * `ibr-tdd-58` / `ibr-tdd-60`: new rules, Seller name (ibt-027) and Buyer name (ibt-044) are mandatory in `cac:PartyLegalEntity/cbc:RegistrationName`

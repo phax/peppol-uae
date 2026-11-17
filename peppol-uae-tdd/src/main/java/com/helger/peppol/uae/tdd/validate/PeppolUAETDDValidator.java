@@ -39,7 +39,7 @@ public final class PeppolUAETDDValidator
   public static final String SCH_UAE_TDD_102_PATH = "external/schematron/old/peppol-ae-tdd-1.0.2.sch";
   @Deprecated (forRemoval = true, since = "1.1.1")
   public static final String SCH_UAE_TDD_103_PATH = "external/schematron/old/peppol-ae-tdd-1.0.3.sch";
-  @Deprecated (forRemoval = true, since = "1.1.5")
+  @Deprecated (forRemoval = true, since = "1.2.0")
   public static final String SCH_UAE_TDD_104_PATH = "external/schematron/old/peppol-ae-tdd-1.0.4.sch";
   public static final String SCH_UAE_TDD_105_PATH = "external/schematron/peppol-ae-tdd-1.0.5.sch";
 
@@ -55,7 +55,7 @@ public final class PeppolUAETDDValidator
   @Deprecated (forRemoval = true, since = "1.1.1")
   private static final ISchematronResource UAE_TDD_103 = SchematronResourceSCH.builderFromClassPath (SCH_UAE_TDD_103_PATH)
                                                                               .build ();
-  @Deprecated (forRemoval = true, since = "1.1.5")
+  @Deprecated (forRemoval = true, since = "1.2.0")
   private static final ISchematronResource UAE_TDD_104 = SchematronResourceSCH.builderFromClassPath (SCH_UAE_TDD_104_PATH)
                                                                               .build ();
   private static final ISchematronResource UAE_TDD_105 = SchematronResourceSCH.builderFromClassPath (SCH_UAE_TDD_105_PATH)
@@ -120,7 +120,7 @@ public final class PeppolUAETDDValidator
    * @return Schematron UAE TDD v1.0.4
    */
   @NonNull
-  @Deprecated (forRemoval = true, since = "1.1.5")
+  @Deprecated (forRemoval = true, since = "1.2.0")
   public static ISchematronResource getSchematronUAE_TDD_104 ()
   {
     return UAE_TDD_104;
