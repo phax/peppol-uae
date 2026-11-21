@@ -59,7 +59,9 @@ import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import com.helger.ubl21.UBL21Marshaller;
 import com.helger.xml.serialize.read.DOMReader;
 
+import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.DocumentReferenceType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.CustomizationIDType;
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.DocumentDescriptionType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.IDType;
 import oasis.names.specification.ubl.schema.xsd.creditnote_21.CreditNoteType;
 import oasis.names.specification.ubl.schema.xsd.invoice_21.InvoiceType;
@@ -334,6 +336,62 @@ public final class PeppolUAETDD10BuilderTest
                        .count () > 0);
       assertEquals (new CommonsArrayList <> (), SVRLHelper.getAllFailedAssertions (aSVRL));
     }
+  }
+
+  @Test
+  public void testBTAE20FromInvoice ()
+  {
+    final ClassPathResource aRes = PeppolUAETestFiles.getAllGoodBillingInvoiceFiles ()
+                                                     .findFirst (x -> x.getPath ().endsWith ("/Exports.xml"));
+    assertNotNull (aRes);
+
+    final InvoiceType aInvoice = UBL21Marshaller.invoice ().read (aRes);
+    assertNotNull (aInvoice);
+
+    final PeppolUAETDD10ReportedTransactionBuilder aRTB = new PeppolUAETDD10ReportedTransactionBuilder (EUAETDDDocumentTypeCode.SUBMIT).transportHeaderID ("my-sbdh-uuid-12345678")
+                                                                                                                                       .initFromInvoice (aInvoice);
+    assertEquals (1, aRTB.customContents ().size ());
+    assertEquals (PeppolUAETDD10ReportedTransactionBuilder.CUSTOM_CONTENT_ID_BTAE_20,
+                  aRTB.customContents ().getFirstOrNull ().getID ());
+    assertEquals ("913621.44", aRTB.customContents ().getFirstOrNull ().getValue ());
+
+    // Calling it again must not add a second BTAE-20
+    aRTB.initFromInvoice (aInvoice);
+    assertEquals (1, aRTB.customContents ().size ());
+
+    final ReportedTransactionType aRT = aRTB.build ();
+    assertNotNull (aRT);
+    assertEquals (1, aRT.getCustomContentCount ());
+    assertEquals (PeppolUAETDD10ReportedTransactionBuilder.CUSTOM_CONTENT_ID_BTAE_20,
+                  aRT.getCustomContentAtIndex (0).getID ().getValue ());
+    assertEquals ("913621.44", aRT.getCustomContentAtIndex (0).getValue ().getValue ());
+  }
+
+  @Test
+  public void testBTAE20FromCreditNote ()
+  {
+    final ClassPathResource aRes = PeppolUAETestFiles.getAllGoodBillingCreditNoteFiles ().getFirstOrNull ();
+    assertNotNull (aRes);
+
+    final CreditNoteType aCreditNote = UBL21Marshaller.creditNote ().read (aRes);
+    assertNotNull (aCreditNote);
+
+    // No BTAE-20 in the original
+    assertTrue (new PeppolUAETDD10ReportedTransactionBuilder (EUAETDDDocumentTypeCode.SUBMIT).initFromCreditNote (aCreditNote)
+                                                                                             .customContents ()
+                                                                                             .isEmpty ());
+
+    final DocumentReferenceType aDocRef = new DocumentReferenceType ();
+    aDocRef.setID ("AED");
+    aDocRef.setDocumentTypeCode (PeppolUAETDD10ReportedTransactionBuilder.DOCUMENT_TYPE_CODE_AED_TOTAL_INCL_VAT);
+    aDocRef.addDocumentDescription (new DocumentDescriptionType (" 1234.56 "));
+    aCreditNote.addAdditionalDocumentReference (aDocRef);
+
+    final PeppolUAETDD10ReportedTransactionBuilder aRTB = new PeppolUAETDD10ReportedTransactionBuilder (EUAETDDDocumentTypeCode.SUBMIT).initFromCreditNote (aCreditNote);
+    assertEquals (1, aRTB.customContents ().size ());
+    assertEquals (PeppolUAETDD10ReportedTransactionBuilder.CUSTOM_CONTENT_ID_BTAE_20,
+                  aRTB.customContents ().getFirstOrNull ().getID ());
+    assertEquals ("1234.56", aRTB.customContents ().getFirstOrNull ().getValue ());
   }
 
   @Test

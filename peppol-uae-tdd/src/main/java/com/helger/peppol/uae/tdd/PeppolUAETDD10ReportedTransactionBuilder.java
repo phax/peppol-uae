@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.util.List;
 import java.util.Locale;
 
 import javax.xml.namespace.QName;
@@ -54,6 +55,7 @@ import com.helger.ubl21.UBL21Marshaller;
 import com.helger.xml.XMLHelper;
 
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.CustomerPartyType;
+import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.DocumentReferenceType;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyIdentificationType;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyLegalEntityType;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyTaxSchemeType;
@@ -115,6 +117,15 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     }
   }
 
+  /**
+   * The ID of the custom content "Invoice (or CreditNote) total amount with VAT in AED"
+   */
+  public static final String CUSTOM_CONTENT_ID_BTAE_20 = "BTAE-20";
+  /**
+   * The document type code of the UBL additional document reference that contains BTAE-20
+   */
+  public static final String DOCUMENT_TYPE_CODE_AED_TOTAL_INCL_VAT = "aedtotal-incl-vat";
+
   private static final Logger LOGGER = LoggerFactory.getLogger (PeppolUAETDD10ReportedTransactionBuilder.class);
 
   private ILogHandler m_aLogHandler = ILogHandler.createForLogger (LOGGER);
@@ -174,6 +185,32 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
         aAddDocRef.getAttachment ().setEmbeddedDocumentBinaryObject ((EmbeddedDocumentBinaryObjectType) null);
       }
     return ret;
+  }
+
+  /**
+   * Find the "Invoice (or CreditNote) total amount with VAT in AED" (BTAE-20) in the provided UBL
+   * additional document references and add it as a custom content, unless a custom content with
+   * that ID is already present.
+   *
+   * @param aAddDocRefs
+   *        The additional document references to search. May not be <code>null</code>.
+   */
+  private void _addBTAE20 (@NonNull final List <DocumentReferenceType> aAddDocRefs)
+  {
+    if (m_aCustomContents.containsAny (x -> CUSTOM_CONTENT_ID_BTAE_20.equals (x.getID ())))
+      return;
+
+    for (final DocumentReferenceType aAddDocRef : aAddDocRefs)
+      if (DOCUMENT_TYPE_CODE_AED_TOTAL_INCL_VAT.equals (aAddDocRef.getDocumentTypeCodeValue ()) &&
+          aAddDocRef.hasDocumentDescriptionEntries ())
+      {
+        final String sValue = StringHelper.trim (aAddDocRef.getDocumentDescriptionAtIndex (0).getValue ());
+        if (StringHelper.isNotEmpty (sValue))
+        {
+          addCustomContent (new CustomContent (CUSTOM_CONTENT_ID_BTAE_20, sValue));
+          break;
+        }
+      }
   }
 
   /**
@@ -276,6 +313,8 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     {
       taxExclusiveTotalAmount (aLegalMonetaryTotal.getTaxExclusiveAmountValue ());
     }
+
+    _addBTAE20 (aInv.getAdditionalDocumentReference ());
 
     // Make sure to disable Schema validation, so that invalid documents can also be serialized
     // properly
@@ -386,6 +425,8 @@ public class PeppolUAETDD10ReportedTransactionBuilder implements IBuilder <Repor
     {
       taxExclusiveTotalAmount (aLegalMonetaryTotal.getTaxExclusiveAmountValue ());
     }
+
+    _addBTAE20 (aCN.getAdditionalDocumentReference ());
 
     // Make sure to disable Schema validation, so that invalid documents can also be serialized
     // properly

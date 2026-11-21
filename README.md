@@ -69,6 +69,9 @@ to build the solution.
 
 # News and noteworthy
 
+v1.2.1 - work in progress
+* `PeppolUAETDD10ReportedTransactionBuilder`: `initFromInvoice` and `initFromCreditNote` now copy the Invoice (or CreditNote) total amount with VAT in AED (BTAE-20) from `cac:AdditionalDocumentReference[cbc:DocumentTypeCode='aedtotal-incl-vat']/cbc:DocumentDescription` into a `pxs:CustomContent`. See [issue #4](https://github.com/phax/peppol-uae/issues/4)
+
 v1.2.0 - 2026-11-17
 * This version suits the TDD 1.0.5 release
 * Updated to AE TDD 1.0.5 Schematron

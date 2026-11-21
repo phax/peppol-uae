@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Java library implementing Peppol Tax Data Document (TDD) support for the United Arab Emirates. Multi-module Maven project published to Sonatype Central under `com.helger.peppol`.
 
-Spec references: [TDD AE](https://docs.peppol.eu/tdd/ae/), [PINT AE](https://test-docs.peppol.eu/pint/pint-ae/).
+Spec references: [TDD AE](https://docs.peppol.eu/tdd/ae/v1.0.2/) (the unversioned URL returns 404), [PINT AE](https://test-docs.peppol.eu/pint/pint-ae/).
 
 ## Modules
 
