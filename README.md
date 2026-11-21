@@ -69,8 +69,9 @@ to build the solution.
 
 # News and noteworthy
 
-v1.2.1 - work in progress
-* `PeppolUAETDD10ReportedTransactionBuilder`: `initFromInvoice` and `initFromCreditNote` now copy the Invoice (or CreditNote) total amount with VAT in AED (BTAE-20) from `cac:AdditionalDocumentReference[cbc:DocumentTypeCode='aedtotal-incl-vat']/cbc:DocumentDescription` into a `pxs:CustomContent`. See [issue #4](https://github.com/phax/peppol-uae/issues/4)
+v1.2.1 - 2026-11-22
+* `PeppolUAETDD10ReportedTransactionBuilder`: `initFromInvoice` and `initFromCreditNote` now copy the Invoice (or CreditNote) total amount with VAT in AED (BTAE-20) from `cac:AdditionalDocumentReference[cbc:DocumentTypeCode='aedtotal-incl-vat']/cbc:DocumentDescription` into a `pxs:CustomContent`.
+  See [issue #4](https://github.com/phax/peppol-uae/issues/4)
 
 v1.2.0 - 2026-11-17
 * This version suits the TDD 1.0.5 release
@@ -82,9 +83,11 @@ v1.2.0 - 2026-11-17
     * `ibr-tdd-30-1` / `ibr-tdd-31-1`: currency code list aligned with PINT AE (`STN` and `XCG` added; `ANG`, `BGN` and `STD` removed)
     * Message text corrections for many rules
 * Deprecated `PeppolUAETDDValidator.getSchematronUAE_TDD_104 ()` in favour of `getSchematronUAE_TDD_105 ()`
-* Added `sellerName` and `buyerName` to `PeppolUAETDD10ReportedTransactionBuilder`. Both are mandatory and are filled by `initFromInvoice` and `initFromCreditNote` from `cac:PartyLegalEntity/cbc:RegistrationName`
+* Added `sellerName` and `buyerName` to `PeppolUAETDD10ReportedTransactionBuilder`.
+  Both are mandatory and are filled by `initFromInvoice` and `initFromCreditNote` from `cac:PartyLegalEntity/cbc:RegistrationName`
 * Added `sellerAdditionalTaxID` and `sellerAdditionalTaxSchemeID` to `PeppolUAETDD10ReportedTransactionBuilder` for the optional second Seller tax identifier group.
-  If used, exactly one of the two groups must have the tax scheme `VAT`. `initFromInvoice` and `initFromCreditNote` fill it from the second `cac:PartyTaxScheme`
+  If used, exactly one of the two groups must have the tax scheme `VAT`.
+  `initFromInvoice` and `initFromCreditNote` fill it from the second `cac:PartyTaxScheme`
 * `PeppolUAETDD10ReportedTransactionBuilder`: `sellerTaxID` and `sellerTaxSchemeID` are now optional for the document type codes `480` and `81`
 * Updated the good TDD test files to the TDD 1.0.5 examples and added bad test files for `ibr-tdd-58` to `ibr-tdd-61`
 * Updated the PINT AE Billing and Self-Billing test files to the 1.0.5 examples and added the new Billing examples
